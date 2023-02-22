@@ -13,7 +13,7 @@ def get_content(url):
     return soup
 
 def get_problem(year,level,instance,number):
-    problem_url = "{base}{year}_AMC_{level}{instance}_Problems/Problem_{number}".format(base=base_url,year=year,level=level,instance=instance,number=number)
+    problem_url = f"{base_url}{year}_AMC_{level}{instance}_Problems/Problem_{number}"
     soup = get_content(problem_url)
 
     problem_header = soup.find_all("h2")[1]
@@ -29,7 +29,7 @@ def get_problem(year,level,instance,number):
     return problem_content,choices
 
 def get_answer(year,level,instance,number):
-    key_url = "{base}{year}_AMC_{level}{instance}_Answer_Key".format(base=base_url,year=year,level=level,instance=instance)
+    key_url = f"{base_url}{year}_AMC_{level}{instance}_Answer_Key"
     soup = get_content(key_url)
     answer_list = soup.find_all("li")
     return answer_list[number-1].string
@@ -42,7 +42,7 @@ def test_gather():
     instance = "A"
 
     for problem_number in range (1,26):
-        id = "{year} AMC {level}{instance} #{number}".format(year=year,level=level,instance=instance,number=problem_number)
+        id = f"{year} AMC {level}{instance} #{problem_number}"
         
         test = year,level,instance
         problem, choices = get_problem(year,level,instance,problem_number)
