@@ -54,13 +54,18 @@ def dissect_choices(choices):
     return split_list
     
 def gather(year,level,instance,json_file="amc_10_problems.json"):
-    problems_json = {}
+    problems_json = open(json_file,"r+").json
 
     for problem_number in range (1,26):
         id = f"{year} AMC {level}{instance} #{problem_number}"
         
         test = year,level,instance
-        problem, choices = get_problem(year,level,instance,problem_number)
+        try:
+            problem, choices = get_problem(year,level,instance,problem_number)
+        except:
+            print(id)
+            problem = ""
+            choices = []
         answer = get_answer(year,level,instance,problem_number)
 
         dict = {
@@ -71,6 +76,8 @@ def gather(year,level,instance,json_file="amc_10_problems.json"):
         }
 
         problems_json.update({id:dict})
+        if len(choices) != 5:
+            print("Choice error:")
         print(problem_number)
 
         json.dump(problems_json, open(json_file,"r+"), indent=4)
