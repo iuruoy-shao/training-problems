@@ -1,0 +1,22 @@
+text {
+    font-family: "Roboto", sans-serif;
+}
+
+#problem_display {
+    width: 75vw;
+}
+
+#choices {
+    width: 75vw;
+    display: flex;
+}
+
+.choice {
+    display: flex;
+    width: 15vw;
+}
+
+.choice button {
+    margin-left: .5em;
+    margin-right: .5em;
+}

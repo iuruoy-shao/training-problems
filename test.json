@@ -6,7 +6,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>What is the value of <img alt=\"\\[3+\\frac{1}{3+\\frac{1}{3+\\frac13}}?\\]\" class=\"latexcenter\" height=\"47\" src=\"//latex.artofproblemsolving.com/7/a/a/7aa51a6ff483afbbf9a1230d0817384db18841f3.png\" width=\"104\"/>\n\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A)}\\ \\frac{31}{10}\\qquad\\textbf{(B)}\\ \\frac{49}{15}\\qquad\\textbf{(C)}\\ \\frac{33}{10}\\qquad\\textbf{(D)}\\ \\frac{109}{33}\\qquad\\textbf{(E)}\\ \\frac{15}{4}$\" class=\"latex\" height=\"38\" src=\"//latex.artofproblemsolving.com/a/a/6/aa67e6e7f9dcb6cdaf3c9dc17d1147a437e7849e.png\" style=\"vertical-align: -13px\" width=\"426\"/>",
+        "choices": [
+            "\\frac{31}{10}",
+            "\\frac{49}{15}",
+            "\\frac{33}{10}",
+            "\\frac{109}{33}",
+            "\\frac{15}{4}"
+        ],
         "answer": "D"
     },
     "2022 AMC 10A #2": {
@@ -16,7 +22,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>Mike cycled <img alt=\"$15$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/f/1/9/f1965fae079a9ba2c0726c307070c2355dfcb213.png\" style=\"vertical-align: 0px\" width=\"17\"/> laps in <img alt=\"$57$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/4/b/1/4b14ef560acadba8244952e9a8d5481f494445dc.png\" width=\"18\"/> minutes. Assume he cycled at a constant speed throughout. Approximately how many laps did he complete in the first <img alt=\"$27$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/1/0/5/1051e7d41ec0b8bd688a872be17538413f4ee97b.png\" width=\"18\"/> minutes?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 5 \\qquad\\textbf{(B) } 7 \\qquad\\textbf{(C) } 9 \\qquad\\textbf{(D) } 11 \\qquad\\textbf{(E) } 13$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/4/f/1/4f1490d05bbc679c9c4efd790f535bd326ff5e19.png\" style=\"vertical-align: -5px\" width=\"373\"/>",
+        "choices": [
+            "5",
+            "7",
+            "9",
+            "11",
+            "13"
+        ],
         "answer": "B"
     },
     "2022 AMC 10A #3": {
@@ -26,7 +38,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>The sum of three numbers is <img alt=\"$96.$\" class=\"latex\" height=\"14\" src=\"//latex.artofproblemsolving.com/f/b/3/fb35ebe06c2c3b3e1ca9b1a7bb7717bc18d0b6fe.png\" style=\"vertical-align: -1px\" width=\"25\"/> The first number is <img alt=\"$6$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/6/0/1/601a7806cbfad68196c43a4665871f8c3186802e.png\" width=\"8\"/> times the third number, and the third number is <img alt=\"$40$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/7/8/7/78792fe4680a164f537ea72a4f900e4471433c3b.png\" style=\"vertical-align: 0px\" width=\"17\"/> less than the second number. What is the absolute value of the difference between the first and second numbers?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 1 \\qquad \\textbf{(B) } 2 \\qquad \\textbf{(C) } 3 \\qquad \\textbf{(D) } 4 \\qquad \\textbf{(E) } 5$\" class=\"latex\" height=\"17\" src=\"//latex.artofproblemsolving.com/7/7/5/7752ab84e23c215afdc175282988b652ec621f8c.png\" style=\"vertical-align: -4px\" width=\"353\"/>",
+        "choices": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+        ],
         "answer": "E"
     },
     "2022 AMC 10A #4": {
@@ -36,7 +54,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>In some countries, automobile fuel efficiency is measured in liters per <img alt=\"$100$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/e/5/9/e59e2c6e83eb78cca610a5fd4070ae01c8d4ae60.png\" style=\"vertical-align: 0px\" width=\"26\"/> kilometers while other countries use miles per gallon. Suppose that 1 kilometer equals <img alt=\"$m$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/f/5/0/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png\" width=\"15\"/> miles, and <img alt=\"$1$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/d/c/e/dce34f4dfb2406144304ad0d6106c5382ddd1446.png\" style=\"vertical-align: 0px\" width=\"8\"/> gallon equals <img alt=\"$l$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/9/b/2/9b25f8e64b484493fda944d25cad453423041fe6.png\" width=\"5\"/> liters. Which of the following gives the fuel efficiency in liters per <img alt=\"$100$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/e/5/9/e59e2c6e83eb78cca610a5fd4070ae01c8d4ae60.png\" style=\"vertical-align: 0px\" width=\"26\"/> kilometers for a car that gets <img alt=\"$x$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/2/6/e/26eeb5258ca5099acf8fe96b2a1049c48c89a5e6.png\" width=\"10\"/> miles per gallon?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } \\frac{x}{100lm} \\qquad \\textbf{(B) } \\frac{xlm}{100} \\qquad \\textbf{(C) } \\frac{lm}{100x} \\qquad \\textbf{(D) } \\frac{100}{xlm} \\qquad \\textbf{(E) } \\frac{100lm}{x}$\" class=\"latex\" height=\"39\" src=\"//latex.artofproblemsolving.com/9/0/c/90cbfc1376055731afa4a5a74e561738556b76e3.png\" style=\"vertical-align: -13px\" width=\"530\"/>",
+        "choices": [
+            "\\frac{x}{100lm}",
+            "\\frac{xlm}{100}",
+            "\\frac{lm}{100x}",
+            "\\frac{100}{xlm}",
+            "\\frac{100lm}{x}"
+        ],
         "answer": "E"
     },
     "2022 AMC 10A #5": {
@@ -46,7 +70,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>Square <img alt=\"$ABCD$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/f/9/e/f9efaf9474c5658c4089523e2aff4e11488f8603.png\" width=\"57\"/> has side length <img alt=\"$1$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/d/c/e/dce34f4dfb2406144304ad0d6106c5382ddd1446.png\" style=\"vertical-align: 0px\" width=\"8\"/>. Points <img alt=\"$P$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/4/b/4/4b4cade9ca8a2c8311fafcf040bc5b15ca507f52.png\" width=\"14\"/>, <img alt=\"$Q$\" class=\"latex\" height=\"16\" src=\"//latex.artofproblemsolving.com/9/8/6/9866e3a998d628ba0941eb4fea0666ac391d149a.png\" style=\"vertical-align: -3px\" width=\"13\"/>, <img alt=\"$R$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/e/f/f/eff43e84f8a3bcf7b6965f0a3248bc4d3a9d0cd4.png\" width=\"14\"/>, and <img alt=\"$S$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/a/d/2/ad28c83c99a8fd0dd2e2e594c9d02ee532765a0a.png\" width=\"12\"/> each lie on a side of <img alt=\"$ABCD$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/f/9/e/f9efaf9474c5658c4089523e2aff4e11488f8603.png\" width=\"57\"/> such that <img alt=\"$APQCRS$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/5/d/7/5d7fc9d2c0caa8f2715efe24f4b228a2a32c4c85.png\" style=\"vertical-align: -4px\" width=\"84\"/> is an equilateral convex hexagon with side length <img alt=\"$s$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/f/3/7/f37bba504894945c07a32f5496d74299a37aa51c.png\" width=\"8\"/>. What is <img alt=\"$s$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/f/3/7/f37bba504894945c07a32f5496d74299a37aa51c.png\" width=\"8\"/>?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } \\frac{\\sqrt{2}}{3} \\qquad \\textbf{(B) } \\frac{1}{2} \\qquad \\textbf{(C) } 2 - \\sqrt{2} \\qquad \\textbf{(D) } 1 - \\frac{\\sqrt{2}}{4} \\qquad \\textbf{(E) } \\frac{2}{3}$\" class=\"latex\" height=\"43\" src=\"//latex.artofproblemsolving.com/d/1/7/d17a9cfb0732f1a0fc476009cf94d3039950c42a.png\" style=\"vertical-align: -13px\" width=\"479\"/>",
+        "choices": [
+            "\\frac{\\sqrt{2}}{3}",
+            "\\frac{1}{2}",
+            "2-\\sqrt{2}",
+            "1-\\frac{\\sqrt{2}}{4}",
+            "\\frac{2}{3}"
+        ],
         "answer": "C"
     },
     "2022 AMC 10A #6": {
@@ -56,7 +86,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>Which expression is equal to <img alt=\"\\[\\left|a-2-\\sqrt{(a-1)^2}\\right|\\]\" class=\"latexcenter\" height=\"44\" src=\"//latex.artofproblemsolving.com/9/8/4/984209dd4e5f26c2736cb3fd5c2248f83f75fd36.png\" width=\"150\"/> for <img alt=\"$a&lt;0?$\" class=\"latex\" height=\"15\" src=\"//latex.artofproblemsolving.com/6/f/5/6f537b3b21a6edd1fd0ffe37d1fb22a989df562b.png\" style=\"vertical-align: -2px\" width=\"53\"/>\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 3-2a \\qquad \\textbf{(B) } 1-a \\qquad \\textbf{(C) } 1 \\qquad \\textbf{(D) } a+1 \\qquad \\textbf{(E) } 3$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/3/5/4/3543833138070a21b74029f2fecdd045cc6f8278.png\" style=\"vertical-align: -5px\" width=\"460\"/>",
+        "choices": [
+            "3-2a",
+            "1-a",
+            "1",
+            "a+1",
+            "3"
+        ],
         "answer": "A"
     },
     "2022 AMC 10A #7": {
@@ -66,7 +102,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>The least common multiple of a positive integer <img alt=\"$n$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/1/7/4/174fadd07fd54c9afe288e96558c92e0c1da733a.png\" width=\"10\"/> and <img alt=\"$18$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/5/e/7/5e7a1b6098a8c98b8e4adae526aeef4b91712620.png\" style=\"vertical-align: 0px\" width=\"17\"/> is <img alt=\"$180$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/5/c/b/5cb1b41850ab676e4d1cf15c69b1609af4befbc5.png\" style=\"vertical-align: 0px\" width=\"26\"/>, and the greatest common divisor of <img alt=\"$n$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/1/7/4/174fadd07fd54c9afe288e96558c92e0c1da733a.png\" width=\"10\"/> and <img alt=\"$45$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/f/2/7/f27da4fca6f3fecb215974023aad210b70ec3857.png\" style=\"vertical-align: 0px\" width=\"17\"/> is <img alt=\"$15$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/f/1/9/f1965fae079a9ba2c0726c307070c2355dfcb213.png\" style=\"vertical-align: 0px\" width=\"17\"/>. What is the sum of the digits of <img alt=\"$n$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/1/7/4/174fadd07fd54c9afe288e96558c92e0c1da733a.png\" width=\"10\"/>?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 3 \\qquad \\textbf{(B) } 6 \\qquad \\textbf{(C) } 8 \\qquad \\textbf{(D) } 9 \\qquad \\textbf{(E) } 12$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/c/6/e/c6e22f521187581b4570dbc5ed89bdc6423c1120.png\" style=\"vertical-align: -5px\" width=\"364\"/>",
+        "choices": [
+            "3",
+            "6",
+            "8",
+            "9",
+            "12"
+        ],
         "answer": "B"
     },
     "2022 AMC 10A #8": {
@@ -76,7 +118,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>A data set consists of <img alt=\"$6$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/6/0/1/601a7806cbfad68196c43a4665871f8c3186802e.png\" width=\"8\"/> (not distinct) positive integers: <img alt=\"$1$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/d/c/e/dce34f4dfb2406144304ad0d6106c5382ddd1446.png\" style=\"vertical-align: 0px\" width=\"8\"/>, <img alt=\"$7$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/e/0/a/e0a0db32027a732ac57d37ef2ae9bb150f65b108.png\" width=\"9\"/>, <img alt=\"$5$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/7/9/0/79069377f91364c2f87a64e5f9f562a091c8a6c1.png\" width=\"8\"/>, <img alt=\"$2$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/4/1/c/41c544263a265ff15498ee45f7392c5f86c6d151.png\" width=\"8\"/>, <img alt=\"$5$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/7/9/0/79069377f91364c2f87a64e5f9f562a091c8a6c1.png\" width=\"8\"/>, and <img alt=\"$X$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/6/a/4/6a47ca0fe7cb276abc022af6ac88ddae1a9d6894.png\" width=\"15\"/>. The average (arithmetic mean) of the <img alt=\"$6$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/6/0/1/601a7806cbfad68196c43a4665871f8c3186802e.png\" width=\"8\"/> numbers equals a value in the data set. What is the sum of all positive values of <img alt=\"$X$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/6/a/4/6a47ca0fe7cb276abc022af6ac88ddae1a9d6894.png\" width=\"15\"/>?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 10 \\qquad \\textbf{(B) } 26 \\qquad \\textbf{(C) } 32 \\qquad \\textbf{(D) } 36 \\qquad \\textbf{(E) } 40$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/2/7/d/27d00874cbb5f22b04211ee371d6bab7f81182b4.png\" style=\"vertical-align: -5px\" width=\"401\"/>",
+        "choices": [
+            "10",
+            "26",
+            "32",
+            "36",
+            "40"
+        ],
         "answer": "D"
     },
     "2022 AMC 10A #9": {
@@ -86,7 +134,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>A rectangle is partitioned into <img alt=\"$5$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/7/9/0/79069377f91364c2f87a64e5f9f562a091c8a6c1.png\" width=\"8\"/> regions as shown. Each region is to be painted a solid color - red, orange, yellow, blue, or green - so that regions that touch are painted different colors, and colors can be used more than once. How many different colorings are possible?\n</p><p><img alt=\"[asy] size(5.5cm); draw((0,0)--(0,2)--(2,2)--(2,0)--cycle); draw((2,0)--(8,0)--(8,2)--(2,2)--cycle); draw((8,0)--(12,0)--(12,2)--(8,2)--cycle); draw((0,2)--(6,2)--(6,4)--(0,4)--cycle); draw((6,2)--(12,2)--(12,4)--(6,4)--cycle); [/asy]\" class=\"latexcenter\" height=\"88\" src=\"//latex.artofproblemsolving.com/c/5/3/c53adae322a3fcf0e0d1d0d2aa43ce0ad69527c9.png\" width=\"262\"/>\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) }120\\qquad\\textbf{(B) }270\\qquad\\textbf{(C) }360\\qquad\\textbf{(D) }540\\qquad\\textbf{(E) }720$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/3/d/9/3d96d01999ea6a958f5aa722c187032a2168424b.png\" style=\"vertical-align: -5px\" width=\"446\"/>",
+        "choices": [
+            "120",
+            "270",
+            "360",
+            "540",
+            "720"
+        ],
         "answer": "D"
     },
     "2022 AMC 10A #10": {
@@ -96,7 +150,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>Daniel finds a rectangular index card and measures its diagonal to be <img alt=\"$8$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/8/4/5/8455f3b5cb3b4880b8c9d782a5c1f0334db819eb.png\" width=\"8\"/> centimeters.\nDaniel then cuts out equal squares of side <img alt=\"$1$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/d/c/e/dce34f4dfb2406144304ad0d6106c5382ddd1446.png\" style=\"vertical-align: 0px\" width=\"8\"/> cm at two opposite corners of the index card and measures the distance between the two closest vertices of these squares to be <img alt=\"$4\\sqrt{2}$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/1/f/3/1f3f43ae8f8f1306b3547283e641e1df970167ff.png\" style=\"vertical-align: -1px\" width=\"33\"/> centimeters, as shown below. What is the area of the original index card?\n<img alt='[asy] // Diagram by MRENTHUSIASM, edited by Djmathman size(200); defaultpen(linewidth(0.6)); draw((489.5,-213) -- (225.5,-213) -- (225.5,-185) -- (199.5,-185) -- (198.5,-62) -- (457.5,-62) -- (457.5,-93) -- (489.5,-93) -- cycle); draw((206.29,-70.89) -- (480.21,-207.11), linetype (\"6 6\"),Arrows(size=4,arrowhead=HookHead)); draw((237.85,-182.24) -- (448.65,-95.76),linetype (\"6 6\"),Arrows(size=4,arrowhead=HookHead)); label(\"$1$\",(450,-80)); label(\"$1$\",(475,-106)); label(\"$8$\",(300,-103)); label(\"$4\\sqrt 2$\",(300,-173)); [/asy]' class=\"latexcenter\" height=\"175\" src=\"//latex.artofproblemsolving.com/2/2/f/22f9f7a96f6ad58ba5a6b8396b925cd53152cf24.png\" width=\"335\"/>\n\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 14 \\qquad \\textbf{(B) } 10\\sqrt{2} \\qquad \\textbf{(C) } 16 \\qquad \\textbf{(D) } 12\\sqrt{2} \\qquad \\textbf{(E) } 18$\" class=\"latex\" height=\"23\" src=\"//latex.artofproblemsolving.com/4/5/6/4566176ba0e46f2e90feb75d0ed914ca95785bff.png\" style=\"vertical-align: -5px\" width=\"449\"/>",
+        "choices": [
+            "14",
+            "10\\sqrt{2}",
+            "16",
+            "12\\sqrt{2}",
+            "18"
+        ],
         "answer": "E"
     },
     "2022 AMC 10A #11": {
@@ -106,7 +166,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>Ted mistakenly wrote <img alt=\"$2^m\\cdot\\sqrt{\\frac{1}{4096}}$\" class=\"latex\" height=\"45\" src=\"//latex.artofproblemsolving.com/4/4/4/4446ef7efda16c084ba5c976ee7729f373183908.png\" style=\"vertical-align: -15px\" width=\"95\"/> as <img alt=\"$2\\cdot\\sqrt[m]{\\frac{1}{4096}}.$\" class=\"latex\" height=\"45\" src=\"//latex.artofproblemsolving.com/5/d/9/5d95b42d9b2ee3a538690f497e19b91b93ed49ec.png\" style=\"vertical-align: -15px\" width=\"92\"/> What is the sum of all real numbers <img alt=\"$m$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/f/5/0/f5047d1e0cbb50ec208923a22cd517c55100fa7b.png\" width=\"15\"/> for which these two expressions have the same value?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 5 \\qquad \\textbf{(B) } 6 \\qquad \\textbf{(C) } 7 \\qquad \\textbf{(D) } 8 \\qquad \\textbf{(E) } 9$\" class=\"latex\" height=\"17\" src=\"//latex.artofproblemsolving.com/e/1/4/e14fed811bdf395ed28763cbb895f1db8be2968c.png\" style=\"vertical-align: -4px\" width=\"353\"/>",
+        "choices": [
+            "5",
+            "6",
+            "7",
+            "8",
+            "9"
+        ],
         "answer": "C"
     },
     "2022 AMC 10A #12": {
@@ -116,7 +182,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>On Halloween <img alt=\"$31$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/2/9/6/296fac336caaa4265aa24b6ecbc408a348ad7e0b.png\" style=\"vertical-align: 0px\" width=\"17\"/> children walked into the principal's office asking for candy. They\ncan be classified into three types: Some always lie; some always tell the truth; and\nsome alternately lie and tell the truth. The alternaters arbitrarily choose their first\nresponse, either a lie or the truth, but each subsequent statement has the opposite\ntruth value from its predecessor. The principal asked everyone the same three\nquestions in this order.\n</p><p>\"Are you a truth-teller?\" The principal gave a piece of candy to each of the <img alt=\"$22$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/1/d/1/1d111a5e00ee5ea6700bb629994dc629874c505b.png\" width=\"17\"/>\nchildren who answered yes.\n</p><p>\"Are you an alternater?\" The principal gave a piece of candy to each of the <img alt=\"$15$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/f/1/9/f1965fae079a9ba2c0726c307070c2355dfcb213.png\" style=\"vertical-align: 0px\" width=\"17\"/>\nchildren who answered yes.\n</p><p>\"Are you a liar?\" The principal gave a piece of candy to each of the <img alt=\"$9$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/b/f/2/bf2c9074b396e3af0dea52d792660eea1c77f10f.png\" width=\"8\"/> children who\nanswered yes.\n</p><p>How many pieces of candy in all did the principal give to the children who always\ntell the truth?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 7 \\qquad \\textbf{(B) } 12 \\qquad \\textbf{(C) } 21 \\qquad \\textbf{(D) } 27 \\qquad \\textbf{(E) } 31$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/9/6/1/961e6055473e0eade693cf25a7bdfee2d1f479a4.png\" style=\"vertical-align: -5px\" width=\"392\"/>",
+        "choices": [
+            "7",
+            "12",
+            "21",
+            "27",
+            "31"
+        ],
         "answer": "A"
     },
     "2022 AMC 10A #13": {
@@ -126,7 +198,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>Let <img alt=\"$\\triangle ABC$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/8/c/3/8c3a2d2224f7d163b46d702132425d47828bf538.png\" width=\"58\"/> be a scalene triangle. Point <img alt=\"$P$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/4/b/4/4b4cade9ca8a2c8311fafcf040bc5b15ca507f52.png\" width=\"14\"/> lies on <img alt=\"$\\overline{BC}$\" class=\"latex\" height=\"15\" src=\"//latex.artofproblemsolving.com/e/3/3/e33fe7d65facd8868f58b6e94ddc7f153a5a3f9f.png\" width=\"29\"/> so that <img alt=\"$\\overline{AP}$\" class=\"latex\" height=\"15\" src=\"//latex.artofproblemsolving.com/b/4/1/b41699a79262163c0df579406c575f506f6dfb97.png\" width=\"28\"/> bisects <img alt=\"$\\angle BAC.$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/1/c/f/1cf73f0aba07d2543f0aa22133c81b4f016d01a8.png\" width=\"58\"/> The line through <img alt=\"$B$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/f/f/5/ff5fb3d775862e2123b007eb4373ff6cc1a34d4e.png\" width=\"14\"/> perpendicular to <img alt=\"$\\overline{AP}$\" class=\"latex\" height=\"15\" src=\"//latex.artofproblemsolving.com/b/4/1/b41699a79262163c0df579406c575f506f6dfb97.png\" width=\"28\"/> intersects the line through <img alt=\"$A$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/0/1/9/019e9892786e493964e145e7c5cf7b700314e53b.png\" width=\"13\"/> parallel to <img alt=\"$\\overline{BC}$\" class=\"latex\" height=\"15\" src=\"//latex.artofproblemsolving.com/e/3/3/e33fe7d65facd8868f58b6e94ddc7f153a5a3f9f.png\" width=\"29\"/> at point <img alt=\"$D.$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/c/6/1/c61f1e8be9d73f590167b39417e42bbaa1787fe0.png\" width=\"19\"/> Suppose <img alt=\"$BP=2$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/c/b/7/cb7bda2edb8a4a844f02156dd94f3dccb7abd8e3.png\" width=\"61\"/> and <img alt=\"$PC=3.$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/3/c/9/3c9c3b7e45708256714731c2fa328f2815d72543.png\" width=\"65\"/> What is <img alt=\"$AD?$\" class=\"latex\" height=\"14\" src=\"//latex.artofproblemsolving.com/f/8/0/f800ebe2802091ba1f23e7b4be125b4a40f17bbf.png\" style=\"vertical-align: -1px\" width=\"40\"/>\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 8 \\qquad \\textbf{(B) } 9 \\qquad \\textbf{(C) } 10 \\qquad \\textbf{(D) } 11 \\qquad \\textbf{(E) } 12$\" class=\"latex\" height=\"17\" src=\"//latex.artofproblemsolving.com/8/f/9/8f9a0d17019476ed84e7289d79c3e1fd056757b7.png\" style=\"vertical-align: -4px\" width=\"380\"/>",
+        "choices": [
+            "8",
+            "9",
+            "10",
+            "11",
+            "12"
+        ],
         "answer": "C"
     },
     "2022 AMC 10A #14": {
@@ -136,7 +214,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>How many ways are there to split the integers <img alt=\"$1$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/d/c/e/dce34f4dfb2406144304ad0d6106c5382ddd1446.png\" style=\"vertical-align: 0px\" width=\"8\"/> through <img alt=\"$14$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/8/2/0/820a20de2847dfdc1bc5cffc8d904933150032bd.png\" style=\"vertical-align: 0px\" width=\"18\"/> into <img alt=\"$7$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/e/0/a/e0a0db32027a732ac57d37ef2ae9bb150f65b108.png\" width=\"9\"/> pairs such that in each pair, the greater number is at least <img alt=\"$2$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/4/1/c/41c544263a265ff15498ee45f7392c5f86c6d151.png\" width=\"8\"/> times the lesser number?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 108 \\qquad \\textbf{(B) } 120 \\qquad \\textbf{(C) } 126 \\qquad \\textbf{(D) } 132 \\qquad \\textbf{(E) } 144$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/c/c/5/cc55d1d8d984d33f5009d8db1f9dd047c203e2c8.png\" style=\"vertical-align: -5px\" width=\"446\"/>",
+        "choices": [
+            "108",
+            "120",
+            "126",
+            "132",
+            "144"
+        ],
         "answer": "E"
     },
     "2022 AMC 10A #15": {
@@ -146,7 +230,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>Quadrilateral <img alt=\"$ABCD$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/f/9/e/f9efaf9474c5658c4089523e2aff4e11488f8603.png\" width=\"57\"/> with side lengths <img alt=\"$AB=7, BC=24, CD=20, DA=15$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/6/f/5/6f535e5972de04fc798ed71547b3ec2443a6f2c4.png\" style=\"vertical-align: -4px\" width=\"303\"/> is inscribed in a circle. The area interior to the circle but exterior to the quadrilateral can be written in the form <img alt=\"$\\frac{a\\pi-b}{c},$\" class=\"latex\" height=\"39\" src=\"//latex.artofproblemsolving.com/7/3/4/7344020e44515eec98dd40cbd92358c00e57f7f6.png\" style=\"vertical-align: -13px\" width=\"62\"/> where <img alt=\"$a,b,$\" class=\"latex\" height=\"16\" src=\"//latex.artofproblemsolving.com/f/3/b/f3b28547efd22be1c4a05fa193cd7038fc65d71b.png\" style=\"vertical-align: -3px\" width=\"29\"/> and <img alt=\"$c$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/3/3/7/3372c1cb6d68cf97c2d231acc0b47b95a9ed04cc.png\" width=\"8\"/> are positive integers such that <img alt=\"$a$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/c/7/d/c7d457e388298246adb06c587bccd419ea67f7e8.png\" width=\"9\"/> and <img alt=\"$c$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/3/3/7/3372c1cb6d68cf97c2d231acc0b47b95a9ed04cc.png\" width=\"8\"/> have no common prime factor. What is <img alt=\"$a+b+c?$\" class=\"latex\" height=\"14\" src=\"//latex.artofproblemsolving.com/2/4/3/24323ad615514d3902fb6720a462f134c52cf8f2.png\" style=\"vertical-align: -1px\" width=\"78\"/>\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 260 \\qquad \\textbf{(B) } 855 \\qquad \\textbf{(C) } 1235 \\qquad \\textbf{(D) } 1565 \\qquad \\textbf{(E) } 1997$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/d/0/3/d0378a8f65f70bf7be0b3cad030cafb4835197ba.png\" style=\"vertical-align: -5px\" width=\"473\"/>",
+        "choices": [
+            "260",
+            "855",
+            "1235",
+            "1565",
+            "1997"
+        ],
         "answer": "D"
     },
     "2022 AMC 10A #16": {
@@ -156,7 +246,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>The roots of the polynomial <img alt=\"$10x^3 - 39x^2 + 29x - 6$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/2/6/e/26e2f7098485ed0a573ea131fca8c20d9388d570.png\" style=\"vertical-align: -2px\" width=\"178\"/> are the height, length, and width of a rectangular box (right rectangular prism). A new rectangular box is formed by lengthening each edge of the original box by <img alt=\"$2$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/4/1/c/41c544263a265ff15498ee45f7392c5f86c6d151.png\" width=\"8\"/>\nunits. What is the volume of the new box?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } \\frac{24}{5} \\qquad \\textbf{(B) } \\frac{42}{5} \\qquad \\textbf{(C) } \\frac{81}{5} \\qquad \\textbf{(D) } 30 \\qquad \\textbf{(E) } 48$\" class=\"latex\" height=\"38\" src=\"//latex.artofproblemsolving.com/0/d/a/0daab1d3ddcd0b6c25453d6bf033b7517f188c78.png\" style=\"vertical-align: -13px\" width=\"413\"/>",
+        "choices": [
+            "\\frac{24}{5}",
+            "\\frac{42}{5}",
+            "\\frac{81}{5}",
+            "30",
+            "48"
+        ],
         "answer": "D"
     },
     "2022 AMC 10A #17": {
@@ -166,7 +262,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>How many three-digit positive integers <img alt=\"$\\underline{a} \\ \\underline{b} \\ \\underline{c}$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/5/8/d/58d98ba0214a50d7d64ca253149208096064772c.png\" style=\"vertical-align: -4px\" width=\"38\"/> are there whose nonzero digits <img alt=\"$a,b,$\" class=\"latex\" height=\"16\" src=\"//latex.artofproblemsolving.com/f/3/b/f3b28547efd22be1c4a05fa193cd7038fc65d71b.png\" style=\"vertical-align: -3px\" width=\"29\"/> and <img alt=\"$c$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/3/3/7/3372c1cb6d68cf97c2d231acc0b47b95a9ed04cc.png\" width=\"8\"/> satisfy\n<img alt=\"\\[0.\\overline{\\underline{a}~\\underline{b}~\\underline{c}} = \\frac{1}{3} (0.\\overline{a} + 0.\\overline{b} + 0.\\overline{c})?\\]\" class=\"latexcenter\" height=\"37\" src=\"//latex.artofproblemsolving.com/9/e/4/9e448c87f48492e9f1518a6989dee06242cab99f.png\" width=\"221\"/>\n(The bar indicates repetition, thus <img alt=\"$0.\\overline{\\underline{a}~\\underline{b}~\\underline{c}}$\" class=\"latex\" height=\"22\" src=\"//latex.artofproblemsolving.com/e/0/a/e0a0a175898592a6b763aac47c236314e5cc76d0.png\" style=\"vertical-align: -4px\" width=\"52\"/> is the infinite repeating decimal <img alt=\"$0.\\underline{a}~\\underline{b}~\\underline{c}~\\underline{a}~\\underline{b}~\\underline{c}~\\cdots$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/1/5/8/1588aaa4bdc902a1ff333d41541847c8094b4d8b.png\" style=\"vertical-align: -4px\" width=\"127\"/>)\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 9 \\qquad \\textbf{(B) } 10 \\qquad \\textbf{(C) } 11 \\qquad \\textbf{(D) } 13 \\qquad \\textbf{(E) } 14$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/d/1/6/d16b9b030f8acde25e666be01a8e637e00c32527.png\" style=\"vertical-align: -5px\" width=\"392\"/>",
+        "choices": [
+            "9",
+            "10",
+            "11",
+            "13",
+            "14"
+        ],
         "answer": "D"
     },
     "2022 AMC 10A #18": {
@@ -176,7 +278,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>Let <img alt=\"$T_k$\" class=\"latex\" height=\"15\" src=\"//latex.artofproblemsolving.com/7/d/a/7da81cb3cee239abc137061d65f85d90d269ca50.png\" style=\"vertical-align: -2px\" width=\"17\"/> be the transformation of the coordinate plane that first rotates the plane <img alt=\"$k$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/8/c/3/8c325612684d41304b9751c175df7bcc0f61f64f.png\" width=\"9\"/> degrees counterclockwise around the origin and then reflects the plane across the <img alt=\"$y$\" class=\"latex\" height=\"11\" src=\"//latex.artofproblemsolving.com/0/9/2/092e364e1d9d19ad5fffb0b46ef4cc7f2da02c1c.png\" style=\"vertical-align: -3px\" width=\"9\"/>-axis. What is the least positive\ninteger <img alt=\"$n$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/1/7/4/174fadd07fd54c9afe288e96558c92e0c1da733a.png\" width=\"10\"/> such that performing the sequence of transformations <img alt=\"$T_1, T_2, T_3, \\cdots, T_n$\" class=\"latex\" height=\"16\" src=\"//latex.artofproblemsolving.com/5/1/3/51343c35ba784a44081df5a49dd789daee56b933.png\" style=\"vertical-align: -3px\" width=\"132\"/> returns the point <img alt=\"$(1,0)$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/2/5/a/25a306093bbd9e0699c65dba033c9483cd379dc4.png\" style=\"vertical-align: -4px\" width=\"38\"/> back to itself?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 359 \\qquad \\textbf{(B) } 360 \\qquad \\textbf{(C) } 719 \\qquad \\textbf{(D) } 720 \\qquad \\textbf{(E) } 721$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/6/8/3/6836652325e249304c7d1c5a55e876b029aa040a.png\" style=\"vertical-align: -5px\" width=\"446\"/>",
+        "choices": [
+            "359",
+            "360",
+            "719",
+            "720",
+            "721"
+        ],
         "answer": "A"
     },
     "2022 AMC 10A #19": {
@@ -186,7 +294,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>Define <img alt=\"$L_n$\" class=\"latex\" height=\"15\" src=\"//latex.artofproblemsolving.com/4/4/6/44695d539b9d5c031d226f37975b8b065313b912.png\" style=\"vertical-align: -2px\" width=\"20\"/> as the least common multiple of all the integers from <img alt=\"$1$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/d/c/e/dce34f4dfb2406144304ad0d6106c5382ddd1446.png\" style=\"vertical-align: 0px\" width=\"8\"/> to <img alt=\"$n$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/1/7/4/174fadd07fd54c9afe288e96558c92e0c1da733a.png\" width=\"10\"/> inclusive. There is a unique integer <img alt=\"$h$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/8/1/8/8189a5b5a0917b8c93350827be4038af1839139d.png\" width=\"10\"/> such that\n<img alt=\"\\[\\frac{1}{1}+\\frac{1}{2}+\\frac{1}{3}+\\cdots+\\frac{1}{17}=\\frac{h}{L_{17}}\\]\" class=\"latexcenter\" height=\"40\" src=\"//latex.artofproblemsolving.com/e/f/4/ef4969810b336ed294181312dc33d0c0c5ad6c02.png\" width=\"222\"/>\nWhat is the remainder when <img alt=\"$h$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/8/1/8/8189a5b5a0917b8c93350827be4038af1839139d.png\" width=\"10\"/> is divided by <img alt=\"$17$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/b/7/6/b7616a230c77f0d9a577e5bca01aa06f1c35c457.png\" style=\"vertical-align: 0px\" width=\"18\"/>?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 1 \\qquad \\textbf{(B) } 3 \\qquad \\textbf{(C) } 5 \\qquad \\textbf{(D) } 7 \\qquad \\textbf{(E) } 9$\" class=\"latex\" height=\"17\" src=\"//latex.artofproblemsolving.com/c/8/8/c88e821b70f4a82634deb26ecbfedca0258fcd2d.png\" style=\"vertical-align: -4px\" width=\"353\"/>",
+        "choices": [
+            "1",
+            "3",
+            "5",
+            "7",
+            "9"
+        ],
         "answer": "C"
     },
     "2022 AMC 10A #20": {
@@ -196,7 +310,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>A four-term sequence is formed by adding each term of a four-term arithmetic sequence of positive integers to the corresponding term of a four-term geometric sequence of positive integers. The first three terms of the resulting four-term sequence are <img alt=\"$57$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/4/b/1/4b14ef560acadba8244952e9a8d5481f494445dc.png\" width=\"18\"/>, <img alt=\"$60$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/3/0/2/302e99c1c7cd91a6ae371139e5142ccef5977dca.png\" width=\"17\"/>, and <img alt=\"$91$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/7/f/d/7fd34ff50f8bba26a08bc96a69e921daa60f5f12.png\" style=\"vertical-align: 0px\" width=\"17\"/>. What is the fourth term of this sequence?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 190 \\qquad \\textbf{(B) } 194 \\qquad \\textbf{(C) } 198 \\qquad \\textbf{(D) } 202 \\qquad \\textbf{(E) } 206$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/2/d/a/2da4252f8d995c50d6c0569d944566fddd1893f0.png\" style=\"vertical-align: -5px\" width=\"446\"/>",
+        "choices": [
+            "190",
+            "194",
+            "198",
+            "202",
+            "206"
+        ],
         "answer": "E"
     },
     "2022 AMC 10A #21": {
@@ -206,7 +326,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>A bowl is formed by attaching four regular hexagons of side <img alt=\"$1$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/d/c/e/dce34f4dfb2406144304ad0d6106c5382ddd1446.png\" style=\"vertical-align: 0px\" width=\"8\"/> to a square of side <img alt=\"$1$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/d/c/e/dce34f4dfb2406144304ad0d6106c5382ddd1446.png\" style=\"vertical-align: 0px\" width=\"8\"/>. The edges of the adjacent hexagons coincide, as shown in the figure. What is the area of the octagon obtained by joining the top eight vertices of the four hexagons, situated on the rim of the bowl?\n<img alt=\"[asy] import three; size(225); currentprojection=   orthographic(camera=(-5.52541796301147,-2.61548797564715,1.6545450372312),                up=(0.00247902062334861,0.000877141782387748,0.00966536329192992),                target=(0,0,0),                zoom=0.570588560870951); currentpen = black+1.5bp; triple A = O; triple M = (X+Y)/2; triple B = (-1/2,-1/2,1/sqrt(2)); triple C = (-1,0,sqrt(2)); triple D = (0,-1,sqrt(2)); transform3 rho = rotate(90,M,M+Z);  //arrays of vertices for the lower level (the square), the middle level, //and the interleaves vertices of the upper level (the octagon) triple[] lVs = {A}; triple[] mVs = {B}; triple[] uVsl = {C}; triple[] uVsr = {D};  for(int i = 0; i &lt; 3; ++i){   lVs.push(rho*lVs[i]);   mVs.push(rho*mVs[i]);   uVsl.push(rho*uVsl[i]);   uVsr.push(rho*uVsr[i]); }  lVs.cyclic = true; uVsl.cyclic = true;  for(int i\u00a0: new int[] {0,1,2,3}){   draw(uVsl[i]--uVsr[i]);   draw(uVsr[i]--uVsl[i+1]); } draw(lVs[0]--lVs[1]^^lVs[0]--lVs[3]); for(int i\u00a0: new int[] {0,1,3}){   draw(lVs[0]--lVs[i]);   draw(lVs[i]--mVs[i]);   draw(mVs[i]--uVsl[i]); } for(int i\u00a0: new int[] {0,3}){   draw(mVs[i]--uVsr[i]); }  for(int i\u00a0: new int[] {1,3}) draw(lVs[2]--lVs[i],dashed); draw(lVs[2]--mVs[2],dashed); draw(mVs[2]--uVsl[2]^^mVs[2]--uVsr[2],dashed); draw(mVs[1]--uVsr[1],dashed);  //Comment two lines below to remove red edges //draw(lVs[1]--lVs[3],red+2bp); //draw(uVsl[0]--uVsr[0],red+2bp); [/asy]\" class=\"latexcenter\" height=\"235\" src=\"//latex.artofproblemsolving.com/d/6/0/d604f3d349df2224a285e329575fddb9ffb746a2.png\" width=\"375\"/>\n\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) }6\\qquad\\textbf{(B) }7\\qquad\\textbf{(C) }5+2\\sqrt{2}\\qquad\\textbf{(D) }8\\qquad\\textbf{(E) }9$\" class=\"latex\" height=\"23\" src=\"//latex.artofproblemsolving.com/2/8/d/28df4931a1e40ca2988c4b51bb2b92c1cdd0e21b.png\" style=\"vertical-align: -5px\" width=\"411\"/>",
+        "choices": [
+            "6",
+            "7",
+            "5+2\\sqrt{2}",
+            "8",
+            "9"
+        ],
         "answer": "B"
     },
     "2022 AMC 10A #22": {
@@ -216,7 +342,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>Suppose that <img alt=\"$13$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/0/3/0/030e19e4e2f1c074127cb50581e8496470c5419f.png\" style=\"vertical-align: 0px\" width=\"17\"/> cards numbered <img alt=\"$1, 2, 3, \\ldots, 13$\" class=\"latex\" height=\"17\" src=\"//latex.artofproblemsolving.com/f/a/1/fa1b639de74e5c1a03f4910499a330f3672ab0a3.png\" style=\"vertical-align: -4px\" width=\"104\"/> are arranged in a row. The task is to pick them up in numerically increasing order, working repeatedly from left to right. In the example below, cards <img alt=\"$1, 2, 3$\" class=\"latex\" height=\"16\" src=\"//latex.artofproblemsolving.com/0/f/a/0fafafcb8dbe78fec70b78cd2a2f4a0222372f2e.png\" style=\"vertical-align: -3px\" width=\"43\"/> are picked up on the first pass, <img alt=\"$4$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/c/7/c/c7cab1a05e1e0c1d51a6a219d96577a16b7abf9d.png\" style=\"vertical-align: 0px\" width=\"9\"/> and <img alt=\"$5$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/7/9/0/79069377f91364c2f87a64e5f9f562a091c8a6c1.png\" width=\"8\"/> on the second pass, <img alt=\"$6$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/6/0/1/601a7806cbfad68196c43a4665871f8c3186802e.png\" width=\"8\"/> on the third pass, <img alt=\"$7, 8, 9, 10$\" class=\"latex\" height=\"17\" src=\"//latex.artofproblemsolving.com/7/a/d/7ad87cf53e84c9ce9a4d6784ca842ad462938f27.png\" style=\"vertical-align: -4px\" width=\"72\"/> on the fourth pass, and <img alt=\"$11, 12, 13$\" class=\"latex\" height=\"17\" src=\"//latex.artofproblemsolving.com/f/4/9/f49225802bae0d57dedb74deb962dd0cf99c22ac.png\" style=\"vertical-align: -4px\" width=\"73\"/> on the fifth pass. For how many of the <img alt=\"$13!$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/6/5/1/651c6746e6615c978821ad9350dab20e297166d5.png\" style=\"vertical-align: 0px\" width=\"21\"/> possible orderings of the cards will the <img alt=\"$13$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/0/3/0/030e19e4e2f1c074127cb50581e8496470c5419f.png\" style=\"vertical-align: 0px\" width=\"17\"/> cards be picked up in exactly two passes?\n</p><p><img alt='[asy] size(11cm); draw((0,0)--(2,0)--(2,3)--(0,3)--cycle); label(\"7\", (1,1.5)); draw((3,0)--(5,0)--(5,3)--(3,3)--cycle); label(\"11\", (4,1.5)); draw((6,0)--(8,0)--(8,3)--(6,3)--cycle); label(\"8\", (7,1.5)); draw((9,0)--(11,0)--(11,3)--(9,3)--cycle); label(\"6\", (10,1.5)); draw((12,0)--(14,0)--(14,3)--(12,3)--cycle); label(\"4\", (13,1.5)); draw((15,0)--(17,0)--(17,3)--(15,3)--cycle); label(\"5\", (16,1.5)); draw((18,0)--(20,0)--(20,3)--(18,3)--cycle); label(\"9\", (19,1.5)); draw((21,0)--(23,0)--(23,3)--(21,3)--cycle); label(\"12\", (22,1.5)); draw((24,0)--(26,0)--(26,3)--(24,3)--cycle); label(\"1\", (25,1.5)); draw((27,0)--(29,0)--(29,3)--(27,3)--cycle); label(\"13\", (28,1.5)); draw((30,0)--(32,0)--(32,3)--(30,3)--cycle); label(\"10\", (31,1.5)); draw((33,0)--(35,0)--(35,3)--(33,3)--cycle); label(\"2\", (34,1.5)); draw((36,0)--(38,0)--(38,3)--(36,3)--cycle); label(\"3\", (37,1.5)); [/asy]' class=\"latexcenter\" height=\"45\" src=\"//latex.artofproblemsolving.com/6/e/9/6e932ec00fe0f762da98425d4ce220c09f53bc99.png\" width=\"522\"/>\n\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) } 4082 \\qquad \\textbf{(B) } 4095 \\qquad \\textbf{(C) } 4096 \\qquad \\textbf{(D) } 8178 \\qquad \\textbf{(E) } 8191$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/1/1/3/113cf30e37e93eb491e95b180e906ff2fb30987e.png\" style=\"vertical-align: -5px\" width=\"492\"/>",
+        "choices": [
+            "4082",
+            "4095",
+            "4096",
+            "8178",
+            "8191"
+        ],
         "answer": "D"
     },
     "2022 AMC 10A #23": {
@@ -226,7 +358,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>Isosceles trapezoid <img alt=\"$ABCD$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/f/9/e/f9efaf9474c5658c4089523e2aff4e11488f8603.png\" width=\"57\"/> has parallel sides <img alt=\"$\\overline{AD}$\" class=\"latex\" height=\"15\" src=\"//latex.artofproblemsolving.com/c/f/b/cfbb4c52e011ceed6e813118a7d59e931af444a2.png\" width=\"29\"/> and <img alt=\"$\\overline{BC},$\" class=\"latex\" height=\"19\" src=\"//latex.artofproblemsolving.com/f/3/a/f3a023fbfe164986a658166110c6617348ddcf22.png\" style=\"vertical-align: -3px\" width=\"33\"/> with <img alt=\"$BC &lt; AD$\" class=\"latex\" height=\"15\" src=\"//latex.artofproblemsolving.com/9/a/9/9a93b435536df26f57e72cbb60fd3e12a3e73e2f.png\" style=\"vertical-align: -2px\" width=\"84\"/> and <img alt=\"$AB = CD.$\" class=\"latex\" height=\"14\" src=\"//latex.artofproblemsolving.com/7/8/f/78f36b76a90c1a2404e29df7a091b5884106cbfa.png\" style=\"vertical-align: -1px\" width=\"89\"/> There is a point <img alt=\"$P$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/4/b/4/4b4cade9ca8a2c8311fafcf040bc5b15ca507f52.png\" width=\"14\"/> in the plane such that <img alt=\"$PA=1, PB=2, PC=3,$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/b/2/e/b2e9ad76b09b1178cd49f656de3d2fa1e4037470.png\" style=\"vertical-align: -4px\" width=\"208\"/> and <img alt=\"$PD=4.$\" class=\"latex\" height=\"14\" src=\"//latex.artofproblemsolving.com/3/3/3/3332332b8e4e7e83907a07d35195405c8b3c3929.png\" style=\"vertical-align: -1px\" width=\"70\"/> What is <img alt=\"$\\tfrac{BC}{AD}?$\" class=\"latex\" height=\"23\" src=\"//latex.artofproblemsolving.com/d/1/9/d19214a4f6cc2182e889e1d905bd6e4c738226e4.png\" style=\"vertical-align: -7px\" width=\"36\"/>\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) }\\frac{1}{4}\\qquad\\textbf{(B) }\\frac{1}{3}\\qquad\\textbf{(C) }\\frac{1}{2}\\qquad\\textbf{(D) }\\frac{2}{3}\\qquad\\textbf{(E) }\\frac{3}{4}$\" class=\"latex\" height=\"38\" src=\"//latex.artofproblemsolving.com/6/d/b/6db106433008a98b13245ea2fad38c3d8d367b08.png\" style=\"vertical-align: -13px\" width=\"375\"/>",
+        "choices": [
+            "frac{1}{4}",
+            "frac{1}{3}",
+            "frac{1}{2}",
+            "frac{2}{3}",
+            "frac{3}{4}"
+        ],
         "answer": "B"
     },
     "2022 AMC 10A #24": {
@@ -236,7 +374,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>How many strings of length <img alt=\"$5$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/7/9/0/79069377f91364c2f87a64e5f9f562a091c8a6c1.png\" width=\"8\"/> formed from the digits <img alt=\"$0$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/b/c/1/bc1f9d9bf8a1b606a4188b5ce9a2af1809e27a89.png\" width=\"8\"/>, <img alt=\"$1$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/d/c/e/dce34f4dfb2406144304ad0d6106c5382ddd1446.png\" style=\"vertical-align: 0px\" width=\"8\"/>, <img alt=\"$2$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/4/1/c/41c544263a265ff15498ee45f7392c5f86c6d151.png\" width=\"8\"/>, <img alt=\"$3$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/7/c/d/7cde695f2e4542fd01f860a89189f47a27143b66.png\" width=\"8\"/>, <img alt=\"$4$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/c/7/c/c7cab1a05e1e0c1d51a6a219d96577a16b7abf9d.png\" style=\"vertical-align: 0px\" width=\"9\"/> are there such that for each <img alt=\"$j \\in \\{1,2,3,4\\}$\" class=\"latex\" height=\"20\" src=\"//latex.artofproblemsolving.com/1/a/b/1abdcb577051b72b0dafb79af241b0e81856fe3d.png\" style=\"vertical-align: -5px\" width=\"111\"/>, at least <img alt=\"$j$\" class=\"latex\" height=\"16\" src=\"//latex.artofproblemsolving.com/8/1/2/8122aa89ea6e80784c6513d22787ad86e36ad0cc.png\" style=\"vertical-align: -3px\" width=\"8\"/> of the digits are less than <img alt=\"$j$\" class=\"latex\" height=\"16\" src=\"//latex.artofproblemsolving.com/8/1/2/8122aa89ea6e80784c6513d22787ad86e36ad0cc.png\" style=\"vertical-align: -3px\" width=\"8\"/>? (For example, <img alt=\"$02214$\" class=\"latex\" height=\"14\" src=\"//latex.artofproblemsolving.com/a/7/1/a71d731b6f5a54b3347954ce0f1fdc0572183e76.png\" style=\"vertical-align: -1px\" width=\"47\"/> satisfies this condition\nbecause it contains at least <img alt=\"$1$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/d/c/e/dce34f4dfb2406144304ad0d6106c5382ddd1446.png\" style=\"vertical-align: 0px\" width=\"8\"/> digit less than <img alt=\"$1$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/d/c/e/dce34f4dfb2406144304ad0d6106c5382ddd1446.png\" style=\"vertical-align: 0px\" width=\"8\"/>, at least <img alt=\"$2$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/4/1/c/41c544263a265ff15498ee45f7392c5f86c6d151.png\" width=\"8\"/> digits less than <img alt=\"$2$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/4/1/c/41c544263a265ff15498ee45f7392c5f86c6d151.png\" width=\"8\"/>, at least <img alt=\"$3$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/7/c/d/7cde695f2e4542fd01f860a89189f47a27143b66.png\" width=\"8\"/> digits less\nthan <img alt=\"$3$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/7/c/d/7cde695f2e4542fd01f860a89189f47a27143b66.png\" width=\"8\"/>, and at least <img alt=\"$4$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/c/7/c/c7cab1a05e1e0c1d51a6a219d96577a16b7abf9d.png\" style=\"vertical-align: 0px\" width=\"9\"/> digits less than <img alt=\"$4$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/c/7/c/c7cab1a05e1e0c1d51a6a219d96577a16b7abf9d.png\" style=\"vertical-align: 0px\" width=\"9\"/>. The string <img alt=\"$23404$\" class=\"latex\" height=\"14\" src=\"//latex.artofproblemsolving.com/2/a/9/2a907a2b6b7424bc1962599a5df1d88ed70e1f1c.png\" style=\"vertical-align: -1px\" width=\"47\"/> does not satisfy the condition because it\ndoes not contain at least <img alt=\"$2$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/4/1/c/41c544263a265ff15498ee45f7392c5f86c6d151.png\" width=\"8\"/> digits less than <img alt=\"$2$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/4/1/c/41c544263a265ff15498ee45f7392c5f86c6d151.png\" width=\"8\"/>.)\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) }500\\qquad\\textbf{(B) }625\\qquad\\textbf{(C) }1089\\qquad\\textbf{(D) }1199\\qquad\\textbf{(E) }1296$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/0/8/e/08ed6b832efd08bc46118c3a5d54a1d72ce35ac6.png\" style=\"vertical-align: -5px\" width=\"473\"/>",
+        "choices": [
+            "500",
+            "625",
+            "1089",
+            "1199",
+            "1296"
+        ],
         "answer": "E"
     },
     "2022 AMC 10A #25": {
@@ -246,7 +390,13 @@
             "A"
         ],
         "problem": "<html><head></head><body><p>Let <img alt=\"$R$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/e/f/f/eff43e84f8a3bcf7b6965f0a3248bc4d3a9d0cd4.png\" width=\"14\"/>, <img alt=\"$S$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/a/d/2/ad28c83c99a8fd0dd2e2e594c9d02ee532765a0a.png\" width=\"12\"/>, and <img alt=\"$T$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/2/5/5/2554b6496c3b678897e9b060ef00aa9f0a7d7ece.png\" width=\"13\"/> be squares that have vertices at lattice points (i.e., points whose coordinates are both integers) in the coordinate plane, together with their interiors. The bottom edge of each square is on the <img alt=\"$x$\" class=\"latex\" height=\"8\" src=\"//latex.artofproblemsolving.com/2/6/e/26eeb5258ca5099acf8fe96b2a1049c48c89a5e6.png\" width=\"10\"/>-axis. The left edge of <img alt=\"$R$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/e/f/f/eff43e84f8a3bcf7b6965f0a3248bc4d3a9d0cd4.png\" width=\"14\"/> and the right edge of <img alt=\"$S$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/a/d/2/ad28c83c99a8fd0dd2e2e594c9d02ee532765a0a.png\" width=\"12\"/> are on the <img alt=\"$y$\" class=\"latex\" height=\"11\" src=\"//latex.artofproblemsolving.com/0/9/2/092e364e1d9d19ad5fffb0b46ef4cc7f2da02c1c.png\" style=\"vertical-align: -3px\" width=\"9\"/>-axis, and <img alt=\"$R$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/e/f/f/eff43e84f8a3bcf7b6965f0a3248bc4d3a9d0cd4.png\" width=\"14\"/> contains <img alt=\"$\\frac{9}{4}$\" class=\"latex\" height=\"38\" src=\"//latex.artofproblemsolving.com/5/b/0/5b033d87594e25926781185595ecc09bf7577209.png\" style=\"vertical-align: -13px\" width=\"11\"/> as many lattice points as does <img alt=\"$S$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/a/d/2/ad28c83c99a8fd0dd2e2e594c9d02ee532765a0a.png\" width=\"12\"/>. The top two vertices of <img alt=\"$T$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/2/5/5/2554b6496c3b678897e9b060ef00aa9f0a7d7ece.png\" width=\"13\"/> are in <img alt=\"$R \\cup S$\" class=\"latex\" height=\"14\" src=\"//latex.artofproblemsolving.com/6/4/8/648a62e6a51378e145e4ec33b27b3538f5707e31.png\" style=\"vertical-align: -1px\" width=\"48\"/>, and <img alt=\"$T$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/2/5/5/2554b6496c3b678897e9b060ef00aa9f0a7d7ece.png\" width=\"13\"/> contains <img alt=\"$\\frac{1}{4}$\" class=\"latex\" height=\"37\" src=\"//latex.artofproblemsolving.com/c/3/3/c339afa03e060d959e4942be7522c0c992f4c41c.png\" style=\"vertical-align: -13px\" width=\"11\"/> of the lattice points contained in <img alt=\"$R \\cup S.$\" class=\"latex\" height=\"14\" src=\"//latex.artofproblemsolving.com/8/f/6/8f651683bfcab536376ba697bdf053447d91d951.png\" style=\"vertical-align: -1px\" width=\"52\"/> See the figure (not drawn to scale).\n<img alt='[asy] size(8cm); label(scale(.8)*\"$y$\", (0,60), N); label(scale(.8)*\"$x$\", (60,0), E); filldraw((0,0)--(55,0)--(55,55)--(0,55)--cycle, yellow+orange+white+white); label(scale(1.3)*\"$R$\", (55/2,55/2)); filldraw((0,0)--(0,28)--(-28,28)--(-28,0)--cycle, green+white+white); label(scale(1.3)*\"$S$\",(-14,14)); filldraw((-10,0)--(15,0)--(15,25)--(-10,25)--cycle, red+white+white); label(scale(1.3)*\"$T$\",(3.5,25/2)); draw((0,-10)--(0,60),EndArrow()); draw((-34,0)--(60,0),EndArrow()); [/asy]' class=\"latexcenter\" height=\"288\" src=\"//latex.artofproblemsolving.com/d/1/9/d19ef900b6330bb16c3488ac1593a01dce4bedb8.png\" width=\"378\"/>\nThe fraction of lattice points in <img alt=\"$S$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/a/d/2/ad28c83c99a8fd0dd2e2e594c9d02ee532765a0a.png\" width=\"12\"/> that are in <img alt=\"$S \\cap T$\" class=\"latex\" height=\"13\" src=\"//latex.artofproblemsolving.com/2/b/8/2b8ab2667847d5f6e549899018659e8a643091e0.png\" style=\"vertical-align: 0px\" width=\"45\"/> is <img alt=\"$27$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/1/0/5/1051e7d41ec0b8bd688a872be17538413f4ee97b.png\" width=\"18\"/> times the fraction of lattice points in <img alt=\"$R$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/e/f/f/eff43e84f8a3bcf7b6965f0a3248bc4d3a9d0cd4.png\" width=\"14\"/> that are in <img alt=\"$R \\cap T$\" class=\"latex\" height=\"14\" src=\"//latex.artofproblemsolving.com/4/a/e/4ae809afd997247bff51cc25e6174ca5f4fc3add.png\" style=\"vertical-align: -1px\" width=\"49\"/>. What is the minimum possible value of the edge length of <img alt=\"$R$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/e/f/f/eff43e84f8a3bcf7b6965f0a3248bc4d3a9d0cd4.png\" width=\"14\"/> plus the edge length of <img alt=\"$S$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/a/d/2/ad28c83c99a8fd0dd2e2e594c9d02ee532765a0a.png\" width=\"12\"/> plus the edge length of <img alt=\"$T$\" class=\"latex\" height=\"12\" src=\"//latex.artofproblemsolving.com/2/5/5/2554b6496c3b678897e9b060ef00aa9f0a7d7ece.png\" width=\"13\"/>?\n</p><p>\n</p></body></html>",
-        "choices": "<img alt=\"$\\textbf{(A) }336\\qquad\\textbf{(B) }337\\qquad\\textbf{(C) }338\\qquad\\textbf{(D) }339\\qquad\\textbf{(E) }340$\" class=\"latex\" height=\"18\" src=\"//latex.artofproblemsolving.com/6/c/2/6c2b509dd0a18e9abcfc9d0213921995cf18bf69.png\" style=\"vertical-align: -5px\" width=\"446\"/>",
+        "choices": [
+            "336",
+            "337",
+            "338",
+            "339",
+            "340"
+        ],
         "answer": "B"
     }
 }
