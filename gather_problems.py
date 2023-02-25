@@ -76,9 +76,10 @@ def gather(year,level,instance,json_file="amc_10_problems.json"):
         }
 
         problems_json.update({id:dict})
-        if len(choices) != 5:
-            print("Choice error:")
-        print(problem_number)
+        if problem == "":
+            print("Problem location error",id)
+        elif len(choices) != 5:
+            print("Choice error:",id)
 
         json.dump(problems_json, open(json_file,"r+"), indent=4)
 
