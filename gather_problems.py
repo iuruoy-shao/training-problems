@@ -33,7 +33,8 @@ def get_problem(year,level,instance,number):
     for tag in latex_tags:
         contains_choice = False
         alt = tag.extract()["alt"]
-        contains_choice = any([f"({char})" in alt for char in letter_choices])
+        contains_choice = any([f"({char})" in alt for char in letter_choices]
+                              +["\\textbf{"+char+"}" in alt for char in letter_choices])
         
         if contains_choice:
             if tag.next_sibing:
@@ -65,6 +66,10 @@ def dissect_choices(choices):
         split_list.remove("")
     except:
         pass
+    try:
+        split_list.remove("(")
+    except:
+        pass
 
     return split_list
    
@@ -72,12 +77,20 @@ def cleanup_choices(split_list):
     for i in range(len(split_list)):
         choice = split_list[i]
         char = letter_choices[i]
-        choice = choice.replace("("+char+")}\\","")
-        choice = choice.replace("("+char+") }\\","")
-        choice = choice.replace("("+char+") }","")
-        choice = choice.replace("("+char+")}","")
+
+        choice = choice.replace(char+")}\\","")
+        choice = choice.replace(char+") }\\","")
+        choice = choice.replace(char+") }","")
+        choice = choice.replace(char+")}","")
+        choice = choice.replace(char+")","")
+        choice = choice.replace(char+"})","")
+        choice = choice.replace(char+"} )","")
         choice = choice.replace("$","")
+        choice = choice.replace("(","")
         choice = choice.replace("\\textbf{","")
+        choice = choice.replace("\\:","")
+        choice = choice.replace(":","")
+
         split_list[i] = choice
     return split_list
     
@@ -111,18 +124,8 @@ def gather(year,level,instance,json_file="amc_10_problems.json"):
             print("Problem location error:",id)
         elif len(choices) != 5:
             print("Choice error:",id)
-        # else:
-        #     print(id)
 
         json.dump(problems_json, open(json_file,"r+"), indent=4)
 
 if __name__ == "__main__":
-    for year in range (2015,2022):
-        for instance in ["A","B"]:
-            gather(year,10,instance)
-
-    for instance in ["A","B"]:
-        gather("2021_Fall",10,instance)
-    
-    for instance in ["A","B"]:
-        gather("2022",10,instance)
+    gather("2021_Fall",10,"B","test.json")

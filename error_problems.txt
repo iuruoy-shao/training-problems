@@ -49,18 +49,4 @@ Problem location error: 2019 AMC 10A #11
 Choice error: 2019 AMC 10B #9
 Problem location error: 2020 AMC 10A #12
 Choice error: 2020 AMC 10B #16
-Choice error: 2021_Fall AMC 10B #3 // weird \: stuff can be removed
-Choice error: 2021_Fall AMC 10B #6
-Choice error: 2021_Fall AMC 10B #11
-Choice error: 2021_Fall AMC 10B #13
-Choice error: 2021_Fall AMC 10B #16
-Choice error: 2021_Fall AMC 10B #17
-Choice error: 2021_Fall AMC 10B #18
-Choice error: 2021_Fall AMC 10B #19
-Choice error: 2021_Fall AMC 10B #21
-Choice error: 2021_Fall AMC 10B #23
-Choice error: 2021_Fall AMC 10B #25
 Problem location error: 2021_Fall AMC 10B #20
-Choice error: 2021_Fall AMC 10B #21
-Choice error: 2021_Fall AMC 10B #23
-Choice error: 2021_Fall AMC 10B #25
