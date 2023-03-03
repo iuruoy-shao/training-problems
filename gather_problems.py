@@ -17,7 +17,10 @@ def get_problem(year,level,instance,number):
     problem_url = f"{base_url}{year}_AMC_{level}{instance}_Problems/Problem_{number}"
     soup = get_content(problem_url)
 
-    problem_header = soup.find(name="h2",string="Problem")
+    problem_headers = soup.find_all(name="h2")
+    problem_header = [header for header in problem_headers 
+                    for string in header.strings
+                    if "Problem" in string][0]
     
     sibling = problem_header.find_next_sibling()
     problem_p_concat = ""
@@ -32,9 +35,10 @@ def get_problem(year,level,instance,number):
     choices_contains_latex = True
     for tag in latex_tags:
         contains_choice = False
-        alt = tag.extract()["alt"]
+        alt = tag["alt"]
         contains_choice = any([f"({char})" in alt for char in letter_choices]
-                              +["\\textbf{"+char+"}" in alt for char in letter_choices])
+                              +["\\textbf{"+char in alt or "\textbf{"+char in alt
+                                for char in letter_choices])
         
         if contains_choice:
             if tag.next_sibing:
@@ -42,6 +46,7 @@ def get_problem(year,level,instance,number):
                 choices_contains_latex = False
             else:
                 choices.append(alt)
+            tag.extract()
 
     # choices = problem_content.find_all(attrs="latex")[-1].extract()["alt"]
 
@@ -58,9 +63,9 @@ def get_answer(year,level,instance,number):
     return answer_list[number-1].string
 
 def dissect_choices(choices):
-    choices = choices.split("$")[1]
+    choices = choices[choices.find("$")+1:choices.rfind("$")]
     choices = choices.replace("\\qquad","")
-    split_list = choices.split("\\textbf{")
+    split_list = choices.split("\\textbf{" if "\\textbf{" in choices else "\textbf{")
 
     try:
         split_list.remove("")
@@ -85,7 +90,6 @@ def cleanup_choices(split_list):
         choice = choice.replace(char+")","")
         choice = choice.replace(char+"})","")
         choice = choice.replace(char+"} )","")
-        choice = choice.replace("$","")
         choice = choice.replace("(","")
         choice = choice.replace("\\textbf{","")
         choice = choice.replace("\\:","")
@@ -94,38 +98,41 @@ def cleanup_choices(split_list):
         split_list[i] = choice
     return split_list
     
-def gather(year,level,instance,json_file="amc_10_problems.json"):
+def gather_year(year,level,instance,json_file="amc_10_problems.json"):
     try:
         problems_json = json.load(open(json_file,"r+"))
     except:
         problems_json = {}
 
     for problem_number in range (1,26):
-        id = f"{year} AMC {level}{instance} #{problem_number}"
-        
-        test = year,level,instance
-        try:
-            problem, choices = get_problem(year,level,instance,problem_number)
-        except:
-            problem = ""
-            choices = []
-        answer = get_answer(year,level,instance,problem_number)
-
-        dict = {
-            "test": test,
-            "problem": str(problem),
-            "choices": choices,
-            "answer": answer
-        }
-
-        problems_json.update({id:dict})
-
-        if problem == "":
-            print("Problem location error:",id)
-        elif len(choices) != 5:
-            print("Choice error:",id)
-
+        gather_problem(year,level,instance,problem_number,problems_json)
         json.dump(problems_json, open(json_file,"r+"), indent=4)
 
+def gather_problem(year,level,instance,problem_number,loading_json):
+    id = f"{year} AMC {level}{instance} #{problem_number}"
+    
+    test = year,level,instance
+    try:
+        problem, choices = get_problem(year,level,instance,problem_number)
+    except:
+        problem = ""
+        choices = []
+    answer = get_answer(year,level,instance,problem_number)
+
+    dict = {
+        "test": test,
+        "problem": str(problem),
+        "choices": choices,
+        "answer": answer
+    }
+
+    loading_json.update({id:dict})
+
+    if problem == "":
+        print("Problem location error:",id)
+    elif len(choices) != 5:
+        print("Choice error:",id)
+
 if __name__ == "__main__":
-    gather("2021_Fall",10,"B","test.json")
+    test_json = {}
+    gather_problem(2016,10,"A",3,test_json)
