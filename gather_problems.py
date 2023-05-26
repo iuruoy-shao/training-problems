@@ -10,8 +10,7 @@ letter_choices = ["A","B","C","D","E"]
 
 def get_content(url):
     content = requests.get(url,headers).content
-    soup = bs(content, 'html5lib')
-    return soup
+    return bs(content, 'html5lib')
 
 def get_problem(year,level,instance,number):
     problem_url = f"{base_url}{year}_AMC_{level}{instance}_Problems/Problem_{number}"
@@ -134,5 +133,12 @@ def gather_problem(year,level,instance,problem_number,loading_json):
         print("Choice error:",id)
 
 if __name__ == "__main__":
-    test_json = {}
-    gather_problem(2016,10,"A",3,test_json)
+    for i in range(2015,2021):
+        gather_year(i,10,"A")
+        gather_year(i,10,"B")
+    gather_year(2021,10,"A")
+    gather_year(2021,10,"B")
+    gather_year("2021_Fall",10,"A")
+    gather_year("2021_Fall",10,"B")
+    gather_year(2022,10,"A")
+    gather_year(2022,10,"B")

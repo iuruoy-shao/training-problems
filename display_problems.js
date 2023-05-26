@@ -3,7 +3,7 @@ var problemHeader = document.getElementById("problem_header");
 var choices = ["A","B","C","D","E"]
 
 function loadProblem(key) {
-    fetch('/test.json')
+    fetch('/amc_10_problems.json')
         .then((result) => result.json())
         .then(
             function (problemsJson) {

@@ -8,10 +8,12 @@ text {
 
 #choices {
     width: 75vw;
-    display: flex;
+    /* display: flex; */
 }
 
 .choice {
+    margin-top: 1vh;
+    margin-bottom: 1vh;
     display: flex;
     width: 15vw;
 }

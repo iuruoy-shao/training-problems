@@ -1,14 +1,9 @@
-// new
+// 2015 onwards
 Choice error: 2015 AMC 10B #8
-Problem location error: 2017 AMC 10A #14 // \mathrm{} issue likely for this batch
+Problem location error: 2017 AMC 10A #14
 Problem location error: 2017 AMC 10A #15
 Problem location error: 2017 AMC 10A #17
 Problem location error: 2017 AMC 10A #25
-Problem location error: 2019 AMC 10A #11 
+Problem location error: 2019 AMC 10A #11
 Choice error: 2019 AMC 10B #9
-Problem location error: 2020 AMC 10A #12
 Choice error: 2020 AMC 10B #16
-Problem location error: 2021_Fall AMC 10B #20
-
-// display issues
-2015 AMC 10B #4
