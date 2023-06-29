@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Problems</title>
+{% endblock %}
+
+{% block main %}
+<header><h3 id="problem_header">
+    {{ problem }}
+</h3></header>
+<div id="problem_display">
+    {{ problem.problem_content|safe }}
+</div>
+<div id="choices">
+    {% for i in range(5) %}
+    <div class="choice">
+        <a href="">{{choices[i]}}</a>
+        ${{ problem._choices()[i] }}$
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
