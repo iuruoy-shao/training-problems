@@ -18,7 +18,7 @@ function loadProblem(key) {
                 for (let i = 0; i < 5; i++) {
                     let letter = choices[i]
                     let choiceDiv = document.getElementById(letter);
-                    choiceDiv.innerHTML += `<button>${letter}</button>`
+                    choiceDiv.innerHTML += `<a>${letter}</a>`
                     choiceDiv.innerHTML += `<div class="latex">$${answerChoices[i]}$</div>`
                 }
             }

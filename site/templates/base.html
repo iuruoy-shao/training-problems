@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>send help</title>
+        {% block title %}{% endblock %}
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -24,26 +24,6 @@
     </head>
     
     <main>
-        <header><h3 id="problem_header"></h3></header>
-        <div id="problem_display">
-            <p>
-            </p>
-        </div>
-        <div id="choices">
-            <div id="A" class="choice">
-
-            </div>
-            <div id="B" class="choice">
-
-            </div>
-            <div id="C" class="choice">
-
-            </div>
-            <div id="D" class="choice">
-
-            </div>
-            <div id="E" class="choice">
-            </div>
-        </div>
+        {% block main%}{% endblock %}
     </main>
 </html>

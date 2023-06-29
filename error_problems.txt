@@ -1,9 +1,9 @@
 // 2015 onwards
 Choice error: 2015 AMC 10B #8
-Problem location error: 2017 AMC 10A #14
-Problem location error: 2017 AMC 10A #15
-Problem location error: 2017 AMC 10A #17
-Problem location error: 2017 AMC 10A #25
-Problem location error: 2019 AMC 10A #11
+Choice error: 2017 AMC 10A #14
+Choice error: 2017 AMC 10A #15
+Choice error: 2017 AMC 10A #17
+Choice error: 2017 AMC 10A #25
+Choice error: 2019 AMC 10A #11
 Choice error: 2019 AMC 10B #9
 Choice error: 2020 AMC 10B #16

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Problems</title>
+{% endblock %}
+
+{% block main %}
+<header><h3 id="problem_header"></h3></header>
+<div id="problem_display">
+    <p>
+    </p>
+</div>
+<div id="choices">
+    {% for choice in choices%}
+    <div id=choice class="choice"></div>
+    {% endfor %}
+</div>
+{% endblock %}
