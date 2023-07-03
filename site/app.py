@@ -17,6 +17,7 @@ class Problem(db.Model):
     problem_content = db.Column(db.String(), nullable=False)
     answer = db.Column(db.String, nullable=False)
     labels = db.Column(db.String)
+    difficulty = db.Column(db.Integer)
 
     def __repr__(self):
         # return f'{self.AMC_name} Number {self.number}'

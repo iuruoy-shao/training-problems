@@ -5,13 +5,20 @@ import json
 def load_from_json(file_name):
     problems = json.load(open(file_name))
     
-    for problem in problems:
+    for problem in problems: 
         problem_to_add = Problem(
             test = json.dumps(problems[problem]['test']),
             number = problems[problem]['number'],
             problem_content = problems[problem]['problem'],
             choices = json.dumps(problems[problem]['choices']),
-            answer = json.dumps(problems[problem]['answer'])
+            answer = json.dumps(problems[problem]['answer']),
+            difficulty = json.dumps(
+                1 if problems[problem]['number'] <= 5
+                else 2 if problems[problem]['number'] <= 10
+                else 3 if problems[problem]['number'] <= 15
+                else 4 if problems[problem]['number'] <= 20
+                else 5
+            )
         )
         db.session.add(problem_to_add)
 
