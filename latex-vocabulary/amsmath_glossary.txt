@@ -1,0 +1,374 @@
+&, 29
+\!, 3, 13
+\,, 3, 13
+\:, 13
+\;, 13
+\[ ... \], 4
+\\, 4, 6, 7, 10, 11, 27, 29, 32
+\\*, 10, 11
+\|, 19
+|, 18, 19
+\above, 17, 32
+\abovewithdelims, 17
+\accentedsymbol, 2
+accents package, 15
+\addtocounter, 12, 13
+\addtolength, 6
+align environment, 4, 6, 7, 9, 26,
+31–33
+\align, 12
+alignat environment, 8, 9, 26–28
+aligned environment, 3, 4, 9, 10,
+32, 33
+alignedat environment, 4, 9, 10
+alignedleftspaceno option, 3
+alignedleftspaceyes option, 3
+alignedleftspaceyesifneg
+option, 3
+\allowdisplaybreaks, 10
+amsart class, 1, 34
+amsbook class, 1, 34
+amsbsy package, 1, 2
+amscd package, 1, 2, 23
+AMSFonts collection, 27
+amsfonts package, 24
+amsmath package, 1–34
+amsopn package, 1, 2
+amsproc class, 34
+amssymb package, 25
+amstext package, 1, 2
+amsthm package, 1, 35
+amsxtra package, 1, 2, 15
+\arccos, 20
+\arcsin, 20
+\arctan, 20
+\arg, 20
+array environment, 9, 12, 13, 29
+arrows
+extensible, 15
+in commutative diagrams, 23
+\atop, 17, 32
+\atopwithdelims, 17
+b (bottom) option, 9, 17
+BaKoMa fonts, 27
+\big, \Big, \bigg, . . . delimiters,
+18
+\biggl, 29
+\biggr, 29
+\bigl, 29
+\bigr, 29
+\binom, 16, 17
+binomials, 16
+bm package, 2, 25, 33
+Bmatrix environment, 12
+bmatrix environment, 12
+\bmod, 20
+\boldsymbol, 24, 25
+\boxed, 15
+breqn package, 33
+\C, 24
+c (center) option, 9
+cases environment, 9, 33
+\cases, 31
+CD environment, 2, 23
+\cdots, 14
+centertags option, 2
+\cfrac, 17
+cmbsy5, 27
+36
+INDEX 37
+cmex, 27
+cmex10 option, 27
+cmex7, 27
+cmmib5, 27
+commutative diagrams, 23
+comp.text.tex, 34
+continued fractions, 17
+\cos, 20
+\cosh, 20
+\cot, 20
+\coth, 20
+\csc, 20
+CTAN (Comprehensive TEX
+Archive Network), 34
+\dbinom, 16
+dcases environment, 9
+\ddddot, 15
+\dddot, 15
+\ddot, 15
+\DeclareMathOperator, 2, 19–21
+\DeclarePairedDelimiter, 19
+\deg, 20
+delimiters, 12, 13, 16–19, 25, 29
+fixed size, 18, 29
+mismatched sizes, 30
+null, 30
+\det, 20
+\dfrac, 16
+diffs-m.txt, 34
+\dim, 20
+\displaybreak, 10
+displayed equations, 3
+centering, 3
+\displaylimits, 22
+displaymath environment, 4
+\displaystyle, 9, 16
+\documentclass, 3
+\dot, 15
+dots, see ellipsis dots
+\dots, 14
+\dotsb, 14
+\dotsc, 14
+\dotsi, 14
+\dotsm, 14
+\dotso, 14
+-ed environments, 9, 32
+ellipsis dots
+in matrices, 13
+eqnarray environment, 1, 4, 29, 33
+\eqref, 11
+equation environment, 1, 4, 6, 9,
+10, 26, 33
+equation* environment, 4
+equation numbers
+cross-references, 11
+hierarchy, 11
+left or right placement, 3, 11
+overriding, 4
+subordinate numbering, 12
+vertical placement, 2
+equations, see displayed equations
+euscript package, 24
+\exp, 20
+\fbox, 15
+flalign environment, 8
+fleqn option, 3, 6
+fntguide.tex, 23
+\frac, 16, 17
+fractions, 16–17
+\fracwithdelims, 2
+function names, see operator
+names
+gather environment, 6, 7, 9, 26,
+31–33
+gathered environment, 3, 9, 10,
+32, 33
+\gcd, 20
+\genfrac, 16, 17
+\hat, 15
+\hdotsfor, 13
+\hom, 20
+horizontal spacing, 4, 13
+around operator names, 19, 21
+hyperref package, 4
+\idotsint, 22
+\iiiint, 22
+\iiint, 22
+38 INDEX
+\iint, 22
+\inf, 20
+\injlim, 20
+integrals
+multiple, 22, 33
+placement of limits, 2
+\intertext, 10, 11, 33
+intlimits option, 2, 22
+\ker, 20
+\label, 7, 12
+\langle, 18
+\ldots, 14
+\left, 17, 18, 29, 30
+\leftroot, 15
+leqno option, 3, 6
+\lg, 20
+\lim, 1, 2, 19, 20
+\liminf, 20
+limits, see subscripts and
+superscripts
+\limits, 22
+\limsup, 20
+line break, 9, 14, 29
+lineno package, 33
+\ln, 20
+\log, 19, 20
+\lVert, 18
+\lvert, 18
+math fonts, 24
+math symbols, see math fonts
+mathabx package, 33
+\mathbb, 24
+\mathbf, 24
+\mathcal, 24
+\mathfrak, 24
+\mathit, 24
+\mathrm, 21, 24
+\mathscr, 24
+\mathsf, 24
+mathtools package, 2, 9, 11, 13, 19,
+33, 35
+\mathtt, 24
+matrices, 12
+ellipsis dots, 13
+matrix environment, 12
+* variants, 13
+\matrix, 31
+\max, 20
+\mbox, 20
+\medspace, 13
+Metafont source files, 27
+\min, 20
+\mod, 20
+\mspace, 14
+multline environment, 4, 6, 33
+multlined environment, 33
+\multlinegap, 6
+namelimits option, 2
+\negmedspace, 13
+\negthickspace, 13
+\negthinspace, 13
+\newcommand, 24
+\nobreakdash, 14
+nointlimits option, 2
+\nolimits, 22
+nonamelimits option, 2
+\normalfont, 12
+nosumlimits option, 2
+\notag, 4, 6
+\numberwithin, 11, 32
+online Q & A forum, 34
+operator names, 19
+\operatorname, 20
+\operatorname*, 20
+options
+adjust positioning, 15, 17
+amsmath package options, 2–3
+behavior of particular options,
+6, 10, 13, 15, 17, 22, 27
+extra vertical space after \\,
+10
+positioning of -ed
+environments, 9, 32
+space before [, 9, 10, 32
+unknown, 31
+\over, 17, 32
+\overleftarrow, 15
+INDEX 39
+\overleftrightarrow, 15
+\overrightarrow, 15
+\overset, 16
+\overunderset, 16
+\overwithdelims, 17
+page breaks, 10
+\pagebreak, 10
+\par, 4
+pmatrix environment, 12
+\pmatrix, 31
+\pmb, 24, 25
+\pmod, 20
+\pod, 20
+PostScript fonts, 27
+\Pr, 20
+\projlim, 20
+\qed, 4
+\qedhere, 4
+\qquad, 13
+\quad, 13, 14
+\R, 24
+\raisetag, 10
+\rangle, 18
+rcases environment, 33
+\ref, 4, 12
+\ref*, 4
+\relax, 29, 33
+reqno option, 3, 6
+\right, 17, 18, 29, 30
+\rVert, 18
+\rvert, 18
+\scriptscriptstyle, 16
+\scriptstyle, 16
+\sec, 20
+\setcounter, 11–13
+\setlength, 6
+\shortintertext, 11, 33
+\shoveleft, 6
+\shoveright, 6
+\sideset, 16, 21, 22
+\sin, 1, 2, 19, 20
+\sinh, 20
+smallmatrix environment, 13
+* variants, 13
+variant delimiters, 13
+\smash, 17, 30
+\sphat, 15
+split environment, 2, 4, 6, 7, 10,
+26, 29, 31–33
+\sptilde, 15
+\stackrel, 16
+subarray environment, 21
+subeqn.tex, 4
+subequations environment, 12
+subscripts and superscripts, 16
+multiline, 21
+on sums, 21
+placement, 2
+\substack, 21
+\sum, 22, 25
+sumlimits option, 2
+\sup, 20
+superscripts, see subscripts and
+superscripts
+t (top) option, 9, 17
+tabular environment, 29
+\tag, 4
+\tag*, 4
+\tan, 20
+\tanh, 20
+\tbinom, 16
+tbtags option, 2
+technote.tex, 17, 31, 32, 34
+testmath.tex, 4
+TEX Live, 34
+TEX Users Group, 34
+\text, 2, 7, 9, 10, 20, 21
+text fragments inside math, 10, 20
+\textrm, 20
+\textstyle, 9, 16
+\tfrac, 16, 17
+\theequation, 11, 12
+\thickspace, 13
+\thinspace, 13
+TikZ package, 23
+tikz-cd package, 23
+TUGboat, 34
+40 INDEX
+\underleftarrow, 15
+\underleftrightarrow, 15
+\underrightarrow, 15
+\underset, 16
+unicode-math package, 33
+\uproot, 15
+\usepackage, 3, 27
+\value, 12
+\varDelta, 25
+\varGamma, 25
+\varinjlim, 20
+\varLambda, 25
+\varliminf, 20
+\varlimsup, 20
+\varOmega, 25
+\varPhi, 25
+\varPi, 25
+\varprojlim, 20
+\varPsi, 25
+\varSigma, 25
+\varTheta, 25
+\varUpsilon, 25
+\varXi, 25
+Vmatrix environment, 12
+vmatrix environment, 12
+\vphantom, 30
+wasysym package, 33
+www.ams.org, 34
+\xleftarrow, 15
+\xrightarrow, 15
+XY-pic package
