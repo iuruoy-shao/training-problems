@@ -6,17 +6,44 @@
 
 {% block main %}
 <header><h3 id="problem_header">
-    {{ problem }}
+    {{problem}}
 </h3></header>
 <div id="problem_display">
-    {{ problem.problem_content|safe }}
+    {{problem.problem_content|safe}}
 </div>
-<div id="choices">
-    {% for i in range(5) %}
-    <div class="choice">
-        <a href="">{{choices[i]}}</a>
-        ${{ problem._choices()[i] }}$
+
+<form action="" method="POST">
+    <div id="choices">
+        {% for i in range(5) %}
+            <div class="choice">
+                <input type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}">
+                ${{ problem._choices()[i] }}$
+            </div>
+        {% endfor %}
     </div>
-    {% endfor %}
+    {% if problem_history.completion != 1 %}
+    <input type="submit" value="Submit">
+    {% endif %}
+</form>
+
+<div id="problem_history">
+    {% if problem_history.attempts == 0 %}
+        <p>No previous attempts.</p>
+    {% else %}
+        {% for answer in problem_history._previous_answers() %}
+            <p class="answer">{{answer}}</p>
+            {% if answer == problem.answer %}
+                <p class="correct">Correct</p>
+            {% else %}
+                <p class="incorrect">Incorrect</p>
+            {% endif %}
+        {% endfor %}
+        <p>Last attempted {{problem_history.last_attempted}}</p>
+    {% endif %}
+    {% if problem_history.completion == 1 %}
+        <a href="https://artofproblemsolving.com/wiki/index.php/{{problem._test()[0]}}_AMC_{{problem._test()[1]}}{{problem._test()[2]}}_Problems/Problem_{{problem.number}}">
+            View the solution on AoPS
+        </a>
+    {% endif %}
 </div>
 {% endblock %}

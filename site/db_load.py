@@ -11,7 +11,7 @@ def load_from_json(file_name):
             number = problems[problem]['number'],
             problem_content = problems[problem]['problem'],
             choices = json.dumps(problems[problem]['choices']),
-            answer = json.dumps(problems[problem]['answer']),
+            answer = problems[problem]['answer'],
             difficulty = json.dumps(
                 1 if problems[problem]['number'] <= 5
                 else 2 if problems[problem]['number'] <= 10
