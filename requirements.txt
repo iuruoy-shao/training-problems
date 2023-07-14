@@ -2,3 +2,5 @@ bs4
 requests
 flask
 flask_sqlalchemy
+flask_login
+datetime

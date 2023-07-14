@@ -1,14 +1,15 @@
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, Blueprint, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_user, logout_user
 from datetime import datetime
 import os
 import json
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__file__)), 'amc10_problems.db')
+app.config['SECRET_KEY'] = "test"
 db = SQLAlchemy(app)
-with app.app_context():
-    db.create_all()
+login_manager = LoginManager(app)
 
 class Problem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -55,6 +56,46 @@ class ProblemHistory(db.Model):
         answers.append(f"{x}")
         self.previous_answers = json.dumps(answers)
 
+class Users(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(250), unique=True, nullable=False)
+    password = db.Column(db.String(250), nullable=False)
+
+@login_manager.user_loader
+def loader_user(user_id):
+    return Users.query.get(user_id)
+
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        if not db.session.execute(db.select(Users).where(Users.username == username)).first():
+            user = Users(username=request.form.get('username'),
+                        password=request.form.get('password'))
+            db.session.add(user)
+            db.session.commit()
+            return redirect(url_for('login'))
+        else:
+            render_template('register.html',username_unique=False)
+    return render_template('register.html',username_unique=True)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user = Users.query.filter_by(
+            username=request.form.get('username')).first()
+        if user and user.password == request.form.get('password'):
+                login_user(user)
+                return redirect(url_for('index'))
+        else:
+            return render_template('login.html',user_not_found=True)
+    return render_template('login.html',user_not_found=False)
+
 @app.route('/')
 def index():
     return redirect('/problems/1')
@@ -78,15 +119,12 @@ def render(problem_id):
         if answer == problem.answer:
             problem_history.completion = 1
         db.session.commit()
-        return render_template('display_problems.html',
-                        choices=['A','B','C','D','E'],
-                        problem=problem,
-                        problem_history=problem_history)
-    else:
-        return render_template('display_problems.html',
-                        choices=['A','B','C','D','E'],
-                        problem=problem,
-                        problem_history=problem_history)
+    if request.method == 'POST' and problem_history.completion == 1:
+        redirect(url_for('next_question'))
+    return render_template('display_problems.html',
+                    choices=['A','B','C','D','E'],
+                    problem=problem,
+                    problem_history=problem_history)
 
 if __name__ == '__main__':
     app.run(port=8000,debug=True)
