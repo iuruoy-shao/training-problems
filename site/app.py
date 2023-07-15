@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request, Blueprint, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, logout_user
+from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user
 from datetime import datetime
 import os
 import json
@@ -42,6 +42,7 @@ class ProblemHistory(db.Model):
     completion = db.Column(db.Integer, nullable=False, default=0)
     last_attempted = db.Column(db.String)
     previous_answers = db.Column(db.String)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f'id: {self.problem_id} \nattempts: {self.attempts}'
@@ -56,14 +57,15 @@ class ProblemHistory(db.Model):
         answers.append(f"{x}")
         self.previous_answers = json.dumps(answers)
 
-class Users(UserMixin, db.Model):
+class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
+    problems_history = db.relationship('ProblemHistory', backref='user', lazy='dynamic')
 
 @login_manager.user_loader
-def loader_user(user_id):
-    return Users.query.get(user_id)
+def load_user(user_id):
+    return User.query.get(user_id)
 
 @app.route("/logout")
 def logout():
@@ -74,8 +76,8 @@ def logout():
 def register():
     if request.method == 'POST':
         username = request.form.get('username')
-        if not db.session.execute(db.select(Users).where(Users.username == username)).first():
-            user = Users(username=request.form.get('username'),
+        if not db.session.execute(db.select(User).where(User.username == username)).first():
+            user = User(username=request.form.get('username'),
                         password=request.form.get('password'))
             db.session.add(user)
             db.session.commit()
@@ -87,7 +89,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        user = Users.query.filter_by(
+        user = User.query.filter_by(
             username=request.form.get('username')).first()
         if user and user.password == request.form.get('password'):
                 login_user(user)
@@ -103,12 +105,10 @@ def index():
 @app.route('/problems/<int:problem_id>', methods=['GET','POST'])
 def render(problem_id):
     problem = Problem.query.get_or_404(problem_id)
-    try:
-        problem_history = db.session.execute(db.select(ProblemHistory).where(ProblemHistory.problem_id == problem_id)).first()[0]
-    except Exception:
-        db.session.add(ProblemHistory(problem_id=problem_id))
+    if not current_user.problems_history.filter_by(problem_id=problem_id).first():
+        db.session.add(ProblemHistory(problem_id=problem_id, user_id=current_user.id))
         db.session.commit()
-        problem_history = db.session.execute(db.select(ProblemHistory).where(ProblemHistory.problem_id == problem_id)).first()[0]
+    problem_history = current_user.problems_history.filter_by(problem_id=problem_id).first()
 
     if request.method == 'POST' and problem_history.completion == 0:
         problem_history.last_attempted = datetime.now()
@@ -120,11 +120,15 @@ def render(problem_id):
             problem_history.completion = 1
         db.session.commit()
     if request.method == 'POST' and problem_history.completion == 1:
-        redirect(url_for('next_question'))
+        redirect(url_for('next_problem'))
     return render_template('display_problems.html',
                     choices=['A','B','C','D','E'],
                     problem=problem,
                     problem_history=problem_history)
+
+@app.route('/next_problem')
+def next_problem():
+    redirect('/')
 
 if __name__ == '__main__':
     app.run(port=8000,debug=True)
