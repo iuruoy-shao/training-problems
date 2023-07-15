@@ -3,3 +3,4 @@ Test this project locally by [cloning this repository](https://docs.github.com/e
 ```
 pip install -r requirements.txt
 ```
+To run the Flask app, run the [app.py](site/app.py) file and head to the localhost URL indicated in the terminal.
