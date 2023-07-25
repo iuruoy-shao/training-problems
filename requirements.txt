@@ -8,6 +8,7 @@ numpy
 streamlit
 pandas
 torch
+-f https://data.pyg.org/whl/torch-1.13.0+cpu.html
 transformers
 huggingface-hub
 tqdm
