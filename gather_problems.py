@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup as bs
 import json
 
+JSON_FILE_OUTPUT = 'amc_10_problems_with_sol.json'
+
 base_url = "https://artofproblemsolving.com/wiki/index.php/"
 headers = {
     "User-Agent" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_2) AppleWebKit/601.3.9 (KHTML, like Gecko) Version/9.0.2 Safari/601.3.9" 
@@ -19,15 +21,30 @@ def get_problem(year,level,instance,number):
 
     problem_headers = soup.find_all(name='h2')
     problem_header = [header for header in problem_headers 
-                    for string in header.strings
-                    if 'Problem' in string][0]
+                      for string in header.strings
+                      if 'Problem' in string][0]
+    solution_headers = [header for header in problem_headers 
+                        for string in header.strings
+                        if 'Solution' in string]
     
+    # Get problem text
     sibling = problem_header.find_next_sibling()
     problem_p_concat = ""
     while sibling.name != 'h2':
         problem_p_concat += str(sibling)
         sibling = sibling.find_next_sibling()
     problem_content = bs(problem_p_concat, 'html5lib')
+
+    # Get solutions text
+    solutions_p = []
+    for solution_header in solution_headers:
+        solution = ""
+        sibling = solution_header.find_next_sibling()
+        while sibling and sibling.name != 'h2':
+            if sibling.name == 'p':
+                solution += str(sibling)
+            sibling = sibling.find_next_sibling()
+        solutions_p.append(solution)
     
     latex_tags = problem_content.find_all(attrs='latex')
 
@@ -56,7 +73,7 @@ def get_problem(year,level,instance,number):
             cleanup_choices(choices)
     except Exception:
         choices = []
-    return problem_content,choices
+    return problem_content,choices,solutions_p
 
 def get_answer(year,level,instance,number):
     key_url = f'{base_url}{year}_AMC_{level}{instance}_Answer_Key'
@@ -81,7 +98,6 @@ def dissect_choices(choices):
     return split_list
    
 def cleanup_choices(split_list):
-
     for i in range(len(split_list)):
         choice = split_list[i]
         char = letter_choices[i]
@@ -108,7 +124,7 @@ def gather_problem(year,level,instance,problem_number,loading_json):
     problem_id = f"{year} AMC {level}{instance} #{problem_number}"
 
     test = year,level,instance
-    problem, choices = get_problem(year,level,instance,problem_number)
+    problem, choices, solutions = get_problem(year,level,instance,problem_number)
     answer = get_answer(year,level,instance,problem_number)
 
     test_details = {
@@ -116,17 +132,20 @@ def gather_problem(year,level,instance,problem_number,loading_json):
         "number": problem_number,
         "problem": str(problem),
         "choices": choices,
-        "answer": answer
+        "answer": answer,
+        "solutions": solutions
     }
 
     if not problem:
         print("Problem location error:",problem_id)
     if len(choices) != 5:
         print("Choice error:",problem_id)
+    if len(solutions) < 1:
+        print("No solutions found:",problem_id)
     if problem and (len(choices) == 5):
         loading_json.update({problem_id:test_details})
     
-def gather_test(year,level,instance,json_file="amc_10_problems.json"):
+def gather_test(year,level,instance,json_file=JSON_FILE_OUTPUT):
     try:
         problems_json = json.load(open(json_file,"r+"))
     except:
@@ -136,12 +155,12 @@ def gather_test(year,level,instance,json_file="amc_10_problems.json"):
         gather_problem(year,level,instance,problem_number,problems_json)
         json.dump(problems_json, open(json_file,"r+"), indent=4)
 
-def gather_two_per_year(year,level,json_file="amc_10_problems.json"):
+def gather_two_per_year(year,level,json_file=JSON_FILE_OUTPUT):
     gather_test(year,level,'A',json_file)
     gather_test(year,level,'B',json_file)
 
 if __name__ == "__main__":
-    for year in range(2015,2022):
+    for year in range(2019,2022):
         gather_two_per_year(year,10)
     gather_two_per_year('2021_Fall',10)
     gather_two_per_year(2022,10)
