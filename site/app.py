@@ -18,6 +18,7 @@ class Problem(db.Model):
     choices = db.Column(db.String)
     problem_content = db.Column(db.String(), nullable=False)
     answer = db.Column(db.String, nullable=False)
+    solutions = db.Column(db.String)
     labels = db.Column(db.String)
     difficulty = db.Column(db.Integer)
 

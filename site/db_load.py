@@ -12,6 +12,7 @@ def load_from_json(file_name):
             problem_content = problems[problem]['problem'],
             choices = json.dumps(problems[problem]['choices']),
             answer = problems[problem]['answer'],
+            solutions = json.dumps(problems[problem]['solutions']),
             difficulty = json.dumps(
                 1 if problems[problem]['number'] <= 5
                 else 2 if problems[problem]['number'] <= 10
@@ -25,5 +26,5 @@ def load_from_json(file_name):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-        load_from_json('../amc_10_problems.json')
+        load_from_json('amc_10_problems_with_sol.json')
         db.session.commit()
