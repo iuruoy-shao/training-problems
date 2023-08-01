@@ -1,4 +1,5 @@
 beautifulsoup4
+html5lib
 requests
 Flask
 Flask-SQLAlchemy
@@ -13,3 +14,4 @@ transformers
 huggingface-hub
 tqdm
 scikit-learn
+matplotlib
