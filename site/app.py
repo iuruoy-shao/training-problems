@@ -101,7 +101,10 @@ def login():
 
 @app.route('/')
 def index():
-    return redirect('/problems/1')
+    if current_user.is_authenticated:
+        return redirect('/problems/1')
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/problems/<int:problem_id>', methods=['GET','POST'])
 def render(problem_id):
