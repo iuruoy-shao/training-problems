@@ -6,3 +6,7 @@ Test this project locally by [cloning this repository](https://docs.github.com/e
 pip install -r requirements.txt
 ```
 To run the Flask app, run the [app.py](site/app.py) file and head to the localhost URL indicated in the terminal.
+
+### Model Files
+Download the most recent model file here: 
+* [top-level-with-solutions-distilbert-amc10-2019-2022](https://huggingface.co/iuruoy-shao/top-level-with-solutions-distilbert-amc10-2019-2022/tree/main)
