@@ -40,7 +40,7 @@ st.set_page_config(page_title="Categorizing AMC Problems",
                    menu_items={"About":"""This is a demonstration of our top-level categorization model for competition math problems at the highschool level.
                                The model can be found at https://huggingface.co/iuruoy-shao/top-level-distilbert-amc10-2020-2022."""})
 
-problems_data = json.load(open('amc_10_problems.json'))
+problems_data = json.load(open('../amc_10_problems.json'))
 categories = ['Miscellaneous', 'Algebra', 'Geometry', 'Number Theory', 'Counting and Probability']
 
 model = torch.load(hf_hub_download(repo_id=REPO_ID,filename=FILENAME))
@@ -48,7 +48,7 @@ device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 model.to(device)
 
 tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased',truncation_side='left',truncation=True)
-tokenizer.add_tokens(list(open('latex-vocabulary/latex_symbols.txt','r')))
+tokenizer.add_tokens(list(open('../latex-vocabulary/latex_symbols.txt','r')))
 
 def make_prediction(sequence):
     problem_input = tokenizer(strip_problem_html(sequence),return_tensors='pt').to(device)
