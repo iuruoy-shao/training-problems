@@ -16,8 +16,8 @@ from io import StringIO
 from html.parser import HTMLParser
 from bs4 import BeautifulSoup
 
-REPO_ID = 'iuruoy-shao/top-level-distilbert-amc10-2020-2022'
-FILENAME = 'top-level-distilbert-amc10-2020-2022.pt'
+REPO_ID = 'iuruoy-shao/top-level-with-solutions-distilbert-amc10-2019-2022'
+FILENAME = 'top-level-with-solutions-distilbert-amc10-2019-2022.pt'
 
 class DistilBERTClass(torch.nn.Module):
     def __init__(self, num_classes):
@@ -38,20 +38,28 @@ class DistilBERTClass(torch.nn.Module):
     
 st.set_page_config(page_title="Categorizing AMC Problems",
                    menu_items={"About":"""This is a demonstration of our top-level categorization model for competition math problems at the highschool level.
-                               The model can be found at https://huggingface.co/iuruoy-shao/top-level-distilbert-amc10-2020-2022."""})
+                               The model can be found at https://huggingface.co/iuruoy-shao/top-level-with-solutions-distilbert-amc10-2019-2022."""})
 
 problems_data = json.load(open('../amc_10_problems.json'))
 categories = ['Miscellaneous', 'Algebra', 'Geometry', 'Number Theory', 'Counting and Probability']
-
-model = torch.load(hf_hub_download(repo_id=REPO_ID,filename=FILENAME))
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
-model.to(device)
 
-tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased',truncation_side='left',truncation=True)
+model = DistilBERTClass(num_classes=5)
+model.to(device)
+model = torch.load(hf_hub_download(repo_id=REPO_ID,filename=FILENAME))
+
+tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased',truncation_side='left',truncation=True,max_length=256,pad_to_max_length=True,add_special_tokens=True)
 tokenizer.add_tokens(list(open('../latex-vocabulary/latex_symbols.txt','r')))
 
 def make_prediction(sequence):
-    problem_input = tokenizer(strip_problem_html(sequence),return_tensors='pt').to(device)
+    problem_input = tokenizer.encode_plus(
+        strip_problem_html(sequence),
+        None,
+        add_special_tokens=True,
+        max_length=256,
+        pad_to_max_length=True,
+        return_tensors="pt").to(device)
+    
     outputs = []
     outputs.extend(torch.sigmoid(model(**problem_input)).cpu().detach().numpy().tolist())
     outputs = np.array(outputs) >= 0.5
@@ -110,7 +118,7 @@ strip_problem_html = lambda x: strip_tags(get_latex_from_alt(x))
 
 with results:
     if categorize:
-        st.caption("""Note: data was trained on problems after 2019
+        st.caption("""Note: data was trained on problems after 2018
              ––those will have predictions of greater accuracy.
              """)
         predictions = make_prediction(problem_content)[0]
