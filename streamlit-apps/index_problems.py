@@ -5,6 +5,7 @@ import torch
 import json
 import sys
 import os
+from pathlib import Path
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -45,7 +46,7 @@ st.set_page_config(page_title="Categorizing AMC Problems",
                    menu_items={"About":"""This is a demonstration of our top-level categorization model for competition math problems at the highschool level.
                                The model can be found at https://huggingface.co/iuruoy-shao/top-level-with-solutions-distilbert-amc10-2019-2022."""})
 
-problems_data = json.load(open('../amc_10_problems_with_sol.json'))
+problems_data = json.load(open(Path(__file__).parent.parent / 'amc_10_problems_with_sol.json'))
 categories = ['Miscellaneous', 'Algebra', 'Geometry', 'Number Theory', 'Counting and Probability']
 device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
 
@@ -54,7 +55,7 @@ model.to(device)
 model = torch.load(hf_hub_download(repo_id=REPO_ID,filename=FILENAME))
 
 tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased',truncation_side='left',truncation=True,max_length=256,pad_to_max_length=True,add_special_tokens=True)
-tokenizer.add_tokens(list(open('../latex-vocabulary/latex_symbols.txt','r')))
+tokenizer.add_tokens(list(open(Path(__file__).parent.parent / 'latex-vocabulary/latex_symbols.txt','r')))
 
 def make_prediction(sequence):
     problem_input = tokenizer.encode_plus(
