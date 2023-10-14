@@ -52,7 +52,7 @@ device = torch.device("cpu")
 
 model = DistilBERTClass(num_classes=5)
 model.to(device)
-model = torch.load(hf_hub_download(repo_id=REPO_ID,filename=FILENAME))
+model = torch.load(hf_hub_download(repo_id=REPO_ID,filename=FILENAME),map_location=device)
 
 tokenizer = DistilBertTokenizer.from_pretrained('distilbert-base-uncased',truncation_side='left',truncation=True,max_length=256,pad_to_max_length=True,add_special_tokens=True)
 tokenizer.add_tokens(list(open(Path(__file__).parent.parent / 'latex-vocabulary/latex_symbols.txt','r')))
