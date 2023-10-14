@@ -66,8 +66,10 @@ def make_prediction(sequence):
         pad_to_max_length=True,
         return_tensors="pt").to(device)
     
-    outputs = []
-    outputs.extend(torch.sigmoid(model(**problem_input)).cpu().detach().numpy().tolist())
+    with torch.no_grad():
+        outputs = model(**problem_input)
+    fin_outputs = []
+    fin_outputs.extend(torch.sigmoid(outputs).cpu().detach().numpy().tolist())
     outputs = np.array(outputs) >= 0.5
     
     return [[1 if value else 0 for value in output] for output in outputs]
@@ -110,10 +112,13 @@ strip_problem_html = lambda x: strip_tags(get_latex_from_alt(x))
 with problem:
     st.title("Categorize AMC Problems")
 
-    tests = [[year,10,instance] for year in [2015, 2016, 2017, 2018, 2019, 2020, 2021, "2021_Fall", 2022] for instance in ["A","B"]][::-1]
+    st.caption("""Note: data was trained on problems after 2018
+             ––those are not featured.""")
+
+    tests = [[year,10,instance] for year in [2015, 2016, 2017, 2018] for instance in ["A","B"]][::-1]
     tests_display = [f"{test[0]} AMC 10{test[2]}".replace("_"," ") for test in tests]
 
-    test_index = tests_display.index(st.selectbox(label="Test", options=tests_display, index=17))
+    test_index = tests_display.index(st.selectbox(label="Test", options=tests_display, index=0))
     test = tests[test_index]
     problem_number = st.selectbox(label="Problem Number", 
                                   index=15,
@@ -131,9 +136,6 @@ with problem:
 
 with results:
     if categorize:
-        st.caption("""Note: data was trained on problems after 2018
-             ––those will have predictions of greater accuracy.
-             """)
         predictions = make_prediction(problem_content)[0]
         labels = pd.Series(data=predictions,
                            index=["Miscellaneous","Algebra","Geometry","Number Theory","Counting & Probability"],
