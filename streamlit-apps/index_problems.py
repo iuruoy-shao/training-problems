@@ -48,7 +48,8 @@ st.set_page_config(page_title="Categorizing AMC Problems",
 
 problems_data = json.load(open(Path(__file__).parent.parent / 'amc_10_problems_with_sol.json'))
 categories = ['Miscellaneous', 'Algebra', 'Geometry', 'Number Theory', 'Counting and Probability']
-device = torch.device("mps" if torch.backends.mps.is_available() else "cpu")
+device_name = "mps" if torch.backends.mps.is_available() else "cpu"
+device = torch.device(device_name)
 
 model = DistilBERTClass(num_classes=5)
 model.to(device)
