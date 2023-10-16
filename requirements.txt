@@ -10,7 +10,7 @@ streamlit
 pandas
 -f https://data.pyg.org/whl/torch-1.13.0+cpu.html
 torch
-transformers
+transformers==4.28.0
 huggingface-hub
 tqdm
 scikit-learn
