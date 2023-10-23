@@ -12,6 +12,7 @@ app.config['SECRET_KEY'] = "test"
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 
+# Converts labels from [0,0,0,0,0] format to list of labels (ex: ['Algebra','Geometry'])
 label_to_categories = lambda labels: [AllStatistics.query.first().category_names()[i] for i, label in enumerate(labels) if label]
 
 # Stores the category/label names and the number of problems in that category in a dictionary.
@@ -57,7 +58,11 @@ class Problem(db.Model):
         return self._choices[['A','B','C','D','E'].index(letter)]
     def _labels(self):
         return json.loads(self.labels)
-
+    def label_names(self):
+        return label_to_categories(self._labels)
+    def in_category(self,category):
+        return category in self.label_names()
+    
 class ProblemHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     problem_id = db.Column(db.Integer, nullable=False)
@@ -95,10 +100,12 @@ class User(UserMixin, db.Model):
     def mastery(self, category):
         MASTERY = 5
         n = 0
-        for problem_history in self.problem_history.query.filter_by(attempts=0).all():
+        for problem_history in self.problem_history.query.filter(self.problems_history.attempts > 0).all():
             problem = Problem.query.get_or_404(problem_history.problem_id)
             n+=1 if (category in label_to_categories(problem._labels)) and (problem.difficulty > 3) else 0
         return n >= MASTERY
+    
+    # status is 0 when category is untouched, 1 if decreasing in performance, 2 if increasing in performance, and 3 if mastered
     def update_cat_score(self,category,score):
         performance = self._performance()
         c = performance[category]['completed']
@@ -117,9 +124,15 @@ class User(UserMixin, db.Model):
         performance = self._performance()
         performance[category]['completed'] += n
         self.performance = performance
-    def average_cat_difficulty(self,category): 
-        # returns the problem difficulties of the last 1-3 problems
-        pass
+    def get_last_attempted(self,n=3,*categories):
+        """
+        Gathers at most n last attempted problem ids in categories
+        """
+        # checks for intersection between problem labels and desired categories
+        query = any(set(self.problems_history.problem_id).label_names()) & set(categories) 
+        
+        return self.problems_history.query.filter(
+            Problem.query.get_or_404(query).order_by(self.problems_history.last_attempted.desc()).limit(n))
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -209,9 +222,44 @@ def recommend_problem():
         if current_user._performance()[category]['status'] < 3:
             categories.append(category)
             weights.append(current_user._performance()[category]['score'])
-    next_category = random.choices(categories, weights)
-    match current_user._performance()['status']:
-        case 1
+    category = random.choices(categories,weights)
+    
+    # Picks a problem with difficulty matching the status
+    last_attempted = current_user.get_last_attempted(category,n=1)
+    if last_attempted:
+        last_completed_difficulty = Problem.query.get_or_404(last_attempted[0].problem_id).difficulty
+        match current_user._performance()[category]['status']:
+            case 1:
+                difficulty = last_completed_difficulty - 1 if last_completed_difficulty > 1 else 1
+            case 2:
+                difficulty = last_completed_difficulty + 1 if last_completed_difficulty < 5 else 5
+    else:
+        difficulty = 3
+    next_problem_id = query_problems(category, difficulty=difficulty)
+    redirect(url_for(render, problem_id = next_problem_id))
+
+
+def query_problems(category, difficulty=3, approx_difficulty=True, allow_completed=True):
+    """
+    Returns the id of a problem with the given category
+    approx_difficulty: if none with the given difficulty could be found, one of the closest difficulty will be used
+    allow_completed: if none incompleted could be found, one that is completed will be picked
+    """
+    filter_difficulties = lambda x : Problem.query.filter(Problem.in_category(category),
+                                    Problem.difficulty in x,
+                                    current_user.problems_history.filter_by(problem_id=Problem.id).first().attempts > 0).all()
+    difficulties = [difficulty]
+    filtered = filter_difficulties(difficulties)
+
+    while not filtered and {1, 2, 3, 4, 5}.issubset(difficulties):
+        difficulties.append(max(difficulties)+1)
+        difficulties.append(min(difficulties)-1)
+        filtered = filter_difficulties(difficulties)
+    
+    if not filtered:
+        return random.choice(Problem.query.filter(Problem.in_category(category)).all()).id
+    else:
+        return random.choice(filtered).id
 
 if __name__ == '__main__':
     app.run(port=8000,debug=True)
