@@ -1,13 +1,25 @@
-text {
+p {
     font-family: "Roboto", sans-serif;
+    color: rgb(0, 0, 0);
 }
 
 #problem_display {
-    width: 75vw;
+    width: 60vw;
+    border: 2px solid #000; /* Black border */
+    padding: 10px;
+    margin: 10px;
+   /*display: inline-block;*/
+
+    float: left; /* Float the problem display to the left */
 }
 
+
 #choices {
-    width: 75vw;
+    width: 25vw;
+    border: 2px solid #000; /* Black border */
+    padding: 10px;
+    margin: 10px;
+    display: inline-block;
     /* display: flex; */
 }
 
@@ -16,9 +28,63 @@ text {
     margin-bottom: 1vh;
     display: flex;
     width: 15vw;
+
+    float: left; /* Float the problem display to the left */
+    width: 60%; /* Adjust the width as needed */
 }
 
 .choice button {
     margin-left: .5em;
     margin-right: .5em;
+}
+
+header {
+  background-color: #ffffff; /* Background color for the header */
+  color: rgb(0, 0, 0); /* Text color for the header */
+  text-align: left; 
+  padding: 10px; /* Add padding to the header */
+}
+
+/* Reset default margin and padding */
+body, ul {
+  margin: 0;
+  padding: 0;
+}
+
+/* Define the navigation bar styles */
+.navbar {
+  background-color: #333; /* Background color */
+  overflow: hidden;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.navbar li {
+  margin: 0;
+  padding: 0;
+}
+
+.navbar a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 20px 22px;
+  text-decoration: none;
+}
+
+.navbar a:hover {
+  background-color: #555; /* Background color on hover */
+}
+
+/* preventing layout issues */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
 }

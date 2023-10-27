@@ -6,8 +6,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <link rel="stylesheet" href="/style.css"/>
-        <script src="/display_problems.js" defer></script>
+        <link rel="stylesheet" href="{{url_for('static', filename='CSS/style.css')}}"/>
+        <!-- <script src="/display_problems.js" defer></script> -->
         <script>
             MathJax = {
               tex: {
@@ -24,7 +24,7 @@
     </head>
     
     <main>
-        <nav>   
+        <nav class="navbar">   
             <ul>
                 <li><a>Problems</a></li>
                 <li><a href="/login">Login / Switch Account</a></li>
