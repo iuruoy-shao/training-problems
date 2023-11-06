@@ -94,7 +94,7 @@ class User(UserMixin, db.Model):
     performance = db.Column(db.String(2000), nullable=False)
     
     def _performance(self,category=None):
-        parsed_performance = json.dumps(self.performance)
+        parsed_performance = json.dumps(self.performance.replace("\'", "\""))
         return parsed_performance[category] if category else parsed_performance
     def mastery(self, category):
         MASTERY = 5
@@ -148,7 +148,9 @@ def register():
         username = request.form.get('username')
         if not db.session.execute(db.select(User).where(User.username == username)).first():
             user = User(username=request.form.get('username'),
-                        password=request.form.get('password'))
+                        password=request.form.get('password'),
+                        performance = str({category : {"score":50.0,"status":0,"completed":0} 
+                                           for category in AllStatistics.query.first().category_names()}))
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('login'))
