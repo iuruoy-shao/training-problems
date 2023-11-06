@@ -17,19 +17,20 @@ label_to_categories = lambda labels: [AllStatistics.query.first().category_names
 
 # Stores the category/label names and the number of problems in that category in a dictionary.
 class AllStatistics(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
     category_counts = db.Column(db.String, nullable=False, 
-                                default="{Miscellaneous: 0, Algebra: 0, Geometry: 0, Number Theory: 0, Combinatorics: 0}")
+                                default=json.dumps({"Miscellaneous": 0, "Algebra": 0, "Geometry": 0, "Number Theory": 0, "Combinatorics": 0}))
 
     def _category_counts(self):
-        return json.loads(self.category_counts)
+        return json.loads(self.category_counts.replace("\'", "\""))
     def num_categories(self):
-        return len(self._category_counts)
+        return len(self._category_counts())
     def category_names(self):
-        return self._category_counts.keys()
+        return self._category_counts().keys()
     def update_counts(self):
-        counts = [0 for _ in self.num_categories]
+        counts = {"Miscellaneous": 0, "Algebra": 0, "Geometry": 0, "Number Theory": 0, "Combinatorics": 0}
         for problem in Problem.query.all():
-            counts = {category: problem._labels[i] + counts[category] for i, category in enumerate(self._category_counts.keys())}
+            counts = {category: counts[category] + problem._labels()[i] for i, category in enumerate(self._category_counts().keys())}
         self.category_counts = str(counts)
     def count_of(self,category):
         return self._category_counts()[category]
@@ -90,9 +91,7 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
     problems_history = db.relationship('ProblemHistory', backref='user', lazy='dynamic')
-    performance = db.Column(db.String(2000), nullable=False, 
-                            default=str({category : {'score':50.0,'status':0,'completed':0} 
-                                         for category in AllStatistics.query.first().category_names()}))
+    performance = db.Column(db.String(2000), nullable=False)
     
     def _performance(self,category=None):
         parsed_performance = json.dumps(self.performance)
