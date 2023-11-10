@@ -206,7 +206,7 @@ def render(problem_id):
         if answer == problem.answer:
             problem_history.completion = 1
         db.session.commit()
-    if request.method == 'POST' and problem_history.completion == 1:
+    if request.method == 'POST' and request.form.get("Next Problem"):
         return redirect(url_for('next_problem', ph_id = problem_history.id))
     return render_template('display_problems.html',
                     choices=['A','B','C','D','E'],
