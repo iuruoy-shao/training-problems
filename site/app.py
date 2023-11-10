@@ -188,7 +188,7 @@ def index():
         return redirect(url_for('login'))
     try:
         problem_id = current_user.get_last_attempted(n=1)[0].id
-    except:
+    except Exception:
         problem_id = 1
     return redirect(f'/problems/{problem_id}')
 
