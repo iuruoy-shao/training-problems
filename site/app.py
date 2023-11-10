@@ -186,8 +186,11 @@ def login():
 def index():
     if not current_user.is_authenticated:
         return redirect(url_for('login'))
-    last_attempted = current_user.get_last_attempted(n=1)[0].id
-    return redirect(f'/problems/{last_attempted}')
+    try:
+        problem_id = current_user.get_last_attempted(n=1)[0].id
+    except:
+        problem_id = 1
+    return redirect(f'/problems/{problem_id}')
 
 @app.route('/problems/<int:problem_id>', methods=['GET','POST'])
 def render(problem_id):
