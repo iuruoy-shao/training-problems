@@ -1,7 +1,9 @@
 from flask import Flask, render_template, redirect, request, Blueprint, url_for
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import any_
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user
 from datetime import datetime
+from operator import attrgetter
 import random
 import os
 import json
@@ -26,7 +28,7 @@ class AllStatistics(db.Model):
     def num_categories(self):
         return len(self._category_counts())
     def category_names(self):
-        return self._category_counts().keys()
+        return list(self._category_counts().keys())
     def update_counts(self):
         counts = {"Miscellaneous": 0, "Algebra": 0, "Geometry": 0, "Number Theory": 0, "Combinatorics": 0}
         for problem in Problem.query.all():
@@ -60,7 +62,7 @@ class Problem(db.Model):
     def _labels(self):
         return json.loads(self.labels)
     def label_names(self):
-        return label_to_categories(self._labels)
+        return label_to_categories(self._labels())
     def in_category(self,category):
         return category in self.label_names()
     
@@ -94,14 +96,14 @@ class User(UserMixin, db.Model):
     performance = db.Column(db.String(2000), nullable=False)
     
     def _performance(self,category=None):
-        parsed_performance = json.dumps(self.performance.replace("\'", "\""))
+        parsed_performance = json.loads(self.performance.replace("\'", "\""))
         return parsed_performance[category] if category else parsed_performance
     def mastery(self, category):
         MASTERY = 5
         n = 0
-        for problem_history in self.problem_history.query.filter(self.problems_history.attempts > 0).all():
+        for problem_history in self.problems_history.filter(ProblemHistory.attempts > 0).all():
             problem = Problem.query.get_or_404(problem_history.problem_id)
-            n+=1 if (category in label_to_categories(problem._labels)) and (problem.difficulty > 3) else 0
+            n+=1 if (category in label_to_categories(problem._labels())) and (problem.difficulty > 3) else 0
         return n >= MASTERY
     
     # status is 0 when category is untouched, 1 if decreasing in performance, 2 if increasing in performance, and 3 if mastered
@@ -112,26 +114,36 @@ class User(UserMixin, db.Model):
         s = (score + performance[category]['score']*c)/(c+1)
         performance[category]['score'] = s
         if performance[category]['status'] < 3:
-            if self.mastery():
+            if self.mastery(category):
                 performance[category]['status'] = 3
             elif s < s0:
                 performance[category]['status'] = 1
             elif s > s0:
                 performance[category]['status'] = 2
-        self.performance = performance
+        self.performance = json.dumps(performance)
     def update_cat_completion(self,category,n=1):
         performance = self._performance()
         performance[category]['completed'] += n
-        self.performance = performance
+        self.performance = json.dumps(performance)
     def get_last_attempted(self,n=3,*categories):
         """
         Gathers at most n last attempted problem ids in categories
         """
-        # checks for intersection between problem labels and desired categories
-        query = any(set(self.problems_history.problem_id).label_names()) & set(categories) 
-        
-        return self.problems_history.query.filter(
-            Problem.query.get_or_404(query).order_by(self.problems_history.last_attempted.desc()).limit(n))
+        if not categories:
+            return [
+                Problem.query.get_or_404(item.problem_id)
+                for item in self.problems_history
+                .order_by(ProblemHistory.last_attempted.desc())
+                .limit(n)
+            ]
+        in_category = [
+            problem_history
+            for problem_history in self.problems_history.all()
+            if (set(Problem.query.get_or_404(problem_history.problem_id).label_names()) & {categories})
+        ]
+        # return [in_category.order_by(ProblemHistory.last_attempted.desc()).limit(n)]
+        # return max(in_category,key=attrgetter('last_attempted'))
+        return sorted(enumerate(in_category), key=attrgetter('last_attempted'))[:n]
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -172,10 +184,10 @@ def login():
 
 @app.route('/')
 def index():
-    if current_user.is_authenticated:
-        return redirect('/problems/1')
-    else:
+    if not current_user.is_authenticated:
         return redirect(url_for('login'))
+    last_attempted = current_user.get_last_attempted(n=1)[0].id
+    return redirect(f'/problems/{last_attempted}')
 
 @app.route('/problems/<int:problem_id>', methods=['GET','POST'])
 def render(problem_id):
@@ -195,7 +207,7 @@ def render(problem_id):
             problem_history.completion = 1
         db.session.commit()
     if request.method == 'POST' and problem_history.completion == 1:
-        redirect(url_for('next_problem', ph_id = problem_history.id))
+        return redirect(url_for('next_problem', ph_id = problem_history.id))
     return render_template('display_problems.html',
                     choices=['A','B','C','D','E'],
                     problem=problem,
@@ -203,7 +215,7 @@ def render(problem_id):
 
 @app.route('/next_problem/<int:ph_id>')
 def next_problem(ph_id):
-    problem_history = current_user.problems_history.query.get_or_404(ph_id)
+    problem_history = current_user.problems_history.filter_by(id=ph_id).first()
     problem = Problem.query.get_or_404(problem_history.problem_id)
     labels = problem._labels()
     problem_score = (5-problem_history.attempts)*25 * (1 + (problem.difficulty - 1)*.25)
@@ -211,8 +223,9 @@ def next_problem(ph_id):
     for label in label_to_categories(labels):
         current_user.update_cat_score(label,problem_score)
         current_user.update_cat_completion(label)
+        db.session.commit()
     
-    redirect(url_for('recommend_problem'))
+    return redirect(url_for('recommend_problem'))
 
 @app.route('/recommend')
 def recommend_problem():
@@ -223,10 +236,12 @@ def recommend_problem():
         if current_user._performance()[category]['status'] < 3:
             categories.append(category)
             weights.append(current_user._performance()[category]['score'])
-    category = random.choices(categories,weights)
+    category = random.choices(categories,weights)[0]
+    print(category)
     
     # Picks a problem with difficulty matching the status
-    last_attempted = current_user.get_last_attempted(category,n=1)
+    last_attempted = current_user.get_last_attempted(1,category)
+    print(last_attempted)
     if last_attempted:
         last_completed_difficulty = Problem.query.get_or_404(last_attempted[0].problem_id).difficulty
         match current_user._performance()[category]['status']:
@@ -237,7 +252,8 @@ def recommend_problem():
     else:
         difficulty = 3
     next_problem_id = query_problems(category, difficulty=difficulty)
-    redirect(url_for(render, problem_id = next_problem_id))
+    print(next_problem_id)
+    return redirect(url_for('render', problem_id = next_problem_id))
 
 
 def query_problems(category, difficulty=3, approx_difficulty=True, allow_completed=True):
@@ -246,9 +262,14 @@ def query_problems(category, difficulty=3, approx_difficulty=True, allow_complet
     approx_difficulty: if none with the given difficulty could be found, one of the closest difficulty will be used
     allow_completed: if none incompleted could be found, one that is completed will be picked
     """
-    filter_difficulties = lambda x : Problem.query.filter(Problem.in_category(category),
-                                    Problem.difficulty in x,
-                                    current_user.problems_history.filter_by(problem_id=Problem.id).first().attempts > 0).all()
+    # filter_difficulties = lambda x : Problem.query.filter(Problem.in_category(category),
+    #                                                       Problem.difficulty in x,
+    #                                                       current_user.problems_history.filter_by(problem_id=Problem.id).first().attempts > 0).all()
+    filter_difficulties = lambda x : [problem for problem in Problem.query.all() 
+                                      if problem.in_category(category) 
+                                      and problem.difficulty in x 
+                                      and (not current_user.problems_history.filter_by(problem_id=problem.id).first() 
+                                           or not current_user.problems_history.filter_by(problem_id=problem.id).first().completion)]
     difficulties = [difficulty]
     filtered = filter_difficulties(difficulties)
 
@@ -258,7 +279,7 @@ def query_problems(category, difficulty=3, approx_difficulty=True, allow_complet
         filtered = filter_difficulties(difficulties)
     
     if not filtered:
-        return random.choice(Problem.query.filter(Problem.in_category(category)).all()).id
+        return random.choice(Problem.query.filter(Problem.in_category(Problem, category)).all()).id
     else:
         return random.choice(filtered).id
 
