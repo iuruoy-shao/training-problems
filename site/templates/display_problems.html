@@ -15,18 +15,54 @@
 <form action="" method="POST">
     <div id="choices">
         {% for i in range(5) %}
-            <div class="choice">
-                <input type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}">
+            
+        <div class="choice">
+                {% if choices[i] in problem_history._previous_answers() or problem_history.completion %}
+                    {% if choices[i] == problem.answer %}
+                        <svg class="radio" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+                            <style type="text/css">
+                                .st0{fill:#82c456;}
+                            </style>
+                            <path class="st0" d="M20.3,2L9,13.6l-5.3-5L0,12.3L9,21L24,5.7L20.3,2z"/>
+                        </svg>
+                        <input class="correct_choice" type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}" disabled>
+                    {% elif choices[i] in problem_history._previous_answers() %}
+                        <svg class="radio" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 256 256" style="enable-background:new 0 0 256 256;" xml:space="preserve">
+                            <style type="text/css">
+                                .st1{fill:#EC0000;}
+                            </style>
+                            <g transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
+                                <path class="st1" d="M72.2,86.5L4.4,18.7c-2-2-2-5.3,0-7.3l7.8-7.8c2-2,5.3-2,7.3,0l67.8,67.8c2,2,2,5.3,0,7.3l-7.8,7.8
+                                    C77.5,88.5,74.2,88.5,72.2,86.5z"/>
+                            </g>
+                            <g transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)">
+                            <path class="st1" d="M4.4,71.4L72.2,3.6c2-2,5.3-2,7.3,0l7.8,7.8c2,2,2,5.3,0,7.3L19.5,86.5c-2,2-5.3,2-7.3,0l-7.8-7.8
+                                C2.4,76.7,2.4,73.4,4.4,71.4z"/>
+                        </g>
+                        </svg>
+                        <input class="incorrect_choice" type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}" disabled>
+                    {% else %}
+                        <input type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}" disabled>
+                    {% endif %}
+                {% else %}
+                    <input type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}">
+                {% endif %}
                 ${{ problem._choices()[i] }}$
             </div>
+            
         {% endfor %}
     </div>
     {% if problem_history.completion != 1 %}
-    <input type="submit" value="Submit">
+        <input type="submit" value="Submit">
+    {% else %}
+        <input type="submit" value="Submit" disabled>
+    {% endif %}
+    {% if problem_history._previous_answers() %}
+        <p>{{"Correct" if problem_history._previous_answers()[-1] == problem.answer else "Incorrect"}}</p>
     {% endif %}
 </form>
 
-<div id="problem_history">
+<!-- <div id="problem_history">
     {% if problem_history.attempts == 0 %}
         <p>No previous attempts.</p>
     {% else %}
@@ -48,5 +84,5 @@
             <input type="submit" value="Next Problem" name="Next Problem">
         </form>
     {% endif %}
-</div>
+</div> -->
 {% endblock %}

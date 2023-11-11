@@ -33,6 +33,20 @@ p {
     width: 60%; /* Adjust the width as needed */
 }
 
+/* Changes color of radio button depending on response */
+[type=radio].correct_choice:disabled, [type=radio].incorrect_choice:disabled {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+svg.radio {
+    display: inline-block;
+    margin: 3px 3px 0px 5px;
+    width: 15px;
+    height: inherit;
+}
+
 .choice button {
     margin-left: .5em;
     margin-right: .5em;
