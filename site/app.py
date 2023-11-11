@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user
+from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from datetime import datetime
 from operator import attrgetter
 import random
@@ -12,6 +12,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.path.absp
 app.config['SECRET_KEY'] = "test"
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
+login_manager.login_view = 'login'
 
 # Converts labels from [0,0,0,0,0] format to list of labels (ex: ['Algebra','Geometry'])
 label_to_categories = lambda labels: [AllStatistics.query.first().category_names()[i] for i, label in enumerate(labels) if label]
@@ -183,9 +184,8 @@ def login():
     return render_template('login.html',user_not_found=False)
 
 @app.route('/')
+@login_required
 def index():
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
     try:
         problem_id = current_user.get_last_attempted(n=1)[0].id
     except Exception:
@@ -193,6 +193,7 @@ def index():
     return redirect(f'/problems/{problem_id}')
 
 @app.route('/problems/<int:problem_id>', methods=['GET','POST'])
+@login_required
 def render(problem_id):
     problem = Problem.query.get_or_404(problem_id)
     if not current_user.problems_history.filter_by(problem_id=problem_id).first():
@@ -217,6 +218,7 @@ def render(problem_id):
                     problem_history=problem_history)
 
 @app.route('/next_problem/<int:ph_id>')
+@login_required
 def next_problem(ph_id):
     problem_history = current_user.problems_history.filter_by(id=ph_id).first()
     problem = Problem.query.get_or_404(problem_history.problem_id)
@@ -231,6 +233,7 @@ def next_problem(ph_id):
     return redirect(url_for('recommend_problem'))
 
 @app.route('/recommend')
+@login_required
 def recommend_problem():
     # picks category based on weighted probability and non-mastery
     categories = []
