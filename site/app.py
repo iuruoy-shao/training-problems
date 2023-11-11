@@ -1,6 +1,5 @@
-from flask import Flask, render_template, redirect, request, Blueprint, url_for
+from flask import Flask, render_template, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import any_
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user
 from datetime import datetime
 from operator import attrgetter
@@ -85,7 +84,8 @@ class ProblemHistory(db.Model):
             return []
     def append_answer(self,x):
         answers = self._previous_answers()
-        answers.append(f"{x}")
+        if x not in answers:
+            answers.append(f"{x}")
         self.previous_answers = json.dumps(answers)
 
 class User(UserMixin, db.Model):
