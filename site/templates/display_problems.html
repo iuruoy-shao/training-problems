@@ -52,14 +52,24 @@
             
         {% endfor %}
     </div>
-    {% if problem_history.completion != 1 %}
-        <input type="submit" value="Submit">
-    {% else %}
-        <input type="submit" value="Submit" disabled>
-    {% endif %}
-    {% if problem_history._previous_answers() %}
-        <p>{{"Correct" if problem_history._previous_answers()[-1] == problem.answer else "Incorrect"}}</p>
-    {% endif %}
+    <div>
+        {% if problem_history.completion != 1 %}
+            <input type="submit" value="Submit">
+        {% endif %}
+        {% if problem_history._previous_answers() %}
+            <p>{{"Correct" if problem_history._previous_answers()[-1] == problem.answer else "Incorrect"}}</p>
+        {% endif %}
+    </div>
+    <div>
+        {% if problem_history.completion == 1 %}
+            <form method="post">
+                <input type="submit" value="Next Problem" name="Next Problem">
+            </form>
+            <a href="https://artofproblemsolving.com/wiki/index.php/{{problem._test()[0]}}_AMC_{{problem._test()[1]}}{{problem._test()[2]}}_Problems/Problem_{{problem.number}}">
+                View the solution on AoPS
+            </a>
+        {% endif %}
+    </div>
 </form>
 
 <!-- <div id="problem_history">
