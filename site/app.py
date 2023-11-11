@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from datetime import datetime
 from operator import attrgetter
+import werkzeug
 import random
 import os
 import json
@@ -87,6 +88,8 @@ class ProblemHistory(db.Model):
         answers = self._previous_answers()
         if x not in answers:
             answers.append(f"{x}")
+            self.last_attempted = datetime.now()
+            self.attempts += 1
         self.previous_answers = json.dumps(answers)
 
 class User(UserMixin, db.Model):
@@ -202,14 +205,14 @@ def render(problem_id):
     problem_history = current_user.problems_history.filter_by(problem_id=problem_id).first()
 
     if request.method == 'POST' and problem_history.completion == 0:
-        problem_history.last_attempted = datetime.now()
-        problem_history.attempts += 1
-
-        answer = request.form['choices']
-        problem_history.append_answer(answer)
-        if answer == problem.answer:
-            problem_history.completion = 1
-        db.session.commit()
+        try:
+            answer = request.form['choices']
+            problem_history.append_answer(answer)
+            if answer == problem.answer:
+                problem_history.completion = 1
+            db.session.commit()
+        except werkzeug.exceptions.BadRequestKeyError:
+            pass
     if request.method == 'POST' and request.form.get("Next Problem"):
         return redirect(url_for('next_problem', ph_id = problem_history.id))
     return render_template('display_problems.html',
