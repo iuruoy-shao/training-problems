@@ -12,6 +12,17 @@
     {{problem.problem_content|safe}}
 </div>
 
+</div>
+    <form method="POST">
+        <ul id="category_selection">
+            {% for category in allstatistics.category_names() %}
+                <li><input type="checkbox" value="{{category}}" name="categories" {{'checked' if category in current_user._preferred_categories() else ''}}>{{category}}</li>
+            {% endfor %}
+            <input type="submit" value="Apply to Next Problem">
+        </ul>
+    </form>
+</div>
+
 <form action="" method="POST">
     <div id="choices">
         {% for i in range(5) %}
