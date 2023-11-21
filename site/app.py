@@ -148,12 +148,12 @@ class User(UserMixin, db.Model):
             ]
         in_category = [
             problem_history
-            for problem_history in self.problems_history.all()
-            if (set(Problem.query.get_or_404(problem_history.problem_id).label_names()) & {categories})
+            for problem_history in self.problems_history
+            if (set(Problem.query.get_or_404(problem_history.problem_id).label_names()) & set(categories))
         ]
         # return [in_category.order_by(ProblemHistory.last_attempted.desc()).limit(n)]
         # return max(in_category,key=attrgetter('last_attempted'))
-        return sorted(enumerate(in_category), key=attrgetter('last_attempted'))[:n]
+        return sorted(in_category, key=attrgetter('last_attempted'))[:n]
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -282,11 +282,10 @@ def recommend_problem():
         # Makes weights the distance between a score and twice the greatest score (adjusted as percentages)
         weights = [2-float(score)/max(scores) for score in scores]
     category = random.choices(categories,weights)[0]
-    print(category)
 
     # Picks a problem with difficulty matching the status
     last_attempted = current_user.get_last_attempted(1,category)
-    print(last_attempted)
+
     if last_attempted:
         last_completed_difficulty = Problem.query.get_or_404(last_attempted[0].problem_id).difficulty
         match current_user._performance()[category]['status']:
@@ -297,7 +296,7 @@ def recommend_problem():
     else:
         difficulty = 3
     next_problem_id = query_problems(category, difficulty=difficulty)
-    print(next_problem_id)
+
     return redirect(url_for('render', problem_id = next_problem_id))
 
 
