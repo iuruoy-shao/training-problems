@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from datetime import datetime
 from operator import attrgetter
+import validate_email
 import werkzeug
 import random
 import os
@@ -94,6 +95,7 @@ class ProblemHistory(db.Model):
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(250), unique=True, nullable=False)
     username = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
     problems_history = db.relationship('ProblemHistory', backref='user', lazy='dynamic')
@@ -162,8 +164,21 @@ def logout():
 def register():
     if request.method == 'POST':
         username = request.form.get('username')
-        if not db.session.execute(db.select(User).where(User.username == username)).first():
-            user = User(username=request.form.get('username'),
+        email = request.form.get('email')
+        username_exists = db.session.execute(db.select(User).where(User.username == username)).first()
+        email_exists = db.session.execute(db.select(User).where(User.email == email)).first()
+
+        errors = []
+        if username_exists:
+            errors.append('username_exists')
+        if email_exists:
+            errors.append('email_exists')
+        if not validate_email.check(email):
+            errors.append('invalid_email')
+
+        if not errors:
+            user = User(email=request.form.get('email'),
+                        username=request.form.get('username'),
                         password=request.form.get('password'),
                         performance = str({category : {"score":50.0,"status":0,"completed":0} 
                                            for category in AllStatistics.query.first().category_names()}))
@@ -171,14 +186,18 @@ def register():
             db.session.commit()
             return redirect(url_for('login'))
         else:
-            render_template('register.html',username_unique=False)
-    return render_template('register.html',username_unique=True)
+            return render_template('register.html',errors=errors)
+    return render_template('register.html',errors=[])
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        user = User.query.filter_by(
-            username=request.form.get('username')).first()
+        if validate_email.check(request.form.get('identifier')):
+            user = User.query.filter_by(
+                email=request.form.get('identifier')).first()
+        else:
+            user = User.query.filter_by(
+                username=request.form.get('identifier')).first()
         if user and user.password == request.form.get('password'):
                 login_user(user)
                 return redirect(url_for('index'))
