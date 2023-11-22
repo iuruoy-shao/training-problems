@@ -149,7 +149,7 @@ class User(UserMixin, db.Model):
         in_category = [
             problem_history
             for problem_history in self.problems_history
-            if (set(Problem.query.get_or_404(problem_history.problem_id).label_names()) & set(categories))
+            if (set(Problem.query.get_or_404(problem_history.problem_id).label_names()) & set(categories)) and problem_history.last_attempted
         ]
         # return [in_category.order_by(ProblemHistory.last_attempted.desc()).limit(n)]
         # return max(in_category,key=attrgetter('last_attempted'))
@@ -215,7 +215,7 @@ def login():
 @login_required
 def index():
     try:
-        problem_id = current_user.get_last_attempted(n=1)[0].id
+        problem_id = current_user.problems_history.order_by(ProblemHistory.id.desc()).limit(1)[0].problem_id
     except Exception:
         problem_id = 1
     return redirect(f'/problems/{problem_id}')
