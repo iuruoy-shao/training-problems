@@ -5,6 +5,18 @@
 {% endblock %}
 
 {% block main %}
+<script>
+    document.addEventListener('keydown', handleShortcut);
+    const choiceKeys = ["a","b","c","d","e","A","B","C","D","E"];
+    function handleShortcut(event){
+        if (choiceKeys.indexOf(event.key) != -1) {
+            event.preventDefault();
+            document.getElementById(event.key.toUpperCase()).checked = true;
+            console.log(event.key)
+        }
+    }
+</script>
+
 <header><h3 id="problem_header">
     {{problem}}
 </h3></header>
