@@ -7,10 +7,18 @@
 {% block main %}
 <a href="/login">Already have an account? Login</a>
 <h1>Create an account</h1>  
-{% if not username_unique %}
-    <p>This username already exists. Please use a different username.</p>
+{% if 'username_exists' in errors %}
+    <p>This username already exists. Please <a href="/login">login</a> or use a different username.</p>
+{% endif %}
+{% if 'email_exists' in errors %}
+    <p>This email is already registered with an account. Please <a href="/login">login</a> or use a different email.</p>
+{% endif %}
+{% if 'invalid_email' in errors %}
+    <p>This email is invalid. Please enter a valid email.</p>
 {% endif %}
 <form action="#" method="post">
+    <label for="email">Email:</label>
+    <input type="text" name="email" />
     <label for="username">Username:</label>
     <input type="text" name="username" />
     <label for="password">Password:</label>

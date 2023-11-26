@@ -1,8 +1,10 @@
+import contextlib
 from flask import Flask, render_template, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from datetime import datetime
 from operator import attrgetter
+import validate_email
 import werkzeug
 import random
 import os
@@ -94,14 +96,18 @@ class ProblemHistory(db.Model):
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(250), unique=True, nullable=False)
     username = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
     problems_history = db.relationship('ProblemHistory', backref='user', lazy='dynamic')
     performance = db.Column(db.String(2000), nullable=False)
+    preferred_categories = db.Column(db.String(2000), nullable=False, default='[]') # whitelisted categories (list)
     
     def _performance(self,category=None):
         parsed_performance = json.loads(self.performance.replace("\'", "\""))
         return parsed_performance[category] if category else parsed_performance
+    def _preferred_categories(self):
+        return json.loads(self.preferred_categories.replace("\'", "\""))
     def mastery(self, category):
         MASTERY = 5
         n = 0
@@ -109,13 +115,13 @@ class User(UserMixin, db.Model):
             problem = Problem.query.get_or_404(problem_history.problem_id)
             n+=1 if (category in label_to_categories(problem._labels())) and (problem.difficulty > 3) else 0
         return n >= MASTERY
-    
+
     # status is 0 when category is untouched, 1 if decreasing in performance, 2 if increasing in performance, and 3 if mastered
     def update_cat_score(self,category,score):
         performance = self._performance()
-        c = performance[category]['completed']
+        c = performance[category]['completed'] + 1
         s0 = performance[category]['score']
-        s = (score + performance[category]['score']*c)/(c+1)
+        s = (score + performance[category]['score']*c)/c
         performance[category]['score'] = s
         if performance[category]['status'] < 3:
             if self.mastery(category):
@@ -142,12 +148,12 @@ class User(UserMixin, db.Model):
             ]
         in_category = [
             problem_history
-            for problem_history in self.problems_history.all()
-            if (set(Problem.query.get_or_404(problem_history.problem_id).label_names()) & {categories})
+            for problem_history in self.problems_history
+            if (set(Problem.query.get_or_404(problem_history.problem_id).label_names()) & set(categories)) and problem_history.last_attempted
         ]
         # return [in_category.order_by(ProblemHistory.last_attempted.desc()).limit(n)]
         # return max(in_category,key=attrgetter('last_attempted'))
-        return sorted(enumerate(in_category), key=attrgetter('last_attempted'))[:n]
+        return sorted(in_category, key=attrgetter('last_attempted'))[:n]
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -162,23 +168,42 @@ def logout():
 def register():
     if request.method == 'POST':
         username = request.form.get('username')
-        if not db.session.execute(db.select(User).where(User.username == username)).first():
-            user = User(username=request.form.get('username'),
+        email = request.form.get('email')
+        username_exists = db.session.execute(db.select(User).where(User.username == username)).first()
+        email_exists = db.session.execute(db.select(User).where(User.email == email)).first()
+
+        errors = []
+        if username_exists:
+            errors.append('username_exists')
+        if email_exists:
+            errors.append('email_exists')
+        if not validate_email.check(email):
+            errors.append('invalid_email')
+
+        if not errors:
+            user = User(email=request.form.get('email'),
+                        username=request.form.get('username'),
                         password=request.form.get('password'),
                         performance = str({category : {"score":50.0,"status":0,"completed":0} 
-                                           for category in AllStatistics.query.first().category_names()}))
+                                           for category in AllStatistics.query.first().category_names()}),
+                        preferred_categories = json.dumps(AllStatistics.query.first().category_names())
+                        )
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('login'))
         else:
-            render_template('register.html',username_unique=False)
-    return render_template('register.html',username_unique=True)
+            return render_template('register.html',errors=errors)
+    return render_template('register.html',errors=[])
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        user = User.query.filter_by(
-            username=request.form.get('username')).first()
+        if validate_email.check(request.form.get('identifier')):
+            user = User.query.filter_by(
+                email=request.form.get('identifier')).first()
+        else:
+            user = User.query.filter_by(
+                username=request.form.get('identifier')).first()
         if user and user.password == request.form.get('password'):
                 login_user(user)
                 return redirect(url_for('index'))
@@ -190,7 +215,7 @@ def login():
 @login_required
 def index():
     try:
-        problem_id = current_user.get_last_attempted(n=1)[0].id
+        problem_id = current_user.problems_history.order_by(ProblemHistory.id.desc()).limit(1)[0].problem_id
     except Exception:
         problem_id = 1
     return redirect(f'/problems/{problem_id}')
@@ -204,21 +229,27 @@ def render(problem_id):
         db.session.commit()
     problem_history = current_user.problems_history.filter_by(problem_id=problem_id).first()
 
-    if request.method == 'POST' and problem_history.completion == 0:
-        try:
-            answer = request.form['choices']
-            problem_history.append_answer(answer)
-            if answer == problem.answer:
-                problem_history.completion = 1
-            db.session.commit()
-        except werkzeug.exceptions.BadRequestKeyError:
-            pass
-    if request.method == 'POST' and request.form.get("Next Problem"):
-        return redirect(url_for('next_problem', ph_id = problem_history.id))
+    # Updating preferred categories
+    if request.method == 'POST' and 'categories' in request.form:
+        current_user.preferred_categories = json.dumps(request.form.getlist('categories'))
+        db.session.commit()
+    else:
+        if request.method == 'POST' and problem_history.completion == 0:
+            with contextlib.suppress(werkzeug.exceptions.BadRequestKeyError):
+                answer = request.form['choices']
+                problem_history.append_answer(answer)
+                if answer == problem.answer:
+                    problem_history.completion = 1
+                db.session.commit()
+        if request.method == 'POST' and request.form.get("Next Problem"):
+            return redirect(url_for('next_problem', ph_id = problem_history.id))
+
     return render_template('display_problems.html',
                     choices=['A','B','C','D','E'],
                     problem=problem,
-                    problem_history=problem_history)
+                    problem_history=problem_history,
+                    allstatistics=AllStatistics.query.first(),
+                    user=current_user)
 
 @app.route('/next_problem/<int:ph_id>')
 @login_required
@@ -240,17 +271,21 @@ def next_problem(ph_id):
 def recommend_problem():
     # picks category based on weighted probability and non-mastery
     categories = []
-    weights = []
+    scores = []
     for category in current_user._performance():
-        if current_user._performance()[category]['status'] < 3:
+        if current_user._performance()[category]['status'] < 3 and category in current_user._preferred_categories():
             categories.append(category)
-            weights.append(current_user._performance()[category]['score'])
+            scores.append(current_user._performance()[category]['score'])
+    if not max(scores):
+        weights = [1 for _ in scores]
+    else:
+        # Makes weights the distance between a score and twice the greatest score (adjusted as percentages)
+        weights = [2-float(score)/max(scores) for score in scores]
     category = random.choices(categories,weights)[0]
-    print(category)
-    
+
     # Picks a problem with difficulty matching the status
     last_attempted = current_user.get_last_attempted(1,category)
-    print(last_attempted)
+
     if last_attempted:
         last_completed_difficulty = Problem.query.get_or_404(last_attempted[0].problem_id).difficulty
         match current_user._performance()[category]['status']:
@@ -261,7 +296,7 @@ def recommend_problem():
     else:
         difficulty = 3
     next_problem_id = query_problems(category, difficulty=difficulty)
-    print(next_problem_id)
+
     return redirect(url_for('render', problem_id = next_problem_id))
 
 

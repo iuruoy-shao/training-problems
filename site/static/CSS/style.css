@@ -16,7 +16,6 @@ p {
     float: left; /* Float the problem display to the left */
 }
 
-
 #choices {
     width: 25vw;
     border: 2px solid #000; /* Black border */
@@ -104,4 +103,9 @@ body, ul {
   content: "";
   clear: both;
   display: table;
+}
+
+/* Removes bullets for the list of categories to select */
+#category_selection {
+    list-style-type: none;
 }
