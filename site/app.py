@@ -271,7 +271,9 @@ def profile():
                                   last_active = datetime.now())
             db.session.add(new_profile)
             db.session.commit()
-    return render_template('profile.html', profiles=current_user.profiles, current_profile=current_user.current_profile)
+        return redirect(url_for('profile'))
+    else:
+        return render_template('profile.html', profiles=current_user.profiles, current_profile=current_user.current_profile)
 
 @app.route('/')
 @login_required
@@ -292,26 +294,27 @@ def render(problem_id):
     problem_history = current_user._current_profile().problems_history.filter_by(problem_id=problem_id).first()
 
     # Updating preferred categories
-    if request.method == 'POST' and 'categories' in request.form:
-        current_user._current_profile().preferred_categories = json.dumps(request.form.getlist('categories'))
-        db.session.commit()
-    else:
-        if request.method == 'POST' and problem_history.completion == 0:
+    if request.method == 'POST':
+        if 'categories' in request.form:
+            current_user._current_profile().preferred_categories = json.dumps(request.form.getlist('categories'))
+            db.session.commit()
+        elif problem_history.completion == 0:
             with contextlib.suppress(werkzeug.exceptions.BadRequestKeyError):
                 answer = request.form['choices']
                 problem_history.append_answer(answer)
                 if answer == problem.answer:
                     problem_history.completion = 1
                 db.session.commit()
-        if request.method == 'POST' and request.form.get("Next Problem"):
+        elif request.method == 'POST' and request.form.get("Next Problem"):
             return redirect(url_for('next_problem', ph_id = problem_history.id))
-
-    return render_template('display_problems.html',
-                    choices=['A','B','C','D','E'],
-                    problem=problem,
-                    problem_history=problem_history,
-                    allstatistics=AllStatistics.query.first(),
-                    profile=current_user._current_profile())
+        return redirect('/')
+    else:
+        return render_template('display_problems.html',
+                               choices=['A','B','C','D','E'],
+                               problem=problem,
+                               problem_history=problem_history,
+                               allstatistics=AllStatistics.query.first(),
+                               profile=current_user._current_profile())
 
 @app.route('/next_problem/<int:ph_id>')
 @login_required
