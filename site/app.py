@@ -136,6 +136,10 @@ class Profile(db.Model):
         created on {datetime.strptime(self.date_created, "%Y-%m-%d %H:%M:%S.%f").date()}, 
         last active on {datetime.strptime(self.last_active, "%Y-%m-%d %H:%M:%S.%f").date()}"""
 
+    def _date_created(self):
+        return datetime.strptime(self.date_created, "%Y-%m-%d %H:%M:%S.%f").date()
+    def _last_active(self):
+        return datetime.strptime(self.last_active, "%Y-%m-%d %H:%M:%S.%f").date()
     def _performance(self,category=None):
         parsed_performance = json.loads(self.performance.replace("\'", "\""))
         return parsed_performance[category] if category else parsed_performance

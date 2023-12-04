@@ -9,24 +9,47 @@
 <div>
     <h2>Your Profiles</h2>
     <form method="post">
-        <ul>
+        <table id="profile_options">
+            <tr>
+                <th></th>
+                <th>Profile Name</th>
+                <th>Date Created</th>
+                <th>Last Active</th>
+            </tr>
             {% for profile in profiles %}
-                {% if profile.id == current_profile %}
-                    <li><input type="radio" name="profile_choices" disabled><b>{{profile}}</b> (current)</li>
-                {% else %}
-                    <li><input type="radio" name="profile_choices" value="{{profile.id}}">{{profile}}</li>
-                {% endif %}
+                <tr>
+                    <td>
+                        {% if profile.id == current_profile %}
+                            <input type="radio" name="profile_choices" id="current_profile" disabled checked>
+                        {% else %}
+                            <input type="radio" name="profile_choices" value="{{profile.id}}">
+                        {% endif %}
+                    </td>
+                    <td>{{profile.name}}</td>
+                    <td>{{profile._date_created()}}</td>
+                    <td>{{profile._last_active()}}</td>
+                </tr>
             {% endfor %}
-        </ul>
-        <button type="submit" name="change_profile">Change profile</button>
+        </table>
+        <button type="submit" name="change_profile" disabled>Change profile</button>
+        <script>
+            var submit_button = document.getElementsByName('change_profile')[0];
+            var selections = document.getElementsByName('profile_choices');
+            for (selection in selections) {
+                selections[selection].onclick = function() {
+                    submit_button.disabled = false;
+                    console.log('a')
+                }
+            }
+        </script>
         <!-- add profile rename -->
     </form>
 </div>
 <div>
     <h2>Create a New Profile</h2>
     <form method="post">
-        <label for="profile_name">Profile name</label>
-        <input type="text" name="profile_name" />
+        <label for="profile_name">Profile name:</label>
+        <input type="text" name="profile_name" id="profile_name"/>
         <button type="submit" name="create_profile">Create profile</button>
     </form>
 </div>

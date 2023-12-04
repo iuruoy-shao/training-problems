@@ -109,3 +109,17 @@ body, ul {
 #category_selection {
     list-style-type: none;
 }
+
+#profile_options td {
+    border: 1px solid;
+}
+
+#profile_options th, #profile_options td {
+    padding-right: 10px;
+    padding-right: 10px;
+    padding-left: 3px;
+}
+
+#profile_options {
+    border-collapse: collapse;
+}
