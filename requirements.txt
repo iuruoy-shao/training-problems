@@ -4,6 +4,8 @@ requests
 Flask
 Flask-SQLAlchemy
 Flask-Login
+Flask-Migrate
+SQLAlchemy
 datetime
 numpy
 streamlit
