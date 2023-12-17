@@ -78,7 +78,7 @@ body, ul {
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: space-around;
+  justify-content: right;
 }
 
 .navbar li {
@@ -122,4 +122,28 @@ body, ul {
 
 #profile_options {
     border-collapse: collapse;
+}
+
+#profile_page {
+    margin-top: 15px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+}
+
+#register, #login {
+    margin-top: 15px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+}
+
+#register_form, #login_form > * {
+    margin-top: 5px;
+}
+
+.warning {
+    color: rgb(169, 121, 10);
 }
