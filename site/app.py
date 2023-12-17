@@ -126,7 +126,7 @@ class Profile(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     name = db.Column(db.String(250), nullable=False)
     problems_history = db.relationship('ProblemHistory', backref='profile', lazy='dynamic')
-    performance = db.Column(db.String(2000), nullable=False)
+    performance_history = db.relationship('PerformanceHistory', backref='profile', lazy='dynamic')
     preferred_categories = db.Column(db.String(2000), nullable=False, default='[]') # whitelisted categories (list)
     date_created = db.Column(db.String)
     last_active = db.Column(db.String)
@@ -135,14 +135,11 @@ class Profile(db.Model):
         return f"""{self.name}: {self.total_completed()} problems completed, 
         created on {datetime.strptime(self.date_created, "%Y-%m-%d %H:%M:%S.%f").date()}, 
         last active on {datetime.strptime(self.last_active, "%Y-%m-%d %H:%M:%S.%f").date()}"""
-
+    
     def _date_created(self):
         return datetime.strptime(self.date_created, "%Y-%m-%d %H:%M:%S.%f").date()
     def _last_active(self):
         return datetime.strptime(self.last_active, "%Y-%m-%d %H:%M:%S.%f").date()
-    def _performance(self,category=None):
-        parsed_performance = json.loads(self.performance.replace("\'", "\""))
-        return parsed_performance[category] if category else parsed_performance
     def _preferred_categories(self):
         return json.loads(self.preferred_categories.replace("\'", "\""))
     def mastery(self, category):
@@ -152,26 +149,35 @@ class Profile(db.Model):
             problem = Problem.query.get_or_404(problem_history.problem_id)
             n+=1 if (category in label_to_categories(problem._labels())) and (problem.difficulty > 3) else 0
         return n >= MASTERY
+    def current_performance(self):
+        return self.performance_history.order_by(PerformanceHistory.timestamp.desc())[0]
+    def _performance(self):
+        return self.current_performance()._performance()
 
     # status is 0 when category is untouched, 1 if decreasing in performance, 2 if increasing in performance, and 3 if mastered
-    def update_cat_score(self,category,score):
+    def update_performance(self,category,score,n=1):
         performance = self._performance()
+        new_performance = performance
+        new_performance[category]['completed'] += n
+        
         c = performance[category]['completed'] + 1
         s0 = performance[category]['score']
         s = (score + performance[category]['score']*c)/c
-        performance[category]['score'] = s
+        new_performance[category]['score'] = s
         if performance[category]['status'] < 3:
             if self.mastery(category):
-                performance[category]['status'] = 3
+                new_performance[category]['status'] = 3
             elif s < s0:
-                performance[category]['status'] = 1
+                new_performance[category]['status'] = 1
             elif s > s0:
-                performance[category]['status'] = 2
-        self.performance = json.dumps(performance)
-    def update_cat_completion(self,category,n=1):
-        performance = self._performance()
-        performance[category]['completed'] += n
-        self.performance = json.dumps(performance)
+                new_performance[category]['status'] = 2
+        
+        new_performance_history = PerformanceHistory(profile_id=current_user.current_profile,
+                                                     timestamp=datetime.now(),
+                                                     performance=json.dumps(new_performance))
+        db.session.add(new_performance_history)
+        db.session.commit()
+
     def get_last_attempted(self,n=3,*categories):
         """
         Gathers at most n last attempted problem ids in categories
@@ -193,6 +199,16 @@ class Profile(db.Model):
         return sorted(in_category, key=attrgetter('last_attempted'))[:n]
     def total_completed(self):
         return self.problems_history.filter_by(completion=1).count()
+
+class PerformanceHistory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    profile_id = db.Column(db.Integer, db.ForeignKey('profile.id'), nullable=False)
+    timestamp = db.Column(db.String, nullable=False)
+    performance = db.Column(db.String(2000), nullable=False)
+
+    def _performance(self,category=None):
+            parsed_performance = json.loads(self.performance.replace("\'", "\""))
+            return parsed_performance[category] if category else parsed_performance
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -223,14 +239,19 @@ def register():
             user = User(email=request.form.get('email'),
                         username=request.form.get('username'),
                         password=request.form.get('password'))
-            default_profile = Profile(name = f"{request.form.get('username')} default", 
-                                      user_id = current_user.id,
-                                      performance = str({category : {"score":50.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}),
+            db.session.add(user)
+            db.session.commit()
+            default_profile = Profile(name = f"{request.form.get('username')}", 
+                                      user_id = user.id,
                                       preferred_categories = json.dumps(AllStatistics.query.first().category_names()),
                                       date_created = datetime.now(),
                                       last_active = datetime.now())
-            db.session.add(user)
             db.session.add(default_profile)
+            db.session.commit()
+            performance = PerformanceHistory(profile_id = default_profile.id,
+                                             timestamp = datetime.now(),
+                                             performance = str({category : {"score":50.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
+            db.session.add(performance)
             db.session.commit()
             return redirect(url_for('login'))
         else:
@@ -265,11 +286,15 @@ def profile():
             profile_name = request.form.get('profile_name')
             new_profile = Profile(name = profile_name, 
                                   user_id = current_user.id,
-                                  performance = str({category : {"score":50.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}),
                                   preferred_categories = json.dumps(AllStatistics.query.first().category_names()),
                                   date_created = datetime.now(),
                                   last_active = datetime.now())
             db.session.add(new_profile)
+            db.session.commit()
+            performance = PerformanceHistory(profile_id = new_profile.id,
+                                             timestamp = datetime.now(),
+                                             performance = str({category : {"score":50.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
+            db.session.add(performance)
             db.session.commit()
         return redirect(url_for('profile'))
     else:
@@ -325,9 +350,7 @@ def next_problem(ph_id):
     problem_score = (5-problem_history.attempts)*25 * (1 + (problem.difficulty - 1)*.25)
     
     for label in label_to_categories(labels):
-        current_user._current_profile().update_cat_score(label,problem_score)
-        current_user._current_profile().update_cat_completion(label)
-        db.session.commit()
+        current_user._current_profile().update_performance(label,problem_score)
     
     return redirect(url_for('recommend_problem'))
 
