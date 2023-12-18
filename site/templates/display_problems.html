@@ -8,6 +8,21 @@
 <header><h3 id="problem_header">
     {{problem}}
 </h3></header>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+window.onload = myfunc1;
+
+function myfunc1(){
+    var answerCorrect = document.getElementById("answerCorrect");
+     if (answerCorrect.value =="1") {
+        confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 }
+        });
+     }
+}
+</script>
 <div id="problem_display">
     {{problem.problem_content|safe}}
 </div>
@@ -53,6 +68,9 @@
         {% endfor %}
     </div>
     <div>
+        {% if problem_history._previous_answers()[-1] == problem.answer %}
+            <input type="hidden" id="answerCorrect" value = 1>
+        {% endif %}
         {% if problem_history.completion != 1 %}
             <input type="submit" value="Submit">
         {% endif %}
