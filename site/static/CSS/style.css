@@ -16,7 +16,6 @@ p {
     float: left; /* Float the problem display to the left */
 }
 
-
 #choices {
     width: 25vw;
     border: 2px solid #000; /* Black border */
@@ -79,7 +78,7 @@ body, ul {
   margin: 0;
   padding: 0;
   display: flex;
-  justify-content: space-around;
+  justify-content: right;
 }
 
 .navbar li {
@@ -104,4 +103,47 @@ body, ul {
   content: "";
   clear: both;
   display: table;
+}
+
+/* Removes bullets for the list of categories to select */
+#category_selection {
+    list-style-type: none;
+}
+
+#profile_options td {
+    border: 1px solid;
+}
+
+#profile_options th, #profile_options td {
+    padding-right: 10px;
+    padding-right: 10px;
+    padding-left: 3px;
+}
+
+#profile_options {
+    border-collapse: collapse;
+}
+
+#profile_page {
+    margin-top: 15px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+}
+
+#register, #login {
+    margin-top: 15px;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    flex-direction: column;
+}
+
+#register_form, #login_form > * {
+    margin-top: 5px;
+}
+
+.warning {
+    color: rgb(169, 121, 10);
 }
