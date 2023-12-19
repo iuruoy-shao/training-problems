@@ -415,4 +415,4 @@ def query_problems(category, difficulty=3, approx_difficulty=True, allow_complet
         return random.choice(filtered).id
 
 if __name__ == '__main__':
-    app.run(port=8000,debug=True)
+    app.run(port=5000,debug=True)
