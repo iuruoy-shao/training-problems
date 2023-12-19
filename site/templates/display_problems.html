@@ -22,18 +22,25 @@
 </h3></header>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <script>
-window.onload = myfunc1;
+window.onload = checkAnswer;
 
-function myfunc1(){
+function checkAnswer(){
     var answerCorrect = document.getElementById("answerCorrect");
-     if (answerCorrect.value =="1") {
+    var shownFlower = sessionStorage.getItem("shownFlower");
+     if (answerCorrect.value =="1" && shownFlower != "1") {
         confetti({
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 }
         });
-     }
+        sessionStorage.setItem("shownFlower", "1");
+     }  
 }
+
+function nextProblem(){
+    sessionStorage.setItem("shownFlower", "0");
+}
+
 </script>
 <div id="problem_display">
     {{problem.problem_content|safe}}
@@ -92,7 +99,7 @@ function myfunc1(){
     </div>
     <div>
         {% if problem_history._previous_answers()[-1] == problem.answer %}
-            <input type="hidden" id="answerCorrect" value = 1>
+            <input type="hidden" id="answerCorrect" value = "1">
         {% endif %}
         {% if problem_history.completion != 1 %}
             <input type="submit" value="Submit">
@@ -104,7 +111,7 @@ function myfunc1(){
     <div>
         {% if problem_history.completion == 1 %}
             <form method="post">
-                <input type="submit" value="Next Problem" name="Next Problem">
+                <input type="submit" value="Next Problem" name="Next Problem" onclick="nextProblem();">
             </form>
             <a href="https://artofproblemsolving.com/wiki/index.php/{{problem._test()[0]}}_AMC_{{problem._test()[1]}}{{problem._test()[2]}}_Problems/Problem_{{problem.number}}">
                 View the solution on AoPS
