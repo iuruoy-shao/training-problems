@@ -98,6 +98,12 @@ body, ul {
   background-color: #555; /* Background color on hover */
 }
 
+#footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
 /* preventing layout issues */
 .clearfix::after {
   content: "";

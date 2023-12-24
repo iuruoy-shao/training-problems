@@ -210,10 +210,15 @@ class PerformanceHistory(db.Model):
             parsed_performance = json.loads(self.performance.replace("\'", "\""))
             return parsed_performance[category] if category else parsed_performance
 
+@app.route("/about")
+def about():
+    return render_template('about.html')
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
+@login_required
 @app.route("/logout")
 def logout():
     logout_user()
