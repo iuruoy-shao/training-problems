@@ -43,7 +43,7 @@ p {
     height: 0;
 }
 
-svg.radio {
+img.radio {
     display: inline-block;
     margin: 3px 3px 0px 5px;
     width: 15px;
@@ -223,4 +223,9 @@ progress.completed_progress_bar:hover:after {
 
 progress {
     max-width: 100px;
+}
+
+.performance_status {
+    width: 15px;
+    height: inherit;
 }
