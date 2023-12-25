@@ -42,6 +42,7 @@ p {
     width: 0;
     height: 0;
 }
+
 svg.radio {
     display: inline-block;
     margin: 3px 3px 0px 5px;
@@ -152,4 +153,57 @@ body, ul {
 
 .warning {
     color: rgb(169, 121, 10);
+}
+
+.tag {
+    border-radius: 8px;
+    width: fit-content;
+    padding: 4px 8px 4px 8px;
+    display: inline-block;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+.difficulty[color-value="1"] {
+    background-color: rgb(183, 255, 157);
+}
+
+.difficulty[color-value="2"] {
+    background-color: rgb(227, 255, 157);
+}
+
+.difficulty[color-value="3"] {
+    background-color: rgb(255, 235, 157);
+}
+
+.difficulty[color-value="4"] {
+    background-color: rgb(255, 216, 157);
+}
+
+.difficulty[color-value="5"] {
+    background-color: rgb(255, 188, 157);
+}
+
+.tag.category {
+    background-color: #DDD
+}
+
+#problem_title {
+    display: inline-block;
+    padding-right: 10px;
+}
+
+#categories_selection td {
+    border: 1px solid;
+}
+
+#categories_selection th, #categories_selection td {
+    padding-right: 10px;
+    padding-right: 10px;
+    padding-left: 3px;
+    text-align: left;
+}
+
+#categories_selection {
+    border-collapse: collapse;
 }

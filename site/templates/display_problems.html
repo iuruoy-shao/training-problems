@@ -41,17 +41,24 @@
     }
 </script>
 
-<header><h3 id="problem_header">
-    {{problem}}
-</h3></header>
+<header id="problem_header">
+    <h3 id="problem_title">{{problem}}</h3>
+    <p class="difficulty tag" color-value="{{problem.difficulty}}">
+        Difficulty: {{problem.difficulty}}
+    </p>
+    {% for label in problem.label_names()%}
+        <p class="category tag">{{label}}</p>
+    {% endfor %}
+</header>
 <div id="problem_display">
     {{problem.problem_content|safe}}
+    
 </div>
 
 </div>
     <form method="POST">
         <h3>Select categories</h3>
-        <table>
+        <table id="categories_selection">
             <tr>
                 <th></th>
                 <th>Name</th>
