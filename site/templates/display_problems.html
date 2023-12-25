@@ -141,14 +141,17 @@
         {% endfor %}
     </div>
     <div>
-        {% if problem_history._previous_answers()[-1] == problem.answer %}
-            <input type="hidden" id="answerCorrect" value = "1">
-        {% endif %}
         {% if problem_history.completion != 1 %}
             <input type="submit" value="Submit">
         {% endif %}
+        {% if problem_history._previous_answers()[-1] == problem.answer %}
+            <input type="hidden" id="answerCorrect" value = "1">
+        {% endif %}
         {% if problem_history._previous_answers() %}
-            <p>{{"Correct" if problem_history._previous_answers()[-1] == problem.answer else "Incorrect"}}</p>
+            <p style="display:inline-block">{{"Correct" if problem_history._previous_answers()[-1] == problem.answer else "Incorrect"}}</p>
+        {% endif %}
+        {% if problem_history.completion == 1 %}
+            <p>Score: {{problem_history.score}}</p>
         {% endif %}
     </div>
     <div>

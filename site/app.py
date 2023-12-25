@@ -86,6 +86,7 @@ class ProblemHistory(db.Model):
     problem_id = db.Column(db.Integer, nullable=False)
     attempts = db.Column(db.Integer, nullable=False, default=0)
     completion = db.Column(db.Integer, nullable=False, default=0)
+    score = db.Column(db.Double)
     last_attempted = db.Column(db.String)
     previous_answers = db.Column(db.String)
     profile_id = db.Column(db.Integer, db.ForeignKey('profile.id'))
@@ -334,6 +335,7 @@ def render(problem_id):
                 problem_history.append_answer(answer)
                 if answer == problem.answer:
                     problem_history.completion = 1
+                    problem_history.score = (5-problem_history.attempts)*25 * (1 + (problem.difficulty - 1)*.25)
                 db.session.commit()
         elif request.method == 'POST' and request.form.get("Next Problem"):
             return redirect(url_for('next_problem', ph_id = problem_history.id))
@@ -352,7 +354,7 @@ def next_problem(ph_id):
     problem_history = current_user._current_profile().problems_history.filter_by(id=ph_id).first()
     problem = Problem.query.get_or_404(problem_history.problem_id)
     labels = problem._labels()
-    problem_score = (5-problem_history.attempts)*25 * (1 + (problem.difficulty - 1)*.25)
+    problem_score = problem_history.score
     
     for label in label_to_categories(labels):
         current_user._current_profile().update_performance(label,problem_score)
@@ -420,4 +422,4 @@ def query_problems(category, difficulty=3, approx_difficulty=True, allow_complet
         return random.choice(filtered).id
 
 if __name__ == '__main__':
-    app.run(port=5000,debug=True)
+    app.run(port=8000,debug=True)
