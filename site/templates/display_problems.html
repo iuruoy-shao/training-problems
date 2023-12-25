@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block main %}
+<!-- keyboard shortcuts -->
 <script>
     document.addEventListener('keydown', handleShortcut);
     const choiceKeys = ["a","b","c","d","e","A","B","C","D","E"];
@@ -17,43 +18,78 @@
     }
 </script>
 
+<!-- confetti effect -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+    window.onload = checkAnswer;
+
+    function checkAnswer(){
+        var answerCorrect = document.getElementById("answerCorrect");
+        var shownFlower = sessionStorage.getItem("shownFlower");
+        if (answerCorrect.value =="1" && shownFlower != "1") {
+            confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+            });
+            sessionStorage.setItem("shownFlower", "1");
+        }  
+    }
+
+    function nextProblem(){
+        sessionStorage.setItem("shownFlower", "0");
+    }
+</script>
+
 <header><h3 id="problem_header">
     {{problem}}
 </h3></header>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script>
-window.onload = checkAnswer;
-
-function checkAnswer(){
-    var answerCorrect = document.getElementById("answerCorrect");
-    var shownFlower = sessionStorage.getItem("shownFlower");
-     if (answerCorrect.value =="1" && shownFlower != "1") {
-        confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 }
-        });
-        sessionStorage.setItem("shownFlower", "1");
-     }  
-}
-
-function nextProblem(){
-    sessionStorage.setItem("shownFlower", "0");
-}
-
-</script>
 <div id="problem_display">
     {{problem.problem_content|safe}}
 </div>
 
 </div>
     <form method="POST">
-        <ul id="category_selection">
+        <h3>Select categories</h3>
+        <table>
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Status</th>
+                <th>Score</th>
+                <th>Complete</th>
+            </tr>
+
             {% for category in allstatistics.category_names() %}
-                <li><input type="checkbox" value="{{category}}" name="categories" {{'checked' if category in profile._preferred_categories() else ''}}>{{category}}</li>
+                <tr>
+                    <td>
+                        <input type="checkbox" value="{{category}}" name="categories" 
+                        {{'checked' if category in profile._preferred_categories() else ''}} 
+                        {{'disabled' if profile.mastery(category) else ''}}>
+                    </td>
+                    <td>
+                        {{ category }}
+                    </td>
+                    <td>
+                        {{ profile._performance()[category]['status'] }}
+                    </td>
+                    <td>
+                        {{ profile._performance()[category]['score']|round|int }}
+                    </td>
+                    <td>
+                        {{ profile._performance()[category]['completed'] }}
+                    </td>
+                </tr>
             {% endfor %}
-            <input type="submit" value="Apply to Next Problem">
-        </ul>
+        </table>
+        <!-- <ul id="category_selection">
+            {% for category in allstatistics.category_names() %}
+                <li>
+                    <input type="checkbox" value="{{category}}" name="categories" {{'checked' if category in profile._preferred_categories() else ''}}>{{category}}
+                </li>
+            {% endfor %}
+        </ul> -->
+        <input type="submit" value="Apply to Next Problem">
     </form>
 </div>
 
