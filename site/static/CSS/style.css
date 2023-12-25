@@ -220,3 +220,7 @@ progress.score_progress_bar:hover:after {
 progress.completed_progress_bar:hover:after {
     content: attr(value) "/" attr(max);
 }
+
+progress {
+    max-width: 100px;
+}
