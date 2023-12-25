@@ -123,7 +123,6 @@ body, ul {
 
 #profile_options th, #profile_options td {
     padding-right: 10px;
-    padding-right: 10px;
     padding-left: 3px;
 }
 
@@ -198,12 +197,26 @@ body, ul {
 }
 
 #categories_selection th, #categories_selection td {
-    padding-right: 10px;
-    padding-right: 10px;
+    padding-right: 3px;
     padding-left: 3px;
-    text-align: left;
+    /* text-align: left; */
 }
 
 #categories_selection {
     border-collapse: collapse;
+}
+
+progress:hover:after {
+    display: block;
+    background-color: hsla(0, 0%, 100%, 0.50);
+    width: 100%;
+    text-align: center;
+}
+
+progress.score_progress_bar:hover:after {
+    content: attr(value);
+}
+
+progress.completed_progress_bar:hover:after {
+    content: attr(value) "/" attr(max);
 }

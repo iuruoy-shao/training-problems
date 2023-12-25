@@ -81,10 +81,10 @@
                         {{ profile._performance()[category]['status'] }}
                     </td>
                     <td>
-                        {{ profile._performance()[category]['score']|round|int }}
+                        <progress class="score_progress_bar" max="200" value="{{ profile._performance()[category]['score']|round|int }}"></progress>
                     </td>
                     <td>
-                        {{ profile._performance()[category]['completed'] }}
+                        <progress class="completed_progress_bar" max="{{allstatistics.count_of(category)}}" value="{{ profile._performance()[category]['completed'] }}"></progress>
                     </td>
                 </tr>
             {% endfor %}

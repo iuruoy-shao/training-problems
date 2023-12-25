@@ -162,7 +162,7 @@ class Profile(db.Model):
         
         c = performance[category]['completed'] + 1
         s0 = performance[category]['score']
-        s = (score + performance[category]['score']*c)/c
+        s = (score + performance[category]['score']*(c-1))/c
         new_performance[category]['score'] = s
         if performance[category]['status'] < 3:
             if self.mastery(category):
