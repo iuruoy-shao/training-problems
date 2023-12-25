@@ -256,7 +256,7 @@ def register():
             db.session.commit()
             performance = PerformanceHistory(profile_id = default_profile.id,
                                              timestamp = datetime.now(),
-                                             performance = str({category : {"score":50.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
+                                             performance = str({category : {"score":100.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
             db.session.add(performance)
             db.session.commit()
             return redirect(url_for('login'))
@@ -299,7 +299,7 @@ def profile():
             db.session.commit()
             performance = PerformanceHistory(profile_id = new_profile.id,
                                              timestamp = datetime.now(),
-                                             performance = str({category : {"score":50.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
+                                             performance = str({category : {"score":100.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
             db.session.add(performance)
             db.session.commit()
         return redirect(url_for('profile'))
