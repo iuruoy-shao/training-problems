@@ -1,7 +1,7 @@
 import contextlib
 from flask import Flask, render_template, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import MetaData
+from sqlalchemy import MetaData, select
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from flask_migrate import Migrate
 from datetime import datetime
@@ -13,7 +13,8 @@ import os
 import json
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__file__)), 'amc10_problems.db')
+connection = 'sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__file__)), 'amc10_problems.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = connection
 app.config['SECRET_KEY'] = "test"
 convention={
     "ix": 'ix_%(column_0_label)s',
@@ -253,6 +254,7 @@ def register():
                                       date_created = datetime.now(),
                                       last_active = datetime.now())
             db.session.add(default_profile)
+            user.current_profile = default_profile.id
             db.session.commit()
             performance = PerformanceHistory(profile_id = default_profile.id,
                                              timestamp = datetime.now(),
@@ -304,7 +306,21 @@ def profile():
             db.session.commit()
         return redirect(url_for('profile'))
     else:
-        return render_template('profile.html', profiles=current_user.profiles, current_profile=current_user.current_profile)
+        timestamps = []
+        scores = {category : [] for category in AllStatistics.query.first().category_names()}
+        completed = {category : [] for category in AllStatistics.query.first().category_names()}
+        for performance_history in current_user._current_profile().performance_history:
+            performance = performance_history._performance()
+            timestamps.append(performance_history.timestamp)
+            
+            for category in AllStatistics.query.first().category_names():
+                scores[category].append(performance[category]['score'])
+                completed[category].append(performance[category]['completed'])
+        performance_data = {"timestamps":timestamps,"scores":scores,"completed":completed}
+        return render_template('profile.html', 
+                               profiles=current_user.profiles, 
+                               current_profile=current_user._current_profile(), 
+                               performance_data=json.dumps(performance_data))
 
 @app.route('/')
 @login_required
