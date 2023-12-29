@@ -18,3 +18,4 @@ tqdm
 scikit-learn
 matplotlib
 nltk
+Werkzeug==2.3.4
