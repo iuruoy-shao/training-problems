@@ -1,11 +1,11 @@
 beautifulsoup4
 html5lib
 requests
-Flask
+Flask==2.3.2
 Flask-SQLAlchemy
-Flask-Login
-Flask-Migrate
-SQLAlchemy
+Flask-Login==0.6.2
+Flask-Migrate==3.1.1
+SQLAlchemy==2.0.23
 datetime
 numpy
 streamlit
