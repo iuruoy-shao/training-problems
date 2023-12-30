@@ -13,8 +13,10 @@ import os
 import json
 
 app = Flask(__name__)
-connection = 'sqlite:///' + os.path.join(os.path.abspath(os.path.dirname(__file__)), 'amc10_problems.db')
+connection = 'mysql+mysqlconnector://iuruoyshao:trainingproblems2023@iuruoyshao.mysql.pythonanywhere-services.com/iuruoyshao$amc10_problems'
+
 app.config['SQLALCHEMY_DATABASE_URI'] = connection
+app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config['SECRET_KEY'] = "test"
 convention={
     "ix": 'ix_%(column_0_label)s',
@@ -55,13 +57,13 @@ class AllStatistics(db.Model):
 
 class Problem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    test = db.Column(db.String, nullable=False)
+    test = db.Column(db.String(250), nullable=False)
     number = db.Column(db.Integer)
-    choices = db.Column(db.String)
-    problem_content = db.Column(db.String(), nullable=False)
-    answer = db.Column(db.String, nullable=False)
-    solutions = db.Column(db.String)
-    labels = db.Column(db.String)
+    choices = db.Column(db.String(2000))
+    problem_content = db.Column(db.String(20000), nullable=False)
+    answer = db.Column(db.String(20), nullable=False)
+    solutions = db.Column(db.String(20000))
+    labels = db.Column(db.String(2000))
     difficulty = db.Column(db.Integer)
 
     def __repr__(self):
@@ -88,8 +90,8 @@ class ProblemHistory(db.Model):
     attempts = db.Column(db.Integer, nullable=False, default=0)
     completion = db.Column(db.Integer, nullable=False, default=0)
     score = db.Column(db.Double)
-    last_attempted = db.Column(db.String)
-    previous_answers = db.Column(db.String)
+    last_attempted = db.Column(db.String(250))
+    previous_answers = db.Column(db.String(2000))
     profile_id = db.Column(db.Integer, db.ForeignKey('profile.id'))
 
     def __repr__(self):
@@ -130,8 +132,8 @@ class Profile(db.Model):
     problems_history = db.relationship('ProblemHistory', backref='profile', lazy='dynamic')
     performance_history = db.relationship('PerformanceHistory', backref='profile', lazy='dynamic')
     preferred_categories = db.Column(db.String(2000), nullable=False, default='[]') # whitelisted categories (list)
-    date_created = db.Column(db.String)
-    last_active = db.Column(db.String)
+    date_created = db.Column(db.String(250))
+    last_active = db.Column(db.String(250))
 
     def __repr__(self):
         return f"""{self.name}: {self.total_completed()} problems completed, 

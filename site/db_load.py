@@ -30,7 +30,7 @@ geo_labels = (44,60)
 nt_labels = (60,68)
 cb_labels = (68,85)
 
-labeled_data = pd.read_csv('problem_labels.csv').replace([True,False],[1,0])
+labeled_data = pd.read_csv('../problem_labels.csv').replace([True,False],[1,0])
 
 def extract_labels(cols):
         start, end = cols
