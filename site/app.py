@@ -38,7 +38,7 @@ label_to_categories = lambda labels: [AllStatistics.query.first().category_names
 # Stores the category/label names and the number of problems in that category in a dictionary.
 class AllStatistics(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    category_counts = db.Column(db.String, nullable=False, 
+    category_counts = db.Column(db.String(2000), nullable=False, 
                                 default=json.dumps({"Miscellaneous": 0, "Algebra": 0, "Geometry": 0, "Number Theory": 0, "Combinatorics": 0}))
 
     def _category_counts(self):
@@ -207,7 +207,7 @@ class Profile(db.Model):
 class PerformanceHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     profile_id = db.Column(db.Integer, db.ForeignKey('profile.id'), nullable=False)
-    timestamp = db.Column(db.String, nullable=False)
+    timestamp = db.Column(db.String(250), nullable=False)
     performance = db.Column(db.String(2000), nullable=False)
 
     def _performance(self,category=None):
