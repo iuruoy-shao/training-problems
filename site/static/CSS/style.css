@@ -6,21 +6,44 @@ p {
     color: rgb(0, 0, 0);
 }
 
-#problem_display {
-    width: 60vw;
+div#problem_display_body {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#problem_display_body > div {
+    /* width: 60vw; */
     border: 2px solid #000; /* Black border */
     padding: 10px;
-    margin: 10px;
+    margin-left: .8vw;
+    margin-bottom: .8vw;
    /*display: inline-block;*/
+}
 
-    float: left; /* Float the problem display to the left */
+#choice_div, #select_categories {
+    min-width: 23vw;
+}
+
+#problem_display {
+    min-width: 480px;
+    max-width: 46vw;
+}
+
+#categories_header {
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-bottom: 10px;
+}
+
+#categories_submit {
+    margin-top: 10px;
+}
+
+#select_categories {
+    display: block;
 }
 
 #choices {
-    width: 25vw;
-    border: 2px solid #000; /* Black border */
-    padding: 10px;
-    margin: 10px;
     display: inline-block;
     /* display: flex; */
 }
@@ -29,10 +52,7 @@ p {
     margin-top: 1vh;
     margin-bottom: 1vh;
     display: flex;
-    width: 15vw;
-
-    float: left; /* Float the problem display to the left */
-    width: 60%; /* Adjust the width as needed */
+    width: inherit;
 }
 
 /* Changes color of radio button depending on response */
@@ -59,7 +79,8 @@ header {
   background-color: #ffffff; /* Background color for the header */
   color: rgb(0, 0, 0); /* Text color for the header */
   text-align: left; 
-  padding: 10px; /* Add padding to the header */
+  margin: 10px;
+  margin-left: 1vw; /* Add padding to the header */
 }
 
 /* Reset default margin and padding */
@@ -204,7 +225,7 @@ body, ul {
 
 #problem_title {
     display: inline-block;
-    padding-right: 10px;
+    margin-right: 10px;
 }
 
 #categories_selection td {
@@ -215,10 +236,13 @@ body, ul {
     padding-right: 3px;
     padding-left: 3px;
     /* text-align: left; */
+    width: fit-content;
+    white-space: nowrap
 }
 
 #categories_selection {
     border-collapse: collapse;
+    width: inherit;
 }
 
 progress:hover:after {
@@ -237,10 +261,12 @@ progress.completed_progress_bar:hover:after {
 }
 
 progress {
-    max-width: 100px;
+    width: 5vw;
+    display: inline-block
 }
 
 .performance_status {
     width: 15px;
     height: inherit;
+    display: inline-block
 }

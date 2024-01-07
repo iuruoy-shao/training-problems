@@ -50,123 +50,128 @@
         <p class="category tag">{{label}}</p>
     {% endfor %}
 </header>
-<div id="problem_display">
-    {{problem.problem_content|safe}}
-    
-</div>
 
-</div>
-    <form method="POST">
-        <h3>Select categories</h3>
-        <table id="categories_selection">
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Score</th>
-                <th>Complete</th>
-            </tr>
+<div id="problem_display_body">
 
-            {% for category in allstatistics.category_names() %}
-                <tr>
-                    <td>
-                        <input type="checkbox" value="{{category}}" name="categories" 
-                        {{'checked' if category in profile._preferred_categories() else ''}} 
-                        {{'disabled' if profile.mastery(category) else ''}}>
-                    </td>
-                    <td>
-                        {{ category }}
-                    </td>
-                    <td>
-                        <img class="performance_status" src="../static/assets/status_{{profile._performance()[category]['status']}}.svg">
-                        <progress class="score_progress_bar" max="200" value="{{ profile._performance()[category]['score']|round|int }}"></progress>
-                    </td>
-                    <td>
-                        <progress class="completed_progress_bar" max="{{allstatistics.count_of(category)}}" value="{{ profile._performance()[category]['completed'] }}"></progress>
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-        <!-- <ul id="category_selection">
-            {% for category in allstatistics.category_names() %}
-                <li>
-                    <input type="checkbox" value="{{category}}" name="categories" {{'checked' if category in profile._preferred_categories() else ''}}>{{category}}
-                </li>
-            {% endfor %}
-        </ul> -->
-        <input type="submit" value="Apply to Next Problem">
-    </form>
-</div>
+    <div id="problem_display">
+        {{problem.problem_content|safe}}
+    </div>
 
-<form action="" method="POST">
-    <div id="choices">
-        {% for i in range(5) %}
-            
-        <div class="choice">
-                {% if choices[i] in problem_history._previous_answers() or problem_history.completion %}
-                    {% if choices[i] == problem.answer %}
-                        <img src="../static/assets/checkmark.svg" class="radio" alt="checkmark">
-                        <input class="correct_choice" type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}" disabled>
-                    {% elif choices[i] in problem_history._previous_answers() %}
-                        <img src="../static/assets/x_mark.svg" class="radio" alt="xmark">
-                        <input class="incorrect_choice" type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}" disabled>
-                    {% else %}
-                        <input type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}" disabled>
-                    {% endif %}
-                {% else %}
-                    <input type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}">
-                {% endif %}
-                ${{ problem._choices()[i] }}$
+    <div id="choice_div">
+        <form action="" method="POST">
+            <div id="choices">
+                {% for i in range(5) %}
+                    
+                <div class="choice">
+                        {% if choices[i] in problem_history._previous_answers() or problem_history.completion %}
+                            {% if choices[i] == problem.answer %}
+                                <img src="../static/assets/checkmark.svg" class="radio" alt="checkmark">
+                                <input class="correct_choice" type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}" disabled>
+                            {% elif choices[i] in problem_history._previous_answers() %}
+                                <img src="../static/assets/x_mark.svg" class="radio" alt="xmark">
+                                <input class="incorrect_choice" type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}" disabled>
+                            {% else %}
+                                <input type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}" disabled>
+                            {% endif %}
+                        {% else %}
+                            <input type="radio" name="choices" id="{{choices[i]}}" value="{{choices[i]}}">
+                        {% endif %}
+                        ${{ problem._choices()[i] }}$
+                    </div>
+                    
+                {% endfor %}
             </div>
-            
-        {% endfor %}
+            <div>
+                {% if problem_history.completion != 1 %}
+                    <input type="submit" value="Submit">
+                {% endif %}
+                {% if problem_history._previous_answers()[-1] == problem.answer %}
+                    <input type="hidden" id="answerCorrect" value = "1">
+                {% endif %}
+                {% if problem_history._previous_answers() %}
+                    <p style="display:inline-block">{{"Correct" if problem_history._previous_answers()[-1] == problem.answer else "Incorrect"}}</p>
+                {% endif %}
+                {% if problem_history.completion == 1 %}
+                    <p>Score: {{problem_history.score}}</p>
+                {% endif %}
+            </div>
+            <div>
+                {% if problem_history.completion == 1 %}
+                    <form method="post">
+                        <input type="submit" value="Next Problem" name="Next Problem" onclick="nextProblem();">
+                    </form>
+                    <a href="https://artofproblemsolving.com/wiki/index.php/{{problem._test()[0]}}_AMC_{{problem._test()[1]}}{{problem._test()[2]}}_Problems/Problem_{{problem.number}}">
+                        View the solution on AoPS
+                    </a>
+                {% endif %}
+            </div>
+        </form>
     </div>
-    <div>
-        {% if problem_history.completion != 1 %}
-            <input type="submit" value="Submit">
-        {% endif %}
-        {% if problem_history._previous_answers()[-1] == problem.answer %}
-            <input type="hidden" id="answerCorrect" value = "1">
-        {% endif %}
-        {% if problem_history._previous_answers() %}
-            <p style="display:inline-block">{{"Correct" if problem_history._previous_answers()[-1] == problem.answer else "Incorrect"}}</p>
+
+    <div id="select_categories">
+        <form method="POST">
+            <h3 id="categories_header">Select categories</h3> 
+            <table id="categories_selection">
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Score</th>
+                    <th>Complete</th>
+                </tr>
+
+                {% for category in allstatistics.category_names() %}
+                    <tr>
+                        <td>
+                            <input type="checkbox" value="{{category}}" name="categories" 
+                            {{'checked' if category in profile._preferred_categories() else ''}} 
+                            {{'disabled' if profile.mastery(category) else ''}}>
+                        </td>
+                        <td>
+                            {{ category }}
+                        </td>
+                        <td>
+                            <img class="performance_status" src="../static/assets/status_{{profile._performance()[category]['status']}}.svg">
+                            <progress class="score_progress_bar" max="200" value="{{ profile._performance()[category]['score']|round|int }}"></progress>
+                        </td>
+                        <td>
+                            <progress class="completed_progress_bar" max="{{allstatistics.count_of(category)}}" value="{{ profile._performance()[category]['completed'] }}"></progress>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+            <input id="categories_submit" type="submit" value="Apply to Next Problem">
+            <!-- <ul id="category_selection">
+                {% for category in allstatistics.category_names() %}
+                    <li>
+                        <input type="checkbox" value="{{category}}" name="categories" {{'checked' if category in profile._preferred_categories() else ''}}>{{category}}
+                    </li>
+                {% endfor %}
+            </ul> -->
+        </form>
+    </div>
+
+    <!-- <div id="problem_history">
+        {% if problem_history.attempts == 0 %}
+            <p>No previous attempts.</p>
+        {% else %}
+            {% for answer in problem_history._previous_answers() %}
+                <p class="answer">{{answer}}</p>
+                {% if answer == problem.answer %}
+                    <p class="correct">Correct</p>
+                {% else %}
+                    <p class="incorrect">Incorrect</p>
+                {% endif %}
+            {% endfor %}
+            <p>Last attempted {{problem_history.last_attempted}}</p>
         {% endif %}
         {% if problem_history.completion == 1 %}
-            <p>Score: {{problem_history.score}}</p>
-        {% endif %}
-    </div>
-    <div>
-        {% if problem_history.completion == 1 %}
-            <form method="post">
-                <input type="submit" value="Next Problem" name="Next Problem" onclick="nextProblem();">
-            </form>
             <a href="https://artofproblemsolving.com/wiki/index.php/{{problem._test()[0]}}_AMC_{{problem._test()[1]}}{{problem._test()[2]}}_Problems/Problem_{{problem.number}}">
                 View the solution on AoPS
             </a>
+            <form method="post">
+                <input type="submit" value="Next Problem" name="Next Problem">
+            </form>
         {% endif %}
-    </div>
-</form>
-
-<!-- <div id="problem_history">
-    {% if problem_history.attempts == 0 %}
-        <p>No previous attempts.</p>
-    {% else %}
-        {% for answer in problem_history._previous_answers() %}
-            <p class="answer">{{answer}}</p>
-            {% if answer == problem.answer %}
-                <p class="correct">Correct</p>
-            {% else %}
-                <p class="incorrect">Incorrect</p>
-            {% endif %}
-        {% endfor %}
-        <p>Last attempted {{problem_history.last_attempted}}</p>
-    {% endif %}
-    {% if problem_history.completion == 1 %}
-        <a href="https://artofproblemsolving.com/wiki/index.php/{{problem._test()[0]}}_AMC_{{problem._test()[1]}}{{problem._test()[2]}}_Problems/Problem_{{problem.number}}">
-            View the solution on AoPS
-        </a>
-        <form method="post">
-            <input type="submit" value="Next Problem" name="Next Problem">
-        </form>
-    {% endif %}
-</div> -->
+    </div> -->
+</div>
 {% endblock %}
