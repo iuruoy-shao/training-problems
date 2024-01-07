@@ -1,11 +1,15 @@
 import contextlib
 from flask import Flask, render_template, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import MetaData, select
+from sqlalchemy import MetaData
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from flask_migrate import Migrate
 from datetime import datetime
 from operator import attrgetter
+from socket import gethostname
+import time
+import threading
+import pexpect
 import validate_email
 import werkzeug
 import random
@@ -13,7 +17,22 @@ import os
 import json
 
 app = Flask(__name__)
-connection = 'mysql+mysqlconnector://iuruoyshao:trainingproblems2023@iuruoyshao.mysql.pythonanywhere-services.com/iuruoyshao$amc10_problems'
+
+def ssh_connect():
+    child = pexpect.spawn(f"ssh -L 3306:{os.environ['MYSQL_HOSTNAME']}:3306 {os.environ['MYSQL_USER']}@ssh.pythonanywhere.com")
+    child.expect("password:")
+    child.sendline(f"{os.environ['PYANYWHERE_PASSWORD']}")
+    print('hanging')
+    child.expect(pexpect.EOF, timeout=None)
+    print('resolved')
+
+if 'live' in gethostname():
+    connection = f"mysql+mysqlconnector://{os.environ['MYSQL_USER']}:{os.environ['MYSQL_PASSWORD']}@{os.environ['MYSQL_HOSTNAME']}/{os.environ['MYSQL_USER']}${os.environ['MYSQL_DATABASE_NAME']}"
+else:
+    thread = threading.Thread(target=ssh_connect)
+    thread.start()
+    time.sleep(3)
+    connection = f"mysql+mysqlconnector://{os.environ['MYSQL_USER']}:{os.environ['MYSQL_PASSWORD']}@127.0.0.1:3306/{os.environ['MYSQL_USER']}${os.environ['MYSQL_DATABASE_NAME']}"
 
 app.config['SQLALCHEMY_DATABASE_URI'] = connection
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
@@ -60,9 +79,9 @@ class Problem(db.Model):
     test = db.Column(db.String(250), nullable=False)
     number = db.Column(db.Integer)
     choices = db.Column(db.String(2000))
-    problem_content = db.Column(db.String(20000), nullable=False)
+    problem_content = db.Column(db.String(8000), nullable=False)
     answer = db.Column(db.String(20), nullable=False)
-    solutions = db.Column(db.String(20000))
+    solutions = db.Column(db.String(8000))
     labels = db.Column(db.String(2000))
     difficulty = db.Column(db.Integer)
 
@@ -250,12 +269,13 @@ def register():
                         password=request.form.get('password'))
             db.session.add(user)
             db.session.commit()
-            default_profile = Profile(name = f"{request.form.get('username')}", 
+            default_profile = Profile(name = f"{request.form.get('username')}",
                                       user_id = user.id,
                                       preferred_categories = json.dumps(AllStatistics.query.first().category_names()),
                                       date_created = datetime.now(),
                                       last_active = datetime.now())
             db.session.add(default_profile)
+            db.session.commit()
             user.current_profile = default_profile.id
             db.session.commit()
             performance = PerformanceHistory(profile_id = default_profile.id,

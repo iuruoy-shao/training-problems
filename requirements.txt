@@ -19,3 +19,5 @@ scikit-learn
 matplotlib
 nltk
 Werkzeug==2.3.4
+mysql-connector-python==8.2.0
+pexpect

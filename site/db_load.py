@@ -46,7 +46,7 @@ labeled_data['Combinatorics'] = labeled_data['cb-labels'].apply(lambda x: int(an
 labeled_data['tl-labels'] = labeled_data[['Miscellaneous','Algebra','Geometry','Number Theory','Combinatorics']].values.tolist()
 
 def get_label(problem, test, number):
-    with open('outputs_file.txt', 'r') as f:
+    with open('../outputs_file.txt', 'r') as f:
         lines = f.readlines()
         for line in lines:
             if line.find(problem) != -1:
@@ -58,7 +58,7 @@ if __name__ == "__main__":
         db.create_all()
         db.session.commit()
         db.session.add(AllStatistics())
-        load_from_json('amc_10_problems_with_sol.json')
+        load_from_json('../amc_10_problems_with_sol.json')
         db.session.commit()
         db.get_or_404(AllStatistics, 1).update_counts()
         db.session.commit()
