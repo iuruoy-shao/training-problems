@@ -89,16 +89,16 @@
                     <input type="hidden" id="answerCorrect" value = "1">
                 {% endif %}
                 {% if problem_history._previous_answers() %}
-                    <p style="display:inline-block">{{"Correct" if problem_history._previous_answers()[-1] == problem.answer else "Incorrect"}}</p>
+                    <p class="correct_text" style="display:inline-block">{{"Correct," if problem_history._previous_answers()[-1] == problem.answer else "Incorrect"}}</p>
                 {% endif %}
                 {% if problem_history.completion == 1 %}
-                    <p>Score: {{problem_history.score}}</p>
+                    <p class="correct_text">Score: {{problem_history.score}}</p>
                 {% endif %}
             </div>
             <div>
                 {% if problem_history.completion == 1 %}
                     <form method="post">
-                        <input type="submit" value="Next Problem" name="Next Problem" onclick="nextProblem();">
+                        <input type="submit" value="Next Problem" id="next_problem" name="Next Problem" onclick="nextProblem();">
                     </form>
                     <a href="https://artofproblemsolving.com/wiki/index.php/{{problem._test()[0]}}_AMC_{{problem._test()[1]}}{{problem._test()[2]}}_Problems/Problem_{{problem.number}}">
                         View the solution on AoPS

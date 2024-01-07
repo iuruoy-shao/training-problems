@@ -4,6 +4,8 @@
 
 p {
     color: rgb(0, 0, 0);
+    margin-block-start: 0;
+    margin-block-end: 0;
 }
 
 div#problem_display_body {
@@ -49,10 +51,14 @@ div#problem_display_body {
 }
 
 .choice {
-    margin-top: 1vh;
+    /* margin-top: 1vh; */
     margin-bottom: 1vh;
     display: flex;
     width: inherit;
+}
+
+.correct_text {
+    display: inline-block;
 }
 
 /* Changes color of radio button depending on response */
@@ -73,6 +79,10 @@ img.radio {
 .choice button {
     margin-left: .5em;
     margin-right: .5em;
+}
+
+#next_problem {
+    margin-top:10px;
 }
 
 header {
