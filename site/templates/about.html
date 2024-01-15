@@ -5,8 +5,69 @@
 {% endblock %}
 
 {% block main %}
-<h1>What's New?</h1>
+<div id="about">
+    
+    <h1>✨ What's New?</h1>
+    <p>Everything.</p>
 
-<h1>Documentation</h1>
+    <h1>🎲 What is this?</h1>
+    <p>
+        We sought to make a platform for practicing competition math which leverages both personalization and contest-oriented problem banks. We are continuously in development and would appreciate any <a href="https://forms.gle/YA655G8MuZf5FuDT9">feedback or bug reports</a> provided.
+    </p>
+
+    <div class="indent">
+        <h2>🧮 <a href="/">The Problems</a></h2>
+        <p>
+            This is where the magic happens. We recommend AMC problems to you based on your performance, and you can view your category score and the number of problems completed. You may also select the only categories you want problems from.
+        </p>
+        <h2>👤 <a href="/profile">Profiles</a></h2>
+        <p>
+            You can create new profiles here, which will be under the same account, but will have separate problem histories, category preferences, and performance statistics. Some graphs of your performance are also displayed here.
+        </p>
+    </div>
+
+    <h1>⭐️ How are we different?</h1>
+    <p>
+        Here 4 features we felt were integral to an competition math problems trainer, which will be expanded in the future:
+    </p>
+    <ol>
+        <li>
+            Recommendations – we recommend problems at your difficulty level based on your scores (though the metrics for calculating difficulty could be improved).
+        </li> 
+        <li>
+            Profiles – feel rusty and want to restart your progress? No need to create a new account!
+        </li>
+        <li>
+            Quantitative performance – we keep track of your progression in accuracy with handy score calculations.
+        </li>
+        <li>
+            Faster categorization – We train natural language processing models to categorize problems, which allow easy classification of problems from other contests so we can begin to incorporate them.
+        </li>
+    </ol>
+
+    <h1>📆 Coming Soon</h1>
+    <div class="indent">
+        <h2>🔎 More Contest Problems</h2>
+        <ol>
+            <li>AMC 8 & AMC 12 problems</li>
+            <li>AIME and other free response contests</li>
+        </ol>
+
+        <h2>🔘 More Features</h2>
+        <ol>
+            <li>Finer categorization within subjects, particularly with unsupervised classification</li>
+            <li>Use logistic regression to improve problem recommendation</li>
+            <li>Incorporate presorting from AoPS categorization</li>
+            <li>Google login</li>
+        </ol>
+    </div>
+    
+    <h1>👏 Credits</h1>
+    <p><a href="http://youruishao.com/">Yourui Shao</a></p>
+    <p>Anna Deng</p>
+    <p>Helen Peng</p>
+    <br>
+    <p><a href="https://github.com/iuruoy-shao/training-problems">View this project on GitHub</a></p>
+</div>
 
 {% endblock %}

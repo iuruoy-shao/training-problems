@@ -2,6 +2,18 @@
     font-family: "Roboto", sans-serif;
 }
 
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+main {
+    padding-bottom: 80px;
+}
+
 p {
     color: rgb(0, 0, 0);
     margin-block-start: 0;
@@ -130,12 +142,6 @@ body, ul {
   background-color: #555; /* Background color on hover */
 }
 
-#footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-
 /* preventing layout issues */
 .clearfix::after {
   content: "";
@@ -257,7 +263,7 @@ body, ul {
 
 progress:hover:after {
     display: block;
-    background-color: hsla(0, 0%, 100%, 0.50);
+    background-color: hsla(0, 0%, 100%, 0.80);
     width: 100%;
     text-align: center;
 }
@@ -279,4 +285,55 @@ progress {
     width: 15px;
     height: inherit;
     display: inline-block
+}
+
+#about {
+    max-width: 600px;
+    display: flex; 
+    justify-content: center; 
+    flex-direction: column;
+    margin: auto;
+    margin-top: 10px;
+}
+
+#about h1 {
+    /* margin-top: 10px; */
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-top: 15px;
+    font-size: 18pt;
+}
+
+#about h2 {
+    /* margin-top: 10px; */
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 14pt;
+}
+
+#about ol {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#about .indent {
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+#about h2 ~ *:not(h1,h2) {
+    margin-left: 17pt;
+}
+
+#about h1 ~ *:not(h1,h2) {
+    margin-left: 24pt;
+}
+
+main a {
+    text-decoration: none;
+    color: #348fdf;
+}
+
+main a:hover {
+    text-decoration: underline;
 }
