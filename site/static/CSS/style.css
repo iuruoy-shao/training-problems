@@ -20,6 +20,12 @@ p {
     margin-block-end: 0;
 }
 
+.caption {
+    color: #555;
+    font-size: 11pt;
+    text-align: center;
+}
+
 div#problem_display_body {
     display: flex;
     flex-wrap: wrap;
