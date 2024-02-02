@@ -37,16 +37,26 @@ div#problem_display_body {
     padding: 10px;
     margin-left: .8vw;
     margin-bottom: .8vw;
+    margin-right: .8vw;
    /*display: inline-block;*/
 }
 
-#choice_div, #select_categories {
-    min-width: 23vw;
+#choice_div {
+    flex: 1 300px;
+    /* min-width: 300px; */
+    /* width: 23vw; */
+}
+
+#select_categories {
+    flex: 1 300px;
+    /* min-width: 300px; */
+    /* width: 23vw; */
 }
 
 #problem_display {
-    min-width: 480px;
-    max-width: 46vw;
+    flex: 2 300px;
+    /* min-width: 300px; */
+    /* width: 46vw; */
 }
 
 #categories_header {
@@ -283,7 +293,8 @@ progress.completed_progress_bar:hover:after {
 }
 
 progress {
-    width: 5vw;
+    min-width: 20px;
+    width: 60px;
     display: inline-block
 }
 
