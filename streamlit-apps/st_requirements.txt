@@ -1,0 +1,8 @@
+numpy
+pandas
+torch
+transformers==4.28.0
+huggingface-hub
+nltk
+html5lib
+beautifulsoup4

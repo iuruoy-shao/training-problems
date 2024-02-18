@@ -9,7 +9,8 @@ from pathlib import Path
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from gather_problems import base_url
+base_url = "https://artofproblemsolving.com/wiki/index.php/"
+
 from transformers import DistilBertTokenizer, DistilBertModel
 from huggingface_hub import hf_hub_download
 import nltk
@@ -46,7 +47,7 @@ st.set_page_config(page_title="Categorizing AMC Problems",
                    menu_items={"About":"""This is a demonstration of our top-level categorization model for competition math problems at the highschool level.
                                The model can be found at https://huggingface.co/iuruoy-shao/top-level-with-solutions-distilbert-amc10-2019-2022."""})
 
-problems_data = json.load(open(Path(__file__).parent.parent / 'amc_10_problems_with_sol.json'))
+problems_data = json.load(open(Path(__file__).parent.parent / 'problem-classification/amc_10_problems_with_sol.json'))
 categories = ['Miscellaneous', 'Algebra', 'Geometry', 'Number Theory', 'Counting and Probability']
 device = torch.device("cpu")
 
