@@ -192,7 +192,7 @@ class Profile(db.Model):
                 new_performance[category]['status'] = 3
             elif s < s0:
                 new_performance[category]['status'] = 1
-            elif s > s0:
+            elif s >= s0:
                 new_performance[category]['status'] = 2
         
         new_performance_history = PerformanceHistory(profile_id=current_user.current_profile,
