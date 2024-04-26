@@ -89,7 +89,10 @@ class Problem(db.Model):
         return f'{self.AMC_name()} Problem {self.number}'
     
     def AMC_name(self):
-        return f'{self._test()[0]} AMC {self._test()[1]}{self._test()[2]}'
+        if str(self._test()[1]) == "8":
+            return f'{self._test()[0]} AMC {self._test()[1]}'
+        else:
+            return f'{self._test()[0]} AMC {self._test()[1]}{self._test()[2]}'
     def _test(self):
         return json.loads(self.test)
     def _choices(self):
