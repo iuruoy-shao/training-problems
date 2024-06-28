@@ -346,6 +346,15 @@ progress {
     margin-left: 24pt;
 }
 
+.errorpage {
+    max-width: 600px;
+    display: flex; 
+    justify-content: center; 
+    flex-direction: column;
+    margin: auto;
+    margin-top: 10px;
+}
+
 main a {
     text-decoration: none;
     color: #348fdf;
