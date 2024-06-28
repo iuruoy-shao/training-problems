@@ -123,8 +123,7 @@
                     <tr>
                         <td>
                             <input type="checkbox" value="{{category}}" name="categories" 
-                            {{'checked' if category in profile._preferred_categories() else ''}} 
-                            {{'disabled' if profile.mastery(category) else ''}}>
+                            {{'checked' if category in profile._preferred_categories() else ''}}>
                         </td>
                         <td>
                             {{ category }}

@@ -1,7 +1,8 @@
 import contextlib
+import backoff
 from flask import Flask, render_template, redirect, request, url_for
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import MetaData
+from sqlalchemy import MetaData, exc
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from flask_migrate import Migrate
 from datetime import datetime
@@ -171,33 +172,34 @@ class Profile(db.Model):
     def mastery(self, category):
         MASTERY = 5
         n = 0
-        for problem_history in self.problems_history.filter(ProblemHistory.attempts > 0).all():
+        for problem_history in self.problems_history.filter(ProblemHistory.attempts == 1 and ProblemHistory.completion).all():
             problem = Problem.query.get_or_404(problem_history.problem_id)
-            n+=1 if (category in label_to_categories(problem._labels())) and (problem.difficulty > 3) else 0
-        return n >= MASTERY
+            n += 1 if (category in label_to_categories(problem._labels())) and (problem.difficulty > 3) else 0
+        print(category,n,self._performance(category)['score'])
+        return n >= MASTERY and self._performance(category)['score'] > 150
     def current_performance(self):
         return self.performance_history.order_by(PerformanceHistory.timestamp.desc())[0]
-    def _performance(self):
-        return self.current_performance()._performance()
+    def _performance(self,category=None):
+        return self.current_performance()._performance(category)
 
     # status is 0 when category is untouched, 1 if decreasing in performance, 2 if increasing in performance, and 3 if mastered
     def update_performance(self,category,score,n=1):
         performance = self._performance()
         new_performance = performance
         new_performance[category]['completed'] += n
-        
+
         c = performance[category]['completed'] + 1
         s0 = performance[category]['score']
         s = (score + performance[category]['score']*(c-1))/c
         new_performance[category]['score'] = s
-        if performance[category]['status'] < 3:
-            if self.mastery(category):
-                new_performance[category]['status'] = 3
-            elif s < s0:
-                new_performance[category]['status'] = 1
-            elif s >= s0:
-                new_performance[category]['status'] = 2
-        
+
+        if self.mastery(category):
+            new_performance[category]['status'] = 3
+        elif s < s0:
+            new_performance[category]['status'] = 1
+        else:
+            new_performance[category]['status'] = 2
+
         new_performance_history = PerformanceHistory(profile_id=current_user.current_profile,
                                                      timestamp=datetime.now(),
                                                      performance=json.dumps(new_performance))
@@ -240,8 +242,13 @@ class PerformanceHistory(db.Model):
 def about():
     return render_template('about.html')
 
+@backoff.on_exception(
+    backoff.expo,
+    exc.OperationalError
+)
 @login_manager.user_loader
 def load_user(user_id):
+    print("[load_user] If this is the second time you are seeing this message, it's reconnecting.")
     return User.query.get(user_id)
 
 @login_required
@@ -347,6 +354,10 @@ def profile():
                                current_profile=current_user._current_profile(), 
                                performance_data=json.dumps(performance_data))
 
+@app.errorhandler(404)
+def page_not_found(_):
+    return render_template('404.html'), 404
+
 @app.route('/')
 @login_required
 def index():
@@ -409,7 +420,7 @@ def recommend_problem():
     categories = []
     scores = []
     for category in current_user._current_profile()._performance():
-        if current_user._current_profile()._performance()[category]['status'] < 3 and category in current_user._current_profile()._preferred_categories():
+        if category in current_user._current_profile()._preferred_categories():
             categories.append(category)
             scores.append(current_user._current_profile()._performance()[category]['score'])
     if not max(scores):
@@ -429,6 +440,8 @@ def recommend_problem():
                 difficulty = last_completed_difficulty - 1 if last_completed_difficulty > 1 else 1
             case 2:
                 difficulty = last_completed_difficulty + 1 if last_completed_difficulty < 5 else 5
+            case 3:
+                difficulty = 5
     else:
         difficulty = 3
     next_problem_id = query_problems(category, difficulty=difficulty)
