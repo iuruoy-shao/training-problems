@@ -122,7 +122,7 @@ header {
 }
 
 /* Reset default margin and padding */
-body, ul {
+body {
   margin: 0;
   padding: 0;
 }
@@ -328,7 +328,7 @@ progress {
     font-size: 14pt;
 }
 
-#about ol {
+#about ol, #about ul {
     margin-top: 0px;
     margin-bottom: 0px;
 }
