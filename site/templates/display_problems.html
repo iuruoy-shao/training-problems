@@ -137,6 +137,17 @@
                         </td>
                     </tr>
                 {% endfor %}
+                {% for amc_level in amc_levels %}
+                <tr>
+                    <td>
+                        <input type="checkbox" value="{{amc_level}}" name="levels" {{'checked' if amc_level in
+                            profile._preferred_levels() else '' }}>
+                    </td>
+                    <td>
+                        {{ amc_level }}
+                    </td>
+                </tr>
+                {% endfor %}
             </table>
             <input id="categories_submit" type="submit" value="Apply to Next Problem">
             <!-- <ul id="category_selection">
