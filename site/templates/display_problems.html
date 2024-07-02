@@ -137,11 +137,11 @@
                         </td>
                     </tr>
                 {% endfor %}
-                {% for amc_level in amc_levels %}
+                {% for amc_level in profile._preferred_levels() %}
                 <tr>
                     <td>
-                        <input type="checkbox" value="{{amc_level}}" name="levels" {{'checked' if amc_level in
-                            profile._preferred_levels() else '' }}>
+                        <input type="checkbox" value="{{amc_level}}" name="levels" {{'checked' if 
+                        profile._preferred_levels()[amc_level] else '' }}>
                     </td>
                     <td>
                         {{ amc_level }}
