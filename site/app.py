@@ -55,6 +55,8 @@ login_manager.login_view = 'login'
 # Converts labels from [0,0,0,0,0] format to list of labels (ex: ['Algebra','Geometry'])
 label_to_categories = lambda labels: [AllStatistics.query.first().category_names()[i] for i, label in enumerate(labels) if label]
 
+amc_levels = {"AMC 8": 1, "AMC 10": 1, "AMC 12": 1}
+
 # Stores the category/label names and the number of problems in that category in a dictionary.
 class AllStatistics(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -155,6 +157,7 @@ class Profile(db.Model):
     problems_history = db.relationship('ProblemHistory', backref='profile', lazy='dynamic')
     performance_history = db.relationship('PerformanceHistory', backref='profile', lazy='dynamic')
     preferred_categories = db.Column(db.String(2000), nullable=False, default='[]') # whitelisted categories (list)
+    preferred_levels = db.Column(db.String(100), nullable=False, default=json.dumps(amc_levels))
     date_created = db.Column(db.String(250))
     last_active = db.Column(db.String(250))
 
@@ -169,6 +172,8 @@ class Profile(db.Model):
         return datetime.strptime(self.last_active, "%Y-%m-%d %H:%M:%S.%f").date()
     def _preferred_categories(self):
         return json.loads(self.preferred_categories.replace("\'", "\""))
+    def _preferred_levels(self):
+        return json.loads(self.preferred_levels.replace("\'", "\""))
     def mastery(self, category):
         MASTERY = 5
         n = 0
@@ -282,6 +287,7 @@ def register():
             default_profile = Profile(name = f"{request.form.get('username')}",
                                       user_id = user.id,
                                       preferred_categories = json.dumps(AllStatistics.query.first().category_names()),
+                                      preferred_levels = json.dumps(amc_levels),
                                       date_created = datetime.now(),
                                       last_active = datetime.now())
             db.session.add(default_profile)
@@ -380,6 +386,7 @@ def render(problem_id):
     if request.method == 'POST':
         if 'categories' in request.form:
             current_user._current_profile().preferred_categories = json.dumps(request.form.getlist('categories'))
+            current_user._current_profile().preferred_levels = json.dumps({level : 1 for level in request.form.getlist('levels')})
             db.session.commit()
         elif problem_history.completion == 0:
             with contextlib.suppress(werkzeug.exceptions.BadRequestKeyError):
