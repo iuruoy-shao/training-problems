@@ -96,6 +96,9 @@ class Problem(db.Model):
             return f'{self._test()[0]} AMC {self._test()[1]}'
         else:
             return f'{self._test()[0]} AMC {self._test()[1]}{self._test()[2]}'
+    def AMC_level(self):
+        return f'AMC {self._test()[1]}'
+        
     def _test(self):
         return json.loads(self.test)
     def _choices(self):
@@ -108,6 +111,14 @@ class Problem(db.Model):
         return label_to_categories(self._labels())
     def in_category(self,category):
         return category in self.label_names()
+    def in_levels(self,levels):
+        cur_level = self.AMC_level()
+        if levels.get(cur_level, 0) == 1:
+            found = True
+        else:
+            found = False
+        print(f"Checking {cur_level}, found: {found}")
+        return found
     
 class ProblemHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -180,7 +191,7 @@ class Profile(db.Model):
         for problem_history in self.problems_history.filter(ProblemHistory.attempts == 1 and ProblemHistory.completion).all():
             problem = Problem.query.get_or_404(problem_history.problem_id)
             n += 1 if (category in label_to_categories(problem._labels())) and (problem.difficulty > 3) else 0
-        print(category,n,self._performance(category)['score'])
+        print("[Mastery] ",category,n,self._performance(category)['score'])
         return n >= MASTERY and self._performance(category)['score'] > 150
     def current_performance(self):
         return self.performance_history.order_by(PerformanceHistory.timestamp.desc())[0]
@@ -386,8 +397,18 @@ def render(problem_id):
     if request.method == 'POST':
         if 'categories' in request.form:
             current_user._current_profile().preferred_categories = json.dumps(request.form.getlist('categories'))
-            current_user._current_profile().preferred_levels = json.dumps({level : 1 for level in request.form.getlist('levels')})
+            
+            cur_levels = {level : 0 for level in amc_levels}
+            selected_levels = request.form.getlist('levels')
+            if len(selected_levels) == 0:
+                cur_levels = {level : 1 for level in amc_levels}
+            else:
+                for level in selected_levels:
+                    cur_levels[level] = 1
+            current_user._current_profile().preferred_levels = json.dumps(cur_levels)
+
             db.session.commit()
+            print(f"[Render] cur_levels: {cur_levels}")
         elif problem_history.completion == 0:
             with contextlib.suppress(werkzeug.exceptions.BadRequestKeyError):
                 answer = request.form['choices']
@@ -424,6 +445,10 @@ def next_problem(ph_id):
 @login_required
 def recommend_problem():
     # picks category based on weighted probability and non-mastery
+    levels_str = current_user._current_profile().preferred_levels
+    print(f"[Recommend_problen] preferred levels: {levels_str}")
+    levels = json.loads(levels_str)
+
     categories = []
     scores = []
     for category in current_user._current_profile()._performance():
@@ -451,11 +476,11 @@ def recommend_problem():
                 difficulty = 5
     else:
         difficulty = 3
-    next_problem_id = query_problems(category, difficulty=difficulty)
+    next_problem_id = query_problems(category, levels, difficulty=difficulty)
 
     return redirect(url_for('render', problem_id = next_problem_id))
 
-def query_problems(category, difficulty=3, approx_difficulty=True, allow_completed=True):
+def query_problems(category, levels, difficulty=3, approx_difficulty=True, allow_completed=True):
     """
     Returns the id of a problem with the given category
     approx_difficulty: if none with the given difficulty could be found, one of the closest difficulty will be used
@@ -464,8 +489,10 @@ def query_problems(category, difficulty=3, approx_difficulty=True, allow_complet
     # filter_difficulties = lambda x : Problem.query.filter(Problem.in_category(category),
     #                                                       Problem.difficulty in x,
     #                                                       current_user.current_profile.problems_history.filter_by(problem_id=Problem.id).first().attempts > 0).all()
+    print(f"[query_problems] category {category} levels: {levels}")
     filter_difficulties = lambda x : [problem for problem in Problem.query.all() 
                                       if problem.in_category(category) 
+                                      and problem.in_levels(levels)
                                       and problem.difficulty in x 
                                       and (not current_user._current_profile().problems_history.filter_by(problem_id=problem.id).first() 
                                            or not current_user._current_profile().problems_history.filter_by(problem_id=problem.id).first().completion)]
@@ -477,6 +504,7 @@ def query_problems(category, difficulty=3, approx_difficulty=True, allow_complet
         difficulties.append(min(difficulties)-1)
         filtered = filter_difficulties(difficulties)
     
+    print(f"[query_problems] Finished")
     if not filtered:
         return random.choice(Problem.query.filter(Problem.in_category(Problem, category)).all()).id
     else:
