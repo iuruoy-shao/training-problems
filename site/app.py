@@ -460,11 +460,22 @@ def recommend_problem():
     category = random.choices(categories,weights)[0]
 
     # Picks a problem with difficulty matching the status
+    next_problem_id = query_problems(category, levels)
+
+    return redirect(url_for('render', problem_id = next_problem_id))
+
+def query_problems(category, levels):
+    """
+    Returns the id of a problem with the given category
+    """
+
+    # Get difficulty
     last_attempted = current_user._current_profile().get_last_attempted(1,category)
+    status = current_user._current_profile()._performance()[category]['status']
 
     if last_attempted:
         last_completed_difficulty = Problem.query.get_or_404(last_attempted[0].problem_id).difficulty
-        match current_user._current_profile()._performance()[category]['status']:
+        match status:
             case 1:
                 difficulty = last_completed_difficulty - 1 if last_completed_difficulty > 1 else 1
             case 2:
@@ -473,19 +484,7 @@ def recommend_problem():
                 difficulty = 5
     else:
         difficulty = 3
-    next_problem_id = query_problems(category, levels, difficulty=difficulty)
 
-    return redirect(url_for('render', problem_id = next_problem_id))
-
-def query_problems(category, levels, difficulty=3, approx_difficulty=True, allow_completed=True):
-    """
-    Returns the id of a problem with the given category
-    approx_difficulty: if none with the given difficulty could be found, one of the closest difficulty will be used
-    allow_completed: if none incompleted could be found, one that is completed will be picked
-    """
-    # filter_difficulties = lambda x : Problem.query.filter(Problem.in_category(category),
-    #                                                       Problem.difficulty in x,
-    #                                                       current_user.current_profile.problems_history.filter_by(problem_id=Problem.id).first().attempts > 0).all()
     filter_difficulties = lambda x : [problem for problem in Problem.query.all() 
                                       if problem.in_category(category) 
                                       and problem.in_levels(levels)
@@ -497,10 +496,23 @@ def query_problems(category, levels, difficulty=3, approx_difficulty=True, allow
 
     while not filtered and not {1, 2, 3, 4, 5}.issubset(difficulties):
         print(difficulty, difficulties)
-        difficulties.append(max(difficulties)+1)
-        difficulties.append(min(difficulties)-1)
+        match status:
+            # For increasing performance, go up in difficulty until none can be found, then go down
+            case 2:
+                if 6 not in difficulties:
+                    difficulties.append(max(difficulties)+1)
+                else:
+                    difficulties.append(min(difficulties)-1)
+            
+            # For decreasing performance or mastery, go down in difficulty until none can be found, then go up
+            case 1 | 3:
+                if 0 not in difficulties:
+                    difficulties.append(min(difficulties)-1)
+                else:
+                    difficulties.append(max(difficulties)+1)
+
         filtered = filter_difficulties(difficulties)
-    
+
     print(f"[query_problems] Finished {difficulties}")
     if not filtered:
         return random.choice(Problem.query.filter(Problem.in_category(Problem, category)).all()).id
