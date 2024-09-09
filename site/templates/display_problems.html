@@ -10,6 +10,11 @@
     document.addEventListener('keydown', handleShortcut);
     const choiceKeys = ["a","b","c","d","e","A","B","C","D","E"];
     function handleShortcut(event){
+        const isCtrlOrCmd = event.ctrlKey || event.metaKey;
+        if (isCtrlOrCmd && event.key === 'c') {
+            return;
+        }
+        
         if (choiceKeys.indexOf(event.key) != -1) {
             event.preventDefault();
             document.getElementById(event.key.toUpperCase()).checked = true;
