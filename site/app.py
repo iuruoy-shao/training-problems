@@ -124,6 +124,7 @@ class ProblemHistory(db.Model):
     attempts = db.Column(db.Integer, nullable=False, default=0)
     completion = db.Column(db.Integer, nullable=False, default=0)
     score = db.Column(db.Double)
+    uw_score = db.Column(db.Double)
     last_attempted = db.Column(db.String(250))
     previous_answers = db.Column(db.String(2000))
     profile_id = db.Column(db.Integer, db.ForeignKey('profile.id'))
@@ -196,20 +197,19 @@ class Profile(db.Model):
     def _performance(self,category=None):
         return self.current_performance()._performance(category)
 
-    # status is 0 when category is untouched, 1 if decreasing in performance, 2 if increasing in performance, and 3 if mastered
-    def update_performance(self,category,score,n=1):
+    # status is 0 when category is untouched, 1 if decreasing in UW performance, 2 if increasing in UW performance, and 3 if mastered
+    def update_performance(self,category,score,uw_score,n=1):
         performance = self._performance()
         new_performance = performance
         new_performance[category]['completed'] += n
 
         c = performance[category]['completed'] + 1
-        s0 = performance[category]['score']
-        s = (score + performance[category]['score']*(c-1))/c
-        new_performance[category]['score'] = s
+        new_performance[category]['score'] = (score + performance[category]['score']*(c-1))/c
+        new_performance[category]['uw_score'] = (score + performance[category]['uw_score']*(c-1))/c
 
         if self.mastery(category):
             new_performance[category]['status'] = 3
-        elif s < s0:
+        elif new_performance[category]['uw_score'] < performance[category]['uw_score']:
             new_performance[category]['status'] = 1
         else:
             new_performance[category]['status'] = 2
@@ -305,7 +305,7 @@ def register():
             db.session.commit()
             performance = PerformanceHistory(profile_id = default_profile.id,
                                              timestamp = datetime.now(),
-                                             performance = str({category : {"score":100.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
+                                             performance = str({category : {"score":100.0,"uw_score":50.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
             db.session.add(performance)
             db.session.commit()
             return redirect(url_for('login'))
@@ -348,7 +348,7 @@ def profile():
             db.session.commit()
             performance = PerformanceHistory(profile_id = new_profile.id,
                                              timestamp = datetime.now(),
-                                             performance = str({category : {"score":100.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
+                                             performance = str({category : {"score":100.0,"uw_score":50.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
             db.session.add(performance)
             db.session.commit()
         return redirect(url_for('profile'))
@@ -413,6 +413,7 @@ def render(problem_id):
                 problem_history.append_answer(answer)
                 if answer == problem.answer:
                     problem_history.completion = 1
+                    problem_history.uw_score = (5-problem_history.attempts)*25
                     problem_history.score = (5-problem_history.attempts)*25 * (1 + (problem.difficulty - 1)*.25)
                 db.session.commit()
         elif request.method == 'POST' and request.form.get("Next Problem"):
@@ -432,10 +433,9 @@ def next_problem(ph_id):
     problem_history = current_user._current_profile().problems_history.filter_by(id=ph_id).first()
     problem = Problem.query.get_or_404(problem_history.problem_id)
     labels = problem._labels()
-    problem_score = problem_history.score
     
     for label in label_to_categories(labels):
-        current_user._current_profile().update_performance(label,problem_score)
+        current_user._current_profile().update_performance(label, problem_history.score, problem_history.uw_score)
     
     return redirect(url_for('recommend_problem'))
 
@@ -444,7 +444,6 @@ def next_problem(ph_id):
 def recommend_problem():
     # picks category based on weighted probability and non-mastery
     levels_str = current_user._current_profile().preferred_levels
-    print(f"[recommend_problem] preferred levels: {levels_str}")
     levels = json.loads(levels_str)
 
     categories = []
@@ -497,7 +496,7 @@ def query_problems(category, levels, difficulty=3, approx_difficulty=True, allow
     filtered = filter_difficulties(difficulties)
 
     while not filtered and not {1, 2, 3, 4, 5}.issubset(difficulties):
-        print(difficulties)
+        print(difficulty, difficulties)
         difficulties.append(max(difficulties)+1)
         difficulties.append(min(difficulties)-1)
         filtered = filter_difficulties(difficulties)
