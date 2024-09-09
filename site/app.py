@@ -29,6 +29,9 @@ def ssh_connect():
 
 if 'live' in gethostname():
     connection = f"mysql+mysqlconnector://{os.environ['MYSQL_USER']}:{os.environ['MYSQL_PASSWORD']}@{os.environ['MYSQL_HOSTNAME']}/{os.environ['MYSQL_USER']}${os.environ['MYSQL_DATABASE_NAME']}"
+elif os.getenv('LOCALDB_EXISTS', False):
+    port = 3307
+    connection = f"mysql+mysqlconnector://127.0.0.1:{port}/{os.environ['MYSQL_USER']}${os.environ['MYSQL_DATABASE_NAME']}"
 else:
     thread = threading.Thread(target=ssh_connect)
     thread.start()
@@ -113,12 +116,7 @@ class Problem(db.Model):
         return category in self.label_names()
     def in_levels(self,levels):
         cur_level = self.AMC_level()
-        if levels.get(cur_level, 0) == 1:
-            found = True
-        else:
-            found = False
-        print(f"Checking {cur_level}, found: {found}")
-        return found
+        return bool(levels.get(cur_level, 0))
     
 class ProblemHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -240,7 +238,7 @@ class Profile(db.Model):
         ]
         # return [in_category.order_by(ProblemHistory.last_attempted.desc()).limit(n)]
         # return max(in_category,key=attrgetter('last_attempted'))
-        return sorted(in_category, key=attrgetter('last_attempted'))[:n]
+        return sorted(in_category, key=attrgetter('last_attempted'), reverse=True)[:n]
     def total_completed(self):
         return self.problems_history.filter_by(completion=1).count()
 
@@ -446,7 +444,7 @@ def next_problem(ph_id):
 def recommend_problem():
     # picks category based on weighted probability and non-mastery
     levels_str = current_user._current_profile().preferred_levels
-    print(f"[Recommend_problen] preferred levels: {levels_str}")
+    print(f"[recommend_problem] preferred levels: {levels_str}")
     levels = json.loads(levels_str)
 
     categories = []
@@ -489,7 +487,6 @@ def query_problems(category, levels, difficulty=3, approx_difficulty=True, allow
     # filter_difficulties = lambda x : Problem.query.filter(Problem.in_category(category),
     #                                                       Problem.difficulty in x,
     #                                                       current_user.current_profile.problems_history.filter_by(problem_id=Problem.id).first().attempts > 0).all()
-    print(f"[query_problems] category {category} levels: {levels}")
     filter_difficulties = lambda x : [problem for problem in Problem.query.all() 
                                       if problem.in_category(category) 
                                       and problem.in_levels(levels)
@@ -499,12 +496,13 @@ def query_problems(category, levels, difficulty=3, approx_difficulty=True, allow
     difficulties = [difficulty]
     filtered = filter_difficulties(difficulties)
 
-    while not filtered and {1, 2, 3, 4, 5}.issubset(difficulties):
+    while not filtered and not {1, 2, 3, 4, 5}.issubset(difficulties):
+        print(difficulties)
         difficulties.append(max(difficulties)+1)
         difficulties.append(min(difficulties)-1)
         filtered = filter_difficulties(difficulties)
     
-    print(f"[query_problems] Finished")
+    print(f"[query_problems] Finished {difficulties}")
     if not filtered:
         return random.choice(Problem.query.filter(Problem.in_category(Problem, category)).all()).id
     else:
