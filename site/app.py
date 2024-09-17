@@ -1,17 +1,18 @@
 import contextlib
 import backoff
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, session
+from flask_mail import Mail, Message
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import MetaData, exc
 from flask_login import LoginManager, UserMixin, login_user, logout_user, current_user, login_required
 from flask_migrate import Migrate
+from mail import check, generate_token, confirm_token
 from datetime import datetime
 from operator import attrgetter
 from socket import gethostname
 import time
 import threading
 import pexpect
-import validate_email
 import werkzeug
 import random
 import os
@@ -41,6 +42,8 @@ else:
 app.config['SQLALCHEMY_DATABASE_URI'] = connection
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config['SECRET_KEY'] = "test"
+app.config['SECURITY_PASSWORD_SALT'] = os.environ['SECURITY_PASSWORD_SALT']
+
 convention={
     "ix": 'ix_%(column_0_label)s',
     "uq": "uq_%(table_name)s_%(column_0_name)s",
@@ -51,6 +54,16 @@ convention={
 metadata = MetaData(naming_convention=convention)
 db = SQLAlchemy(app, metadata=metadata)
 migrate = Migrate(app, db, render_as_batch=True)
+
+mail = Mail(app)
+
+app.config['MAIL_DEFAULT_SENDER'] = "problemstrainerapp@gmail.com"
+app.config['MAIL_SERVER'] = "smtp.gmail.com"
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_DEBUG'] = False
+app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
@@ -153,6 +166,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(250), nullable=False)
     profiles = db.relationship('Profile', backref='user', lazy='dynamic')
     current_profile = db.Column(db.Integer, nullable=False, default=1)
+    is_verified = db.Column(db.Boolean, nullable=False, default=False)
     
     def _current_profile(self):
         '''
@@ -273,61 +287,76 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        username = request.form.get('username')
-        email = request.form.get('email')
-        username_exists = db.session.execute(db.select(User).where(User.username == username)).first()
-        email_exists = db.session.execute(db.select(User).where(User.email == email)).first()
+    errors = []
+    inputs = {
+        'username': "",
+        'email': "",
+        'password': "",
+    }
 
-        errors = []
+    if request.method == 'POST':
+        inputs['username'] = request.form.get('username')
+        inputs['email'] = request.form.get('email')
+        inputs['password'] = request.form.get('password')
+        username_exists = db.session.execute(db.select(User).where(User.username == inputs['username'])).first()
+        email_exists = db.session.execute(db.select(User).where(User.email == inputs['email'])).first()
+
         if username_exists:
             errors.append('username_exists')
         if email_exists:
             errors.append('email_exists')
-        if not validate_email.check(email):
+        if not check(inputs['email']):
             errors.append('invalid_email')
 
         if not errors:
-            user = User(email=request.form.get('email'),
-                        username=request.form.get('username'),
-                        password=request.form.get('password'))
-            db.session.add(user)
-            db.session.commit()
-            default_profile = Profile(name = f"{request.form.get('username')}",
-                                      user_id = user.id,
-                                      preferred_categories = json.dumps(AllStatistics.query.first().category_names()),
-                                      preferred_levels = json.dumps(amc_levels),
-                                      date_created = datetime.now(),
-                                      last_active = datetime.now())
-            db.session.add(default_profile)
-            db.session.commit()
-            user.current_profile = default_profile.id
-            db.session.commit()
-            performance = PerformanceHistory(profile_id = default_profile.id,
-                                             timestamp = datetime.now(),
-                                             performance = str({category : {"score":100.0,"uw_score":50.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
-            db.session.add(performance)
-            db.session.commit()
+            create_user(username=inputs['username'],
+                        email=inputs['email'],
+                        password=inputs['password'])
+            token = generate_token(inputs['email'])
+            send_email(to=inputs['email'], 
+                       subject="problemstrainer.app Email Confirmation",
+                       template=render_template('verification_email.html', 
+                                                confirm_url=url_for("confirm_email", token=token, _external=True)))
+            session['account_registered'] = True
             return redirect(url_for('login'))
-        else:
-            return render_template('register.html',errors=errors)
-    return render_template('register.html',errors=[])
+    return render_template('register.html',errors=errors,inputs=inputs)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    errors=[]
+    if 'account_registered' in session:
+        errors.append('email_unverified') # controls whether the email unverified warning appears by default
+
     if request.method == 'POST':
-        if validate_email.check(request.form.get('identifier')):
-            user = User.query.filter_by(
-                email=request.form.get('identifier')).first()
-        else:
-            user = User.query.filter_by(
-                username=request.form.get('identifier')).first()
-        if user and user.password == request.form.get('password'):
-                login_user(user)
-                return redirect(url_for('index'))
-        else:
-            return render_template('login.html',user_not_found=True)
-    return render_template('login.html',user_not_found=False)
+        if request.form.get('login'):
+            user = User.query.filter_by(email=request.form.get('identifier')).first() or User.query.filter_by(username=request.form.get('identifier')).first()
+            
+            if not user:
+                return render_template('login.html', errors=['user_not_found'])
+            elif not user.is_verified:
+                return render_template('login.html', errors=['email_unverified'])
+            
+            login_user(user)
+            return redirect(url_for('index'))
+        
+        elif request.form.get('get_verification'):
+            token = generate_token(user.email)
+            send_email(to=user.email, 
+                       subject="problemstrainer.app Email Confirmation",
+                       template=render_template('verification_email.html', 
+                                                confirm_url=url_for("confirm_email", token=token, _external=True)))
+
+    return render_template('login.html', errors=errors)
+
+@app.route("/confirm/<token>")
+def confirm_email(token):
+    email = confirm_token(token)
+    user = User.query.filter_by(email=email).first_or_404()
+    user.is_verified = True
+    if 'account_registered' in session:
+        session.pop('account_registered')
+    db.session.commit()
+    return render_template('verification.html')
 
 @app.route('/profile', methods=['GET', 'POST'])
 @login_required
@@ -338,19 +367,7 @@ def profile():
             current_user.current_profile = new_profile
             db.session.commit()
         else:
-            profile_name = request.form.get('profile_name')
-            new_profile = Profile(name = profile_name, 
-                                  user_id = current_user.id,
-                                  preferred_categories = json.dumps(AllStatistics.query.first().category_names()),
-                                  date_created = datetime.now(),
-                                  last_active = datetime.now())
-            db.session.add(new_profile)
-            db.session.commit()
-            performance = PerformanceHistory(profile_id = new_profile.id,
-                                             timestamp = datetime.now(),
-                                             performance = str({category : {"score":100.0,"uw_score":50.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
-            db.session.add(performance)
-            db.session.commit()
+            create_profile(profile_name=request.form.get('profile_name'), user_id=current_user.id)
         return redirect(url_for('profile'))
     else:
         timestamps = []
@@ -419,13 +436,12 @@ def render(problem_id):
         elif request.method == 'POST' and request.form.get("Next Problem"):
             return redirect(url_for('next_problem', ph_id = problem_history.id))
         return redirect('/')
-    else:
-        return render_template('display_problems.html',
-                               choices=['A','B','C','D','E'],
-                               problem=problem,
-                               problem_history=problem_history,
-                               allstatistics=AllStatistics.query.first(),
-                               profile=current_user._current_profile())
+    return render_template('display_problems.html',
+                            choices=['A','B','C','D','E'],
+                            problem=problem,
+                            problem_history=problem_history,
+                            allstatistics=AllStatistics.query.first(),
+                            profile=current_user._current_profile())
 
 @app.route('/next_problem/<int:ph_id>')
 @login_required
@@ -518,6 +534,38 @@ def query_problems(category, levels):
         return random.choice(Problem.query.filter(Problem.in_category(Problem, category)).all()).id
     else:
         return random.choice(filtered).id
+
+def create_user(email, username, password):
+    user = User(email=email,
+                username=username,
+                password=password)
+    db.session.add(user)
+    db.session.commit()
+
+    create_profile(profile_name=f"{request.form.get('username')}", user_id=user.id)
+
+def create_profile(profile_name, user_id):
+    new_profile = Profile(name = profile_name, 
+                          user_id = user_id,
+                          referred_categories = json.dumps(AllStatistics.query.first().category_names()),
+                          date_created = datetime.now(),
+                          last_active = datetime.now())
+    db.session.add(new_profile)
+    db.session.commit()
+    performance = PerformanceHistory(profile_id = new_profile.id,
+                                     timestamp = datetime.now(),
+                                     performance = str({category : {"score":100.0,"uw_score":50.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
+    db.session.add(performance)
+    db.session.commit()
+
+def send_email(to, subject, template):
+    msg = Message(
+        subject,
+        recipients=[to],
+        html=template,
+        sender=app.config["MAIL_DEFAULT_SENDER"],
+    )
+    mail.send(msg)
 
 if __name__ == '__main__':
     app.run(port=8000,debug=True)

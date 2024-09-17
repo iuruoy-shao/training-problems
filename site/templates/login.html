@@ -9,15 +9,19 @@
     <a href="/register">No account? Create a new one</a>
     <div>
         <h1>Login to your account</h1>
-        {% if user_not_found %}
+        {% if 'user_not_found' in errors %}
             <p class="warning">An account with matching username/email and password could not be found.</p>
+        {% endif %}
+        {% if 'email_unverified' in errors %}
+            <p class="warning">Please verify your email using the link sent to your inbox. 
+                <input type="submit" value="Resend verification link" name="send_verification"></p>
         {% endif %}
         <form action="#" method="post" id="login_form">
             <label for="identifier">Username/Email:</label>
             <input type="text" name="identifier" />
             <label for="password">Password:</label>
             <input type="password" name="password" />
-            <button type="submit">Submit</button>
+            <input type="submit" value="Submit" name="login">
         </form>
     </div>
 </div>

@@ -18,14 +18,17 @@
         {% if 'invalid_email' in errors %}
             <p class="warning">This email is invalid. Please enter a valid email.</p>
         {% endif %}
+        {% if 'incorrect_code' in errors %}
+            <p class="warning">The verification code you have entered was invalid. Please try again</p>
+        {% endif %}
         <form action="#" method="post" id="register_form">
             <label for="email">Email:</label>
-            <input type="text" name="email" />
+            <input type="text" name="email" value="{{inputs['email']}}"/>
             <label for="username">Username:</label>
-            <input type="text" name="username" />
+            <input type="text" name="username" value="{{inputs['username']}}"/>
             <label for="password">Password:</label>
-            <input type="password" name="password" />
-            <button type="submit">Submit</button>
+            <input type="password" name="password" value="{{inputs['password']}}"/>
+            <input type="submit" value="Submit">
         </form>
     </div>
 </div>
