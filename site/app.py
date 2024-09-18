@@ -43,6 +43,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = connection
 app.config["SQLALCHEMY_POOL_RECYCLE"] = 299
 app.config['SECRET_KEY'] = "test"
 app.config['SECURITY_PASSWORD_SALT'] = os.environ['SECURITY_PASSWORD_SALT']
+app.config['MAIL_USERNAME'] = "problemstrainerapp@gmail.com"
+app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
+app.config['MAIL_SERVER'] = "smtp.gmail.com"
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
 
 convention={
     "ix": 'ix_%(column_0_label)s',
@@ -54,16 +60,7 @@ convention={
 metadata = MetaData(naming_convention=convention)
 db = SQLAlchemy(app, metadata=metadata)
 migrate = Migrate(app, db, render_as_batch=True)
-
 mail = Mail(app)
-
-app.config['MAIL_DEFAULT_SENDER'] = "problemstrainerapp@gmail.com"
-app.config['MAIL_SERVER'] = "smtp.gmail.com"
-app.config['MAIL_PORT'] = 465
-app.config['MAIL_USE_TLS'] = False
-app.config['MAIL_USE_SSL'] = True
-app.config['MAIL_DEBUG'] = False
-app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
 
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
@@ -319,34 +316,41 @@ def register():
                                                 confirm_url=url_for("confirm_email", token=token, _external=True)))
             session['account_registered'] = True
             return redirect(url_for('login'))
-    return render_template('register.html',errors=errors,inputs=inputs)
+    return render_template('register.html', errors=errors, inputs=inputs)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     errors=[]
+    inputs = {
+        'identifier': "",
+        'password': "",
+    }
+
     if 'account_registered' in session:
         errors.append('email_unverified') # controls whether the email unverified warning appears by default
 
     if request.method == 'POST':
+        inputs['identifier'] = request.form.get('identifier')
+        inputs['password'] = request.form.get('password')
+        user = User.query.filter_by(email=inputs['identifier']).first() or User.query.filter_by(username=inputs['identifier']).first()
+
+        if not user or inputs['password'] != user.password:
+            return render_template('login.html', errors=['no_match'], inputs=inputs)
+        
         if request.form.get('login'):
-            user = User.query.filter_by(email=request.form.get('identifier')).first() or User.query.filter_by(username=request.form.get('identifier')).first()
-            
-            if not user:
-                return render_template('login.html', errors=['user_not_found'])
-            elif not user.is_verified:
-                return render_template('login.html', errors=['email_unverified'])
-            
+            if not user.is_verified:
+                return render_template('login.html', errors=['email_unverified'], inputs=inputs)
             login_user(user)
             return redirect(url_for('index'))
-        
-        elif request.form.get('get_verification'):
+        elif request.form.get('send_verification'):
+            print(user.email)
             token = generate_token(user.email)
             send_email(to=user.email, 
-                       subject="problemstrainer.app Email Confirmation",
-                       template=render_template('verification_email.html', 
+                    subject="problemstrainer.app Email Confirmation",
+                    template=render_template('verification_email.html', 
                                                 confirm_url=url_for("confirm_email", token=token, _external=True)))
 
-    return render_template('login.html', errors=errors)
+    return render_template('login.html', errors=errors, inputs=inputs)
 
 @app.route("/confirm/<token>")
 def confirm_email(token):
@@ -358,8 +362,8 @@ def confirm_email(token):
     db.session.commit()
     return render_template('verification.html')
 
-@app.route('/profile', methods=['GET', 'POST'])
 @login_required
+@app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if request.method == 'POST':
         if 'change_profile' in request.form:
@@ -390,8 +394,8 @@ def profile():
 def page_not_found(_):
     return render_template('404.html'), 404
 
-@app.route('/')
 @login_required
+@app.route('/')
 def index():
     try:
         problem_id = current_user._current_profile().problems_history.order_by(ProblemHistory.id.desc()).limit(1)[0].problem_id
@@ -399,8 +403,8 @@ def index():
         problem_id = 1
     return redirect(f'/problems/{problem_id}')
 
-@app.route('/problems/<int:problem_id>', methods=['GET','POST'])
 @login_required
+@app.route('/problems/<int:problem_id>', methods=['GET','POST'])
 def render(problem_id):
     problem = Problem.query.get_or_404(problem_id)
     if not current_user._current_profile().problems_history.filter_by(problem_id=problem_id).first():
@@ -443,8 +447,8 @@ def render(problem_id):
                             allstatistics=AllStatistics.query.first(),
                             profile=current_user._current_profile())
 
-@app.route('/next_problem/<int:ph_id>')
 @login_required
+@app.route('/next_problem/<int:ph_id>')
 def next_problem(ph_id):
     problem_history = current_user._current_profile().problems_history.filter_by(id=ph_id).first()
     problem = Problem.query.get_or_404(problem_history.problem_id)
@@ -455,8 +459,8 @@ def next_problem(ph_id):
     
     return redirect(url_for('recommend_problem'))
 
-@app.route('/recommend')
 @login_required
+@app.route('/recommend')
 def recommend_problem():
     # picks category based on weighted probability and non-mastery
     levels_str = current_user._current_profile().preferred_levels
@@ -547,7 +551,7 @@ def create_user(email, username, password):
 def create_profile(profile_name, user_id):
     new_profile = Profile(name = profile_name, 
                           user_id = user_id,
-                          referred_categories = json.dumps(AllStatistics.query.first().category_names()),
+                          preferred_categories = json.dumps(AllStatistics.query.first().category_names()),
                           date_created = datetime.now(),
                           last_active = datetime.now())
     db.session.add(new_profile)
@@ -563,7 +567,7 @@ def send_email(to, subject, template):
         subject,
         recipients=[to],
         html=template,
-        sender=app.config["MAIL_DEFAULT_SENDER"],
+        sender=app.config["MAIL_USERNAME"],
     )
     mail.send(msg)
 
