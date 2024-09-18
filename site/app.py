@@ -343,16 +343,15 @@ def login():
             login_user(user)
             return redirect(url_for('index'))
         elif request.form.get('send_verification'):
-            print(user.email)
             token = generate_token(user.email)
             send_email(to=user.email, 
                     subject="problemstrainer.app Email Confirmation",
                     template=render_template('verification_email.html', 
-                                                confirm_url=url_for("confirm_email", token=token, _external=True)))
-
+                                             confirm_url=url_for("confirm_email", token=token, _external=True)))
+            errors.append('email_unverified')
     return render_template('login.html', errors=errors, inputs=inputs)
 
-@app.route("/confirm/<token>")
+@app.route('/confirm/<token>')
 def confirm_email(token):
     email = confirm_token(token)
     user = User.query.filter_by(email=email).first_or_404()
@@ -394,9 +393,10 @@ def profile():
 def page_not_found(_):
     return render_template('404.html'), 404
 
-@login_required
 @app.route('/')
 def index():
+    if not current_user.is_authenticated:
+        return redirect(url_for('about'))
     try:
         problem_id = current_user._current_profile().problems_history.order_by(ProblemHistory.id.desc()).limit(1)[0].problem_id
     except Exception:
@@ -515,7 +515,6 @@ def query_problems(category, levels):
     filtered = filter_difficulties(difficulties)
 
     while not filtered and not {1, 2, 3, 4, 5}.issubset(difficulties):
-        print(difficulty, difficulties)
         match status:
             # For increasing performance, go up in difficulty until none can be found, then go down
             case 2:
@@ -545,8 +544,8 @@ def create_user(email, username, password):
                 password=password)
     db.session.add(user)
     db.session.commit()
-
-    create_profile(profile_name=f"{request.form.get('username')}", user_id=user.id)
+    user.current_profile = create_profile(profile_name=f"{request.form.get('username')}", user_id=user.id)
+    db.session.commit()
 
 def create_profile(profile_name, user_id):
     new_profile = Profile(name = profile_name, 
@@ -561,6 +560,7 @@ def create_profile(profile_name, user_id):
                                      performance = str({category : {"score":100.0,"uw_score":50.0,"status":0,"completed":0} for category in AllStatistics.query.first().category_names()}))
     db.session.add(performance)
     db.session.commit()
+    return new_profile.id
 
 def send_email(to, subject, template):
     msg = Message(
