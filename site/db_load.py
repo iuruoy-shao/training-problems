@@ -15,9 +15,11 @@ def load_from_json(file_name):
             answer = problems[problem]['answer'],
             solutions = json.dumps(problems[problem]['solutions'])[:8000],
             difficulty = json.dumps(
-                1 if problems[problem]['number'] <= 10
-                else 2 if problems[problem]['number'] <= 20
-                else 3
+                1 if problems[problem]['number'] <= 5
+                else 2 if problems[problem]['number'] <= 10
+                else 3 if problems[problem]['number'] <= 15
+                else 4 if problems[problem]['number'] <= 20
+                else 5
             ),
             labels = json.dumps(get_label(problem)))
         db.session.add(problem_to_add)
