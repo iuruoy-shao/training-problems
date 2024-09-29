@@ -143,14 +143,16 @@ def gather_problem(year,level,instance,problem_number,loading_json):
         "solutions": solutions
     }
 
-    if not problem:
-        print("Problem location:",problem_id)
-    elif len(choices) != 5:
-        print("Choice error:",problem_id)
-    elif len(solutions) < 1:
-        print("No solutions found:",problem_id)
-    if problem and (len(choices) == 5):
-        loading_json.update({problem_id:test_details})
+    # if not problem:
+        #print("Problem location:",problem_id)
+    if problem:
+        print(problem_id)
+        if len(choices) != 5:
+            print("Choice error:",problem_id)
+        elif len(solutions) < 1:
+            print("No solutions found:",problem_id)
+        if problem and (len(choices) == 5):
+            loading_json.update({problem_id:test_details})
     
 def gather_test(year,level,instance,json_file=JSON_FILE_OUTPUT):
     try:
@@ -167,7 +169,9 @@ def gather_two_per_year(year,level,json_file=JSON_FILE_OUTPUT):
     gather_test(year,level,'B',json_file)
 
 if __name__ == "__main__":
-    for year in range(2015,2022):
+    gather_two_per_year(2023,12)
+    """
+    for year in range(2015,2024):
         gather_two_per_year(year,12)
     gather_two_per_year('2021_Fall',12)
-    gather_two_per_year(2022,12)
+    """
