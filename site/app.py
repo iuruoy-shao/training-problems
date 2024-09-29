@@ -85,6 +85,7 @@ class AllStatistics(db.Model):
     def update_counts(self):
         counts = {"Miscellaneous": 0, "Algebra": 0, "Geometry": 0, "Number Theory": 0, "Combinatorics": 0}
         for problem in Problem.query.all():
+            print(problem)
             counts = {category: counts[category] + problem._labels()[i] for i, category in enumerate(self._category_counts().keys())}
         self.category_counts = str(counts)
     def count_of(self,category):

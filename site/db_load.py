@@ -13,7 +13,7 @@ def load_from_json(file_name):
             problem_content = problems[problem]['problem'],
             choices = json.dumps(problems[problem]['choices']),
             answer = problems[problem]['answer'],
-            solutions = json.dumps(problems[problem]['solutions']),
+            solutions = json.dumps(problems[problem]['solutions'])[:8000],
             difficulty = json.dumps(
                 1 if problems[problem]['number'] <= 10
                 else 2 if problems[problem]['number'] <= 20
@@ -45,16 +45,16 @@ def load_hand_labeled():
     labeled_data['tl-labels'] = labeled_data[['Miscellaneous','Algebra','Geometry','Number Theory','Combinatorics']].values.tolist()
 
 def get_label(problem):
-    with open('problem-classification/outputs_file_8.txt', 'r') as f:
+    with open('problem-classification/outputs_file_12.txt', 'r') as f:
         lines = f.readlines()
         for line in lines:
             if line.find(problem) != -1:
-                print(line.strip('\n')[-15:])
-                return json.loads(line.strip('\n')[-15:])
+                print(line.strip('\n')[-16:])
+                return json.loads(line.strip('\n')[-16:])
 
 if __name__ == "__main__":
     with app.app_context():
-        load_from_json('problem-classification/amc_8_problems_with_sol.json')
+        load_from_json('problem-classification/amc_12_problems_with_sol.json')
         print("loaded")
         db.session.commit()
         print("committed 1")
