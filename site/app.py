@@ -277,8 +277,8 @@ def load_user(user_id):
     print("[load_user] If this is the second time you are seeing this message, it's reconnecting.")
     return User.query.get(user_id)
 
-@login_required
 @app.route("/logout")
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
@@ -362,8 +362,8 @@ def confirm_email(token):
     db.session.commit()
     return render_template('verification.html')
 
-@login_required
 @app.route('/profile', methods=['GET', 'POST'])
+@login_required
 def profile():
     if request.method == 'POST':
         if 'change_profile' in request.form:
@@ -404,8 +404,8 @@ def index():
         problem_id = 1
     return redirect(f'/problems/{problem_id}')
 
-@login_required
 @app.route('/problems/<int:problem_id>', methods=['GET','POST'])
+@login_required
 def render(problem_id):
     problem = Problem.query.get_or_404(problem_id)
     if not current_user._current_profile().problems_history.filter_by(problem_id=problem_id).first():
@@ -448,8 +448,8 @@ def render(problem_id):
                             allstatistics=AllStatistics.query.first(),
                             profile=current_user._current_profile())
 
-@login_required
 @app.route('/next_problem/<int:ph_id>')
+@login_required
 def next_problem(ph_id):
     problem_history = current_user._current_profile().problems_history.filter_by(id=ph_id).first()
     problem = Problem.query.get_or_404(problem_history.problem_id)
@@ -460,8 +460,8 @@ def next_problem(ph_id):
     
     return redirect(url_for('recommend_problem'))
 
-@login_required
 @app.route('/recommend')
+@login_required
 def recommend_problem():
     # picks category based on weighted probability and non-mastery
     levels_str = current_user._current_profile().preferred_levels
