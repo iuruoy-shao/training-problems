@@ -10,6 +10,7 @@ from mail import check, generate_token, confirm_token
 from datetime import datetime
 from operator import attrgetter
 from socket import gethostname
+from copy import deepcopy
 import time
 import threading
 import pexpect
@@ -212,12 +213,12 @@ class Profile(db.Model):
     # status is 0 when category is untouched, 1 if decreasing in UW performance, 2 if increasing in UW performance, and 3 if mastered
     def update_performance(self,category,score,uw_score,n=1):
         performance = self._performance()
-        new_performance = performance
+        new_performance = deepcopy(performance)
         new_performance[category]['completed'] += n
 
-        c = performance[category]['completed'] + 1
+        c = new_performance[category]['completed']
         new_performance[category]['score'] = (score + performance[category]['score']*(c-1))/c
-        new_performance[category]['uw_score'] = (score + performance[category]['uw_score']*(c-1))/c
+        new_performance[category]['uw_score'] = (uw_score + performance[category]['uw_score']*(c-1))/c
 
         if self.mastery(category):
             new_performance[category]['status'] = 3
